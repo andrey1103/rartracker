@@ -3,7 +3,7 @@
 
 	var configs = {
 		STATUS_CHECK_TIMER_LIMIT_MINUTES: 60 * 24,
-		SITE_URL: 'http://127.0.0.1',
+		SITE_URL: 'https://digitalcore.nl',
 		API_BASE_URL: '/api/v1/',
 		SUGGESTIONS_FORUM_ID: 4,
 		DEFAULT_LANGUAGE: 'en',
@@ -27,21 +27,26 @@
 	};
 
 	var categories = {
-		DVDR_PAL:			{id: 1, text: 'DVDR PAL'},
-		DVDR_CUSTOM:		{id: 2, text: 'DVDR CUSTOM'},
-		DVDR_TV:			{id: 3, text: 'DVDR TV'},
-		MOVIE_720P:			{id: 4, text: '720p Movie'},
-		MOVIE_1080P:		{id: 5, text: '1080p Movie'},
-		TV_720P: 			{id: 6, text: '720p TV'},
-		TV_1080P:			{id: 7, text: '1080p TV'},
-		TV_SWE:				{id: 8, text: 'Swedish TV'},
-		AUDIOBOOKS:			{id: 9, text: 'Audiobook'},
-		EBOOKS:				{id: 10, text: 'E-book'},
-		EPAPERS:			{id: 11, text: 'E-paper'},
+		DVDR_PAL:			{id: 1, text: 'Movies/DVDR'},
+		MOVIE_SD: 			{id: 2, text: 'Movies/XviD'},
+		BLURAY:			{id: 3, text: 'Movies/BluRay'},
+		MOVIE_4K:			{id: 4, text: 'Movies/4K'},		
+		MOVIE_720P:			{id: 5, text: 'Movies/720p'},
+		MOVIE_1080P:			{id: 6, text: 'Movies/1080p'},
+
+		TV_720P: 			{id: 8, text: 'Tv/720p'},
+		TV_1080P:			{id: 9, text: 'Tv/1080p'},
+        	XVID_TV:			{id: 10, text: 'Tv/XVID'},
+		DVDR_TV:			{id: 11, text: 'Tv/DVDR'},		
+
 		MUSIC:				{id: 12, text: 'Music'},
-		BLURAY:				{id: 13, text: 'Full BluRay'},
-		SUBPACK:			{id: 14, text: 'Subpack'},
-		MOVIE_4K:			{id: 15, text: '4K Movie'}
+
+		UNKNOWN:			{id: 17, text: 'Unknown'},
+		APPS_0DAY:			{id: 18, text: 'Apps/0DAY'},
+		PC_GAMES:			{id: 19, text: 'Games/PC'},
+		PC_APPS:			{id: 20, text: 'Apps/PC'}
+
+
 	};
 
 	var cssDesigns = {

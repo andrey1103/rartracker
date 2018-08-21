@@ -151,6 +151,9 @@
 							<textarea class="form-control" style="min-height: 200px;" ng-model="vm.user.info"></textarea>
 						</td>
 					</tr>
+
+
+
 				</table>
 			</uib-tab>
 			<uib-tab>
@@ -210,6 +213,21 @@
 							</div>
 						</td>
 					</tr>
+
+
+					<tr>
+						<td class="text-right tdBold alignMiddle" translate="RECOVER.PASSKEY"></td>
+						<td class="text-left">
+							<button ng-click="vm.generatePasskey()" class="btn btn-default btn-xs" translate="USER.GENERATE_PASSKEY"></button>
+							<input type="text" class="form-control" readonly ng-model="vm.user.passkey" />
+						</td>
+					</tr>
+
+
+
+
+
+
 				</table>
 			</uib-tab>
 			<uib-tab>

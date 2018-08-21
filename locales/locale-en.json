@@ -822,11 +822,15 @@
 	"MOVIE": {
 		"GENRES":						"Genres",
 		"ACTORS":						"Actors",
+              "TAGLINE":						"Tagline",
+              "DIRECTORS":						"Directors",
+              "WRITERS":						"Writers",
 		"RELOAD_DATA":					"Reload IMDB data",
 		"RELOADING":					"Reloading data... wait...",
 		"SHOW_TRAILER":					"Show trailer",
 		"HIDE_TRAILER":					"Hide trailer",
-		"ADD_TRAILER":					"Add Youtube-trailer",
-		"YOUTUBE_URL":					"Youtube-url"
+		"ADD_TRAILER":					"Add IMDB Trailer",
+              
+		"IMDB_URL":					"IMDB Video url"
 	}
 }

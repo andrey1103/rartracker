@@ -73,35 +73,57 @@
 		this.guessCategoryFromName = function (name) {
 			name = name.toLowerCase();
 
-			if (name.indexOf('.4k.') > -1 || name.indexOf('2160p') > -1){
+
+			if (name.indexOf('2160p') > -1) {
 				return categories.MOVIE_4K.id;
 			}
-			if (name.indexOf('ebook') > -1){
-				return categories.EBOOKS.id;
-			}
-			if (name.indexOf('subpack') > -1){
-				return categories.SUBPACK.id;
-			}
-			if (name.indexOf('audiobook') > -1) {
-				return categories.AUDIOBOOKS.id;
-			}
-			if (name.indexOf('x264') == -1 && name.indexOf('bluray') > -1){
+
+
+			if (name.indexOf('complete.bluray') > -1) {
 				return categories.BLURAY.id;
 			}
-			if (name.indexOf('.pal.') > -1) {
 
-				if (name.indexOf('custom') > -1) {
-					return categories.DVDR_CUSTOM.id;
+			if (name.indexOf('.dvdrip.') > -1 || name.indexOf('.hdrip.') > -1  && name.indexOf('xvid') > -1) {
+
+				if (name.match(/.s[0-9]/)) {
+					return categories.XVID_TV.id;
 				}
+
+				return categories.MOVIE_SD.id;
+			}
+
+
+			if (name.indexOf('.dvdr.') > -1 || name.indexOf('.dvdr-') > -1) {
+
 				if (name.match(/.s[0-9]/)) {
 					return categories.DVDR_TV.id;
 				}
 
 				return categories.DVDR_PAL.id;
 			}
-			if ((name.indexOf('pdtv') > -1 || name.indexOf('xvid') > -1 || name.indexOf('webrip') > -1 || name.indexOf('hdtv') > -1) && name.indexOf('swedish')  > -1) {
-				return categories.TV_SWE.id;
-			}
+
+
+                    if (name.indexOf('hdrip') > -1) {
+                            
+
+                    		if (name.indexOf('720p') > -1) {
+					return categories.MOVIE_720P.id;
+				}
+
+				if (name.indexOf('1080p') > -1) {
+					return categories.MOVIE_1080P.id;
+				}
+
+                       }
+
+
+
+
+
+
+
+                   if (name.indexOf('720p') > -1 || name.indexOf('1080p') > -1 && name.indexOf('bluray') > -1) {
+
 			if (name.match(/.s[0-9]/) || name.indexOf('hdtv') > -1) {
 
 				if (name.indexOf('720p') > -1) {
@@ -110,6 +132,10 @@
 
 				if (name.indexOf('1080p') > -1) {
 					return categories.TV_1080P.id;
+				}
+
+				if (name.indexOf('xvid') > -1) {
+					return categories.XVID_TV.id;
 				}
 
 			} else {
@@ -123,8 +149,13 @@
 				}
 
 			}
+}
 
-			return categories.MUSIC.id;
+
+
+			return categories.UNKNOWN.id;
+
+
 		};
 
 		this.findImdbUrl = function (txt) {

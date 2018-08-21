@@ -65,7 +65,7 @@
 								return  {
 									checkboxCategories: [
 										categories.DVDR_PAL,
-										categories.DVDR_CUSTOM,
+										categories.MOVIE_SD,
 										categories.MOVIE_720P,
 										categories.MOVIE_1080P,
 										categories.BLURAY,
@@ -81,7 +81,7 @@
 					page: { value: '1', squash: true },
 					sort: { value: 'd', squash: true },
 					order: { value: 'desc', squash: true },
-					cats: { value: '1,2,4,5,13,15', squash: true },
+					cats: { value: '1,2,3,4,5,6', squash: true },
 					fc: { value: 'false', squash: true },
 					p2p: { value: 'true', squash: true },
 					section: { value: 'all', squash: true },
@@ -103,9 +103,11 @@
 							settings: function (categories) {
 								return  {
 									checkboxCategories: [
-										categories.DVDR_TV,
 										categories.TV_720P,
 										categories.TV_1080P,
+										categories.XVID_TV,
+										categories.DVDR_TV,
+
 									],
 									pageName: 'last_seriebrowse',
 								};
@@ -117,7 +119,7 @@
 					page: { value: '1', squash: true },
 					sort: { value: 'd', squash: true },
 					order: { value: 'desc', squash: true },
-					cats: { value: '3,6,7', squash: true },
+					cats: { value: '8,9,10,11', squash: true },
 					fc: { value: 'false', squash: true },
 					p2p: { value: 'true', squash: true },
 					section: { value: 'all', squash: true },
@@ -139,11 +141,11 @@
 							settings: function (categories) {
 								return  {
 									checkboxCategories: [
-										categories.AUDIOBOOKS,
-										categories.EBOOKS,
-										categories.EPAPERS,
 										categories.MUSIC,
-										categories.SUBPACK,
+										categories.UNKNOWN,
+										categories.APPS_0DAY,
+										categories.PC_GAMES,										
+										categories.PC_APPS,
 									],
 									pageName: 'last_ovrigtbrowse',
 									sweaudio: null,
@@ -157,7 +159,7 @@
 					page: { value: '1', squash: true },
 					sort: { value: 'd', squash: true },
 					order: { value: 'desc', squash: true },
-					cats: { value: '9,10,11,12,14', squash: true },
+					cats: { value: '12,17,18,19,20', squash: true },
 					fc: { value: 'false', squash: true },
 					p2p: { value: 'true', squash: true },
 					section: { value: 'all', squash: true },

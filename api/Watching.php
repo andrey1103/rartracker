@@ -26,18 +26,19 @@ class Watching {
 			if ($row["typ"] == 0) {
 				$formatsArray = explode(",", $row["format"]);
 				$row["formats"] = array(
-					"hd720" => array_search("4", $formatsArray) > -1,
-					"hd1080" => array_search("5", $formatsArray) > -1,
+					"hd720" => array_search("5", $formatsArray) > -1,
+					"hd1080" => array_search("6", $formatsArray) > -1,
 					"dvdrpal" => array_search("1", $formatsArray) > -1,
-					"dvdrcustom" => array_search("2", $formatsArray) > -1,
-					"bluray" => array_search("13", $formatsArray) > -1
+					"xvidsd" => array_search("2", $formatsArray) > -1,
+					"bluray" => array_search("3", $formatsArray) > -1,
+					"movie4k" => array_search("4", $formatsArray) > -1
 					);
 			} else {
 				$row["formats"] = array(
-					"hd720" => strpos($row["format"], "6") > -1,
-					"hd1080" => strpos($row["format"], "7") > -1,
-					"dvdrpal" => strpos($row["format"], "3") > -1,
-					"dvdrcustom" => strpos($row["format"], "2") > -1
+					"hd720" => array_search("8", $formatsArray) > -1,
+					"hd1080" => array_search("9", $formatsArray) > -1,
+					"dvdrpal" => array_search("11", $formatsArray) > -1,
+					"xvidtv" => array_search("10", $formatsArray) > -1
 					);
 			}
 			array_push($fixed, $row);
@@ -62,13 +63,14 @@ class Watching {
 			if ($post["formats"]["hd720"]) { array_push($formats, Config::$categories["MOVIE_720P"]["id"]); }
 			if ($post["formats"]["hd1080"]) { array_push($formats, Config::$categories["MOVIE_1080P"]["id"]); }
 			if ($post["formats"]["dvdrpal"]) { array_push($formats, Config::$categories["DVDR_PAL"]["id"]); }
-			if ($post["formats"]["dvdrcustom"]) { array_push($formats, Config::$categories["DVDR_CUSTOM"]["id"]); }
+			if ($post["formats"]["xvidsd"]) { array_push($formats, Config::$categories["MOVIES_SD"]["id"]); }
 			if ($post["formats"]["bluray"]) { array_push($formats, Config::$categories["BLURAY"]["id"]); }
+			if ($post["formats"]["movie4k"]) { array_push($formats, Config::$categories["MOVIE_4K"]["id"]); }
 		} else {
 			if ($post["formats"]["hd720"]) { array_push($formats, Config::$categories["TV_720P"]["id"]); }
 			if ($post["formats"]["hd1080"]) { array_push($formats, Config::$categories["TV_1080P"]["id"]); }
 			if ($post["formats"]["dvdrpal"]) { array_push($formats, Config::$categories["DVDR_TV"]["id"]); }
-			if ($post["formats"]["dvdrcustom"]) { array_push($formats, Config::$categories["DVDR_CUSTOM"]["id"]); }
+			if ($post["formats"]["xvidtv"]) { array_push($formats, Config::$categories["XVID_TV"]["id"]); }
 		}
 		$formats = implode(",", $formats);
 
@@ -93,16 +95,17 @@ class Watching {
 
 		$formats = array();
 		if ($post["typ"] == 0) {
-			if ($post["formats"]["hd720"]) { array_push($formats, 4); }
-			if ($post["formats"]["hd1080"]) { array_push($formats, 5); }
-			if ($post["formats"]["dvdrpal"]) { array_push($formats, 1); }
-			if ($post["formats"]["dvdrcustom"]) { array_push($formats, 2); }
-			if ($post["formats"]["bluray"]) { array_push($formats, 13); }
+			if ($post["formats"]["hd720"]) { array_push($formats, Config::$categories["MOVIE_720P"]["id"]); }
+			if ($post["formats"]["hd1080"]) { array_push($formats, Config::$categories["MOVIE_1080P"]["id"]); }
+			if ($post["formats"]["dvdrpal"]) { array_push($formats, Config::$categories["DVDR_PAL"]["id"]); }
+			if ($post["formats"]["xvidsd"]) { array_push($formats, Config::$categories["MOVIES_SD"]["id"]); }
+			if ($post["formats"]["bluray"]) { array_push($formats, Config::$categories["BLURAY"]["id"]); }
+			if ($post["formats"]["movie4k"]) { array_push($formats, Config::$categories["MOVIE_4K"]["id"]); }
 		} else {
-			if ($post["formats"]["hd720"]) { array_push($formats, 6); }
-			if ($post["formats"]["hd1080"]) { array_push($formats, 7); }
-			if ($post["formats"]["dvdrpal"]) { array_push($formats, 3); }
-			if ($post["formats"]["dvdrcustom"]) { array_push($formats, 2); }
+			if ($post["formats"]["hd720"]) { array_push($formats, Config::$categories["TV_720P"]["id"]); }
+			if ($post["formats"]["hd1080"]) { array_push($formats, Config::$categories["TV_1080P"]["id"]); }
+			if ($post["formats"]["dvdrpal"]) { array_push($formats, Config::$categories["DVDR_TV"]["id"]); }
+			if ($post["formats"]["xvidtv"]) { array_push($formats, Config::$categories["XVID_TV"]["id"]); }
 		}
 		$formats = implode(",", $formats);
 
@@ -191,7 +194,7 @@ class Watching {
 		"<image><title>" . $SITENAME . "</title>\n<url>" . $BASEURL . "/favicon.ico</url>\n<link>" . $BASEURL . "</link>\n" .
 		"<width>16</width>\n<height>16</height>\n<description>" . $DESCR . "</description>\n</image>\n");
 
-		$res = $this->db->query("SELECT torrents.id, torrents.name, torrents.size, torrents.seeders, torrents.leechers, torrents.added FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(4,5,6,7)) AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(4,5,6,7)) AND bevaka.swesub = 0) OR (torrents.category NOT IN (4,5,6,7))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $user[0] . $where . " ORDER BY torrents.id DESC LIMIT 25") or sqlerr(__FILE__, __LINE__);
+		$res = $this->db->query("SELECT torrents.id, torrents.name, torrents.size, torrents.seeders, torrents.leechers, torrents.added FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND bevaka.swesub = 0) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $user[0] . $where . " ORDER BY torrents.id DESC LIMIT 25") or sqlerr(__FILE__, __LINE__);
 
 		while ($row = $res->fetch()){
 

@@ -12,7 +12,7 @@ class Cleanup {
 	private $ratio_warning_minimum_gb = 20;
 	private $ratio_warning_minimum_ratio = 0.5;
 	private $move_to_archive_after_days = 30;
-	private $delete_inactive_torrents_after_days = 30;
+	private $delete_inactive_torrents_after_days = 1;
 	private $delete_inactive_requests_after_days = 60;
 	private $delete_unseeded_torrents_after_minutes = 30;
 	private $demote_uploaders_after_days_inactive = 60;
@@ -173,14 +173,19 @@ class Cleanup {
 		/* Delete inactive torrents */
 		$dt = time() - $this->delete_inactive_torrents_after_days * 86400;
 		$res = $this->db->query("SELECT id, name, reqid FROM torrents WHERE last_action < FROM_UNIXTIME({$dt}) AND seeders = 0 AND leechers = 0 AND section = 'archive'");
+              		
 
+//$res = $this->db->query("SELECT id, name, reqid FROM torrents WHERE last_action < NOW() - INTERVAL 1 DAY AND seeders = 0 AND leechers = 0 AND section = 'archive'");
+
+
+ 
 		/* Prevent deletion of "all" torrents if site has been offline or similiar */
-		if ($res->rowCount() < 100) {
+		if ($res->rowCount() < 1000) {
 			while ($arr = $res->fetch(PDO::FETCH_ASSOC)) {
 				$this->torrent->delete($arr["id"], L::get("AUTO_DELETE_INACTIVE_TORRENT", [$this->delete_inactive_torrents_after_days]));
 			}
-		} else {
-			$this->adminlog->create(L::get("AUTO_DELETE_INACTIVE_TORRENTS_PREVENTED", [$res->rowCount()]));
+	       } else {
+		$this->adminlog->create(L::get("AUTO_DELETE_INACTIVE_TORRENTS_PREVENTED", [$res->rowCount()]));
 		}
 
 		/* Delete new unseeded torrents

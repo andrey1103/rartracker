@@ -14,7 +14,9 @@
 				hd720: movie.category ? movie.category === categories.MOVIE_720P.id || movie.category === categories.TV_720P.id : true,
 				hd1080: movie.category === categories.MOVIE_1080P.id || movie.category === categories.TV_1080P.id,
 				dvdrpal: movie.category === categories.DVDR_PAL.id || movie.category === categories.DVDR_TV.id,
-				dvdrcustom: movie.category === categories.DVDR_CUSTOM.id,
+				xvidsd: movie.category === categories.MOVIES_SD.id,
+				xvidtv: movie.category === categories.XVID_TV.id,
+ 				movie4k: movie.category === categories.MOVIE_4K.id,
 				bluray: movie.category === categories.BLURAY.id
 			},
 			imdbinfoid: movie.imdbinfoid || movie.id,

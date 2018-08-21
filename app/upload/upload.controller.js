@@ -55,7 +55,7 @@
 		};
 
 		this.isMoveOrTvSeries = function () {
-			return [1,2,3,4,5,6,7,13,15].some(catId => catId === this.settings.category);
+			return [1,2,3,4,5,6,8,9,10,11].some(catId => catId === this.settings.category);
 		};
 
 		this.guessImdbFromName = function () {

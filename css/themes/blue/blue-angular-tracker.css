@@ -21,10 +21,7 @@ li.menu.active > a, li.menuSmall.active > a {
     background-color: #3E86D8;
     border-color: #3E86D8;
 }
-.navbar-default .navbar-toggle {
-    background-color: #3E86D8;
-    border-color: #3E86D8;
-}
+
 .panel-green > .panel-heading {
     background-color: #3E86D8;
     border-color: #3E86D8;
@@ -55,4 +52,9 @@ span.fa-styled {
 }
 .progress-bar-success {
     background-color: #3E86D8;
+}
+
+.navbar-default .navbar-toggle {
+    background-color: #3E86D8;
+    border-color: #3E86D8;
 }

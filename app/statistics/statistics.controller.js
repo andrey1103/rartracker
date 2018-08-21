@@ -95,13 +95,19 @@
 			/* Torrents per category */
 			this.torrentsPerCategoryLabels = [
 				categories.DVDR_PAL.text,
-				categories.DVDR_CUSTOM.text,
-				categories.DVDR_TV.text,
+				categories.MOVIE_SD.text,
+				categories.BLURAY.text,
+				categories.MOVIE_4K.text,
 				categories.MOVIE_720P.text,
 				categories.MOVIE_1080P.text,
 				categories.TV_720P.text,
 				categories.TV_1080P.text,
-				categories.TV_SWE.text
+				categories.XVID_TV.text,
+				categories.DVDR_TV.text,
+categories.PC_APPS.text,
+categories.PC_GAMES.text,
+categories.APPS_0DAY.text,
+categories.UNKNOWN.text				
 			];
 			this.torrentsPerCategoryData = [
 				firstItem['cat1torrents'],
@@ -111,11 +117,25 @@
 				firstItem['cat5torrents'],
 				firstItem['cat6torrents'],
 				firstItem['cat7torrents'],
-				firstItem['cat8torrents']
+				firstItem['cat8torrents'],
+				firstItem['cat9torrents'],
+				firstItem['cat10torrents'],
+firstItem['cat11torrents'],
+firstItem['cat12torrents'],
+firstItem['cat13torrents'],
+firstItem['cat14torrents'],
+firstItem['cat15torrents'],
+firstItem['cat16torrents'],
+firstItem['cat17torrents'],
+firstItem['cat18torrents'],
+firstItem['cat19torrents'],
+firstItem['cat20torrents'],
+firstItem['cat21torrents'],
+firstItem['cat22torrents']
 			];
 
 			/* Torrents per category over time */
-			this.torrentsPerCategoryLineData = [[], [], [], [], [], [], [], []];
+			this.torrentsPerCategoryLineData = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
 
 			data.forEach((stats) => {
 				this.torrentsPerCategoryLineData[0].push(stats['cat1torrents']);
@@ -126,6 +146,20 @@
 				this.torrentsPerCategoryLineData[5].push(stats['cat6torrents']);
 				this.torrentsPerCategoryLineData[6].push(stats['cat7torrents']);
 				this.torrentsPerCategoryLineData[7].push(stats['cat8torrents']);
+				this.torrentsPerCategoryLineData[8].push(stats['cat9torrents']);
+				this.torrentsPerCategoryLineData[9].push(stats['cat10torrents']);
+this.torrentsPerCategoryLineData[10].push(stats['cat11torrents']);
+this.torrentsPerCategoryLineData[11].push(stats['cat12torrents']);
+this.torrentsPerCategoryLineData[12].push(stats['cat13torrents']);
+this.torrentsPerCategoryLineData[13].push(stats['cat14torrents']);
+this.torrentsPerCategoryLineData[14].push(stats['cat15torrents']);
+this.torrentsPerCategoryLineData[15].push(stats['cat16torrents']);
+this.torrentsPerCategoryLineData[16].push(stats['cat17torrents']);
+this.torrentsPerCategoryLineData[17].push(stats['cat18torrents']);
+this.torrentsPerCategoryLineData[18].push(stats['cat19torrents']);
+this.torrentsPerCategoryLineData[19].push(stats['cat20torrents']);
+this.torrentsPerCategoryLineData[20].push(stats['cat21torrents']);
+this.torrentsPerCategoryLineData[21].push(stats['cat22torrents']);
 			});
 
 			/* Amount shared data */

@@ -124,20 +124,20 @@ class Requests {
 			}
 		}
 
-		if ($postData["category"] < Config::$categories["DVDR_PAL"]["id"] || $postData["category"] > Config::$categories["SUBPACK"]["id"]) {
+		if ($postData["category"] < Config::$categories["DVDR_PAL"]["id"] || $postData["category"] > Config::$categories["PC_APPS"]["id"]) {
 			throw new Exception(L::get("REQUEST_INVALID_CATEGORY"));
 		}
 
-		if (in_array($postData["category"], Array(1,2,3,4,5,6,7)) && strlen($postData["imdbInfo"]) < 2) {
+		if (in_array($postData["category"], Array(1,2,3,4,5,6,8,9,10,11)) && strlen($postData["imdbInfo"]) < 2) {
 			throw new Exception(L::get("REQUEST_NO_IMDB_URL"));
 		}
 
-		if (in_array($postData["category"], Array(8,9,10,11,12)) && strlen($postData["customName"]) < 2) {
+		if (in_array($postData["category"], Array(12,17,18,19,20)) && strlen($postData["customName"]) < 2) {
 			throw new Exception(L::get("REQUEST_NAME_TOO_SHORT"));
 		}
 
 		$requestName = $postData["imdbInfo"];
-		if (in_array($postData["category"], array(8,9,10,11,12))) {
+		if (in_array($postData["category"], array(12,17,18,19,20))) {
 			$requestName = $postData["customName"];
 		}
 

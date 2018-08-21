@@ -18,9 +18,10 @@
 				{ id: 1, name: $translate.instant('START.TYPE_TV') }
 			],
 			format: [
-				{ id: 0, name: 'DVDR' },
+				{ id: 0, name: 'SD' },
 				{ id: 1, name: '720p HD' },
-				{ id: 2, name: '1080p HD' }
+				{ id: 2, name: '1080p HD' },
+                            { id: 3, name: '4K HD' }
 			],
 			sektion: [
 				{ id: 0, name: $translate.instant('START.SECTION_NEW') },

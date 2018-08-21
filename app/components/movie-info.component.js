@@ -31,29 +31,31 @@
 				return;
 			}
 
-			MovieDataResource.Youtube.update({id: this.movieData.id, youtube_id: youtubeId}).$promise
+			MovieDataResource.Youtube.update({id: this.movieData.id, trailer: youtubeId}).$promise
 				.then(() => {
-					this.movieData.youtube_id = youtubeId;
+					this.movieData.trailer = youtubeId;
 					this.showTrailerUpload = false;
 				});
 		};
 
 		this.removeTrailer = function () {
-			MovieDataResource.Youtube.update({id: this.movieData.id, youtube_id: ''}).$promise
+			MovieDataResource.Youtube.update({id: this.movieData.id, trailer: ''}).$promise
 				.then(() => {
-					this.movieData.youtube_id = '';
+					this.movieData.trailer = '';
 					this.showTrailer = false;
 				});
 		};
 
 		this.getIFrameSrc = function () {
-			return $sce.trustAsResourceUrl('https://www.youtube.com/embed/' + this.movieData.youtube_id + '?autoplay=1');
+			return $sce.trustAsResourceUrl('https://www.imdb.com/videoembed/' + this.movieData.trailer);
 		};
 
+
+
 		this.getYoutubeIdFromUrl = function (url) {
-			var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+			var regExp = /^.*(vi.*)/;
 			var match = url.match(regExp);
-			return (match && match[7].length==11) ? match[7] : false;
+			return (match && match[1].length==12) ? match[1] : false;
 		};
 
 	}

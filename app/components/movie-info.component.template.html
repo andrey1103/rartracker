@@ -1,38 +1,50 @@
-<table class="table-responsive noborder col-sm-10 col-md-6 col-lg-5 col-centered">
+<table class="table-responsive noborder col-sm-15 col-md-8 col-lg-7 col-centered">
 	<tr ng-show="vm.movieData">
 		<td valign="top" style="text-align: left; background: none repeat scroll 0% 0% transparent;" class="imdbinfotext">
-			<div style="font-weight: bold; font-size: 15px;"><a target="_blank" ng-href="http://anonym.to/?http://www.imdb.com/title/{{ vm.movieData.imdbid }}/">{{ vm.movieData.title }} ({{ vm.movieData.year }})</a></div>
+			<div style="font-weight: bold; font-size: 15px;"><a target="_blank" ng-href="http://anonym.to/?https://www.imdb.com/title/{{ vm.movieData.imdbid }}/">{{ vm.movieData.title }} ({{ vm.movieData.year }})</a></div>
 			<br />
 			<div data-goldstars stars="vm.movieData.rating"></div>
-			<br />
-			<b translate="MOVIE.GENRES"></b> <span ng-show="vm.movieData.genres" class="label label-default" ng-repeat-start="genre in vm.movieData.genres | split">{{genre}}</span> <span ng-repeat-end></span>
+                     <br />
+                     <b translate="MOVIE.TAGLINE"></b><br> <span ng-show="vm.movieData.tagline"  ng-repeat-start="tagline in vm.movieData.tagline | split">{{tagline}}</span> <span ng-repeat-end></span>
 			<br /><br />
-			<b translate="MOVIE.ACTORS"></b> <span ng-show="vm.movieData.cast" class="label label-default" ng-repeat-start="cast in vm.movieData.cast | split">{{cast}}</span> <span ng-repeat-end></span>
+			<b translate="MOVIE.GENRES"></b><br> <span ng-show="vm.movieData.genres" class="label label-default" ng-repeat-start="genre in vm.movieData.genres | split">{{genre}}</span> <span ng-repeat-end></span>
+			<br /><br />
+			<b translate="MOVIE.ACTORS"></b><br> <span ng-show="vm.movieData.cast" class="label label-default" ng-repeat-start="cast in vm.movieData.cast | split">{{cast}}</span> <span ng-repeat-end></span>
+                     <br /><br />
+                     <b translate="MOVIE.DIRECTORS"></b><br> <span ng-show="vm.movieData.director" class="label label-default" ng-repeat-start="director in vm.movieData.director | split">{{director}}</span> <span ng-repeat-end></span>
+                     <br /><br />
+                     <b translate="MOVIE.WRITERS"></b><br> <span ng-show="vm.movieData.writer" class="label label-default" ng-repeat-start="writer in vm.movieData.writer | split">{{writer}}</span> <span ng-repeat-end></span>
+
+ <br />
+ <br />
+ <br />
 
 			<div style="margin-top: 5px;" ng-if="vm.currentUser.class >= 6"><button ng-show="!vm.updatingMovieData" ng-click="vm.refreshMovieData()" class="btn btn-xs btn-default" translate="MOVIE.RELOAD_DATA"></button><button ng-show="vm.updatingMovieData" class="btn btn-default btn-xs disabled" translate="MOVIE.RELOADING"></button></div>
 		</td>
 		<td style="border: 0px; padding: 5px;" ng-show="vm.movieData.photo">
 			<a target="_blank" ng-href="http://anonym.to/?http://www.imdb.com/title/{{ vm.movieData.imdbid }}/">
-				<img alt="Imdb poster" style="width: 175px; height: 259px;" ng-src="/img/imdb/{{ vm.movieData.imdbid }}.jpg">
+				<img alt="Imdb poster" style="width: 250px; height: 350px;" ng-src="/img/imdb/{{ vm.movieData.imdbid }}.jpg">
 			</a>
 		</td>
 	</tr>
 </table>
-<div ng-if="vm.trailer == 'true' && vm.movieData.youtube_id" style="margin-top: 10px;">
+<div ng-if="vm.trailer == 'true' && vm.movieData.trailer" style="margin-top: 10px;">
 	<div class="videowrapper" ng-if="vm.showTrailer" style="margin-bottom: 10px;">
-		<iframe ng-src="{{ vm.getIFrameSrc() }}"></iframe>
+		<iframe ng-src="{{ vm.getIFrameSrc() }}" width="720" height="400" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="no" scrolling="no"></iframe>
+
+
 	</div>
 	<button class="btn btn-default" ng-click="vm.showTrailer = !vm.showTrailer" ng-show="vm.showTrailer"><i class="fa fa-film" aria-hidden="true"></i> {{ 'MOVIE.HIDE_TRAILER' | translate }}</button>
 	<button class="btn btn-default" ng-click="vm.showTrailer = !vm.showTrailer" ng-show="!vm.showTrailer"><i class="fa fa-film" aria-hidden="true"></i> {{ 'MOVIE.SHOW_TRAILER' | translate }}</button>
 	<button class="btn btn-default" ng-if="vm.currentUser.class >= 8" ng-click="vm.removeTrailer()"><i class="fa fa-trash" aria-hidden="true"></i></button>
 	<br />
 </div>
-<div ng-if="vm.trailer == 'true' && vm.currentUser.class >= 3 && !vm.movieData.youtube_id">
-	<button class="btn btn-default btn-xs" ng-click="vm.showTrailerUpload = !vm.showTrailerUpload"><i class="fa fa-plus" aria-hidden="true"></i> {{ 'MOVIE.ADD_TRAILER' | translate }}</button>
+<div ng-if="vm.trailer == 'true' && vm.currentUser.class >= 3 && !vm.movieData.trailer">
+	<button class="btn btn-default btn-xs" ng-click="vm.showTrailerUpload = !vm.showTrailerUpload"><i class="fa fa-plus" aria-hidden="true"></i> {{ 'ADD_TRAILER' | translate }}</button>
 </div>
 <div ng-if="vm.showTrailerUpload">
 	<div class="input-group" style="margin:auto;width: 500px;">
-		<span class="input-group-addon" id="basic-addon2" translate="MOVIE.YOUTUBE_URL"></span>
-		<input type="text" class="form-control" ng-model="vm.youtubeUrl" ng-change="vm.saveYoutubeTrailer()" placeholder="https://www.youtube.com/watch?v=XXXXX" />
+		<span class="input-group-addon" id="basic-addon2" translate="IMDB_URL"></span>
+		<input type="text" class="form-control" ng-model="vm.youtubeUrl" ng-change="vm.saveYoutubeTrailer()" placeholder="https://www.imdb.com/videoembed/XXXXXXXXXXXX" />
 	</div>
 </div>

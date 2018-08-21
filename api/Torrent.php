@@ -113,11 +113,17 @@ class Torrent {
 
 		if ($params["watchview"] === "true") {
 
-			$sth = $this->db->query("SELECT COUNT(*) FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(4,5,6,7)) AND torrents.pack = 0 AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(4,5,6,7)) AND bevaka.swesub = 0) OR (torrents.category NOT IN (4,5,6,7))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $this->user->getId() . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : ''));
+			//$sth = $this->db->query("SELECT COUNT(*) FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(4,5,6,7)) AND torrents.pack = 0 AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(4,5,6,7)) AND bevaka.swesub = 0) OR (torrents.category NOT IN (4,5,6,7))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $this->user->getId() . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : ''));
+		
+
+			$sth = $this->db->query("SELECT COUNT(*) FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND torrents.pack = 0 AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND bevaka.swesub = 0) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $this->user->getId() . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : ''));
 			$arr = $sth->fetch();
 			$totalCount = $arr[0];
 
-			$sth = $this->db->prepare("SELECT imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2, torrents.* FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE (((torrents.category IN(4,5,6,7)) AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(4,5,6,7)) AND bevaka.swesub = 0) OR (torrents.category NOT IN (4,5,6,7))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = ? " . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : '') ." ORDER BY ".$sortColumn." ".$order." LIMIT ?, ?");
+			//$sth = $this->db->prepare("SELECT imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2, torrents.* FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE (((torrents.category IN(4,5,6,7)) AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(4,5,6,7)) AND bevaka.swesub = 0) OR (torrents.category NOT IN (4,5,6,7))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = ? " . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : '') ." ORDER BY ".$sortColumn." ".$order." LIMIT ?, ?");
+
+
+			$sth = $this->db->prepare("SELECT imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2, torrents.* FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND bevaka.swesub = 0) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = ? " . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : '') ." ORDER BY ".$sortColumn." ".$order." LIMIT ?, ?");
 			$sth->bindValue(1, $this->user->getId(), PDO::PARAM_INT);
 			$sth->bindParam(2, $index, PDO::PARAM_INT);
 			$sth->bindParam(3, $limit, PDO::PARAM_INT);
@@ -250,7 +256,7 @@ class Torrent {
 			$timeString = L::get("TORRENT_HIGHLIGHT_TIME_WEEK");
 		}
 		else { // 2
-			$month = date("Y-m-d H:i:s", time() - 2419200); // 1 mÃ¥nad
+			$month = date("Y-m-d H:i:s", time() - 2419200); // 1 månad
 			$wherea[] = 't.added > "' . $month.'"';
 			$timeString = L::get("TORRENT_HIGHLIGHT_TIME_MONTH");
 		}
@@ -262,29 +268,36 @@ class Torrent {
 				$wherea[] = 't.category IN (1,2)';
 				$formatString = L::get("TORRENT_HIGHLIGHT_CATEGORY_DVD_MOVIES");
 			} else {
-				$wherea[] = 't.category IN (3)';
+				$wherea[] = 't.category IN (10,11)';
 				$formatString = L::get("TORRENT_HIGHLIGHT_CATEGORY_DVD_TV");
 			}
 
 		} else if ($format == 1) {
 
 			if ($type == 0) {
-				$wherea[] = 't.category IN (4)';
+				$wherea[] = 't.category IN (5)';
 				$formatString = L::get("TORRENT_HIGHLIGHT_CATEGORY_HD_MOVIES");
 			} else {
-				$wherea[] = 't.category IN (6)';
+				$wherea[] = 't.category IN (7)';
 				$formatString = L::get("TORRENT_HIGHLIGHT_CATEGORY_HD_TV");
 			}
 
-		} if ($format == 2) {
+		} else if ($format == 2) {
 
 			if ($type == 0) {
-				$wherea[] = 't.category IN (5)';
+				$wherea[] = 't.category IN (6)';
 				$formatString = L::get("TORRENT_HIGHLIGHT_CATEGORY_FULL_HD_MOVIES");
 			} else {
-				$wherea[] = 't.category IN (7)';
+				$wherea[] = 't.category IN (9)';
 				$formatString = L::get("TORRENT_HIGHLIGHT_CATEGORY_FULL_HD_TV");
 			}
+		
+		} if ($format == 3) {
+
+			if ($type == 0) {
+				$wherea[] = 't.category IN (4)';
+				$formatString = L::get("TORRENT_HIGHLIGHT_CATEGORY_FULL_HD4K_MOVIES");
+			} 
 
 		}
 
@@ -677,9 +690,9 @@ class Torrent {
 
 		include('benc.php');
 
-		if ($post["category"] < Config::$categories["DVDR_PAL"]["id"] || $post["category"] > Config::$categories["MOVIE_4K"]["id"]) {
-			throw new Exception(L::get("TORRENT_INVALID_CATEGORY"));
-		}
+		//if ($post["category"] < Config::$categories["DVDR_PAL"]["id"] || $post["category"] > Config::$categories["MOVIE_4K"]["id"]) {
+		//	throw new Exception(L::get("TORRENT_INVALID_CATEGORY"));
+		//}
 
 		if ($post["section"] !== 'new' && $post["section"] !== 'archive') {
 			throw new Exception(L::get("TORRENT_INVALID_SECTION"));
@@ -726,13 +739,11 @@ class Torrent {
 		$swesub = 0;
 		/* The following categories should always be tagged with "has swesub" */
 		if (in_array($category, array(
-			Config::$categories["DVDR_PAL"]["id"],
-			Config::$categories["DVDR_CUSTOM"]["id"],
-			Config::$categories["DVDR_TV"]["id"],
-			Config::$categories["EBOOKS"]["id"],
-			Config::$categories["EPAPERS"]["id"],
-			Config::$categories["BLURAY"]["id"],
-			Config::$categories["SUBPACK"]["id"]))) {
+				Config::$categories["MOVIE_720P"]["id"],
+				Config::$categories["MOVIE_1080P"]["id"],
+				Config::$categories["TV_720P"]["id"],
+				Config::$categories["TV_1080P"]["id"],
+				Config::$categories["MOVIE_4K"]["id"]))){
 			$swesub = 2;
 		}
 		/* The following categories should be marked with "has swesub" if release "contains" swesub */
@@ -747,12 +758,11 @@ class Torrent {
 
 		/* SWE TV is excepted from swe audio tag */
 		if ($post["sweaudio"] && in_array($category, array(
-				Config::$categories["TV_SWE"]["id"],
-				Config::$categories["AUDIOBOOKS"]["id"],
-				Config::$categories["EBOOKS"]["id"],
-				Config::$categories["EPAPERS"]["id"],
-				Config::$categories["MUSIC"]["id"],
-				Config::$categories["SUBPACK"]["id"]))) {
+				Config::$categories["MOVIE_720P"]["id"],
+				Config::$categories["MOVIE_1080P"]["id"],
+				Config::$categories["TV_720P"]["id"],
+				Config::$categories["TV_1080P"]["id"],
+				Config::$categories["MOVIE_4K"]["id"]))) {
 			$sweaudio = 0;
 		}
 
@@ -898,7 +908,7 @@ class Torrent {
 
 
 		$foundBanned = Array();
-		$bannedfiles = Array(".DS_Store", "._.DS_Store", "ufxpcrc.log", "Thumbs.db", ".checked", ".message", "desktop.ini", "Default.PLS", ".url", ".html", "imdb.nfo", ".missing", "-missing", ".torrent");
+		$bannedfiles = Array(".DS_Store", "._.DS_Store", "ufxpcrc.log", "Thumbs.db", ".checked", ".message", "desktop.ini", "Default.PLS", ".url", ".html", "imdb.nfo", ".torrent");    //, ".missing", "-missing"
 
 		foreach ($filelist as $file) {
 			foreach($bannedfiles as $bfile) {
@@ -966,14 +976,15 @@ class Torrent {
 		/* Presume p2p release when not rar archive */
 		if (in_array($category, [
 			Config::$categories["DVDR_PAL"]["id"],
-			Config::$categories["DVDR_CUSTOM"]["id"],
+			Config::$categories["MOVIE_SD"]["id"],
 			Config::$categories["DVDR_TV"]["id"],
 			Config::$categories["MOVIE_720P"]["id"],
 			Config::$categories["MOVIE_1080P"]["id"],
 			Config::$categories["TV_720P"]["id"],
 			Config::$categories["TV_1080P"]["id"],
 			Config::$categories["BLURAY"]["id"],
-			Config::$categories["MOVIE_4K"]["id"]
+			Config::$categories["MOVIE_4K"]["id"],
+			Config::$categories["XVID_TV"]["id"]
 			]) && count($filelist) < 10) {
 			$p2p = 1;
 		}

@@ -1162,7 +1162,7 @@ class User {
 	}
 
 	public function getAmountUnreadWatch() {
-		$sth = $this->db->query("SELECT COUNT(*) FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE (((torrents.category IN(4,5,6,7)) AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(4,5,6,7)) AND bevaka.swesub = 0) OR (torrents.category NOT IN(4,5,6,7))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND UNIX_TIMESTAMP(torrents.added) > " . $this->getLastWatch() ." AND bevaka.userid = " . $this->getId());
+		$sth = $this->db->query("SELECT COUNT(*) FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND bevaka.swesub = 0) OR (torrents.category NOT IN(1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND UNIX_TIMESTAMP(torrents.added) > " . $this->getLastWatch() ." AND bevaka.userid = " . $this->getId());
 		$res = $sth->fetch();
 		return $res[0];
 	}
@@ -1294,7 +1294,7 @@ class User {
 
 	public function resetIndexList($category) {
 
-		if ($category == Config::$categories["DVDR_CUSTOM"]["id"]) {
+		if ($category == Config::$categories["DVDR_PAL"]["id"]) {
 			$customlist = '1,141'; // 720p
 		} else if ($category == Config::$categories["DVDR_TV"]["id"]) {
 			$customlist = '11,163'; // 1080p

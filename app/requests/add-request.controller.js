@@ -11,11 +11,11 @@
 		this.categories = categories;
 		this.noimdb = false;
 		this.imdbLessCategories = [
-			categories.TV_SWE.id,
-			categories.AUDIOBOOKS.id,
-			categories.EBOOKS.id,
-			categories.EPAPERS.id,
-			categories.MUSIC.id,
+			categories.UNKNOWN.id,
+			categories.APPS_0DAY.id,
+			categories.PC_GAMES.id,
+			categories.PC_APPS.id,
+			categories.MUSIC.id
 		];
 
 		if ($stateParams.id) {

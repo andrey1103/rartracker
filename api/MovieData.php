@@ -38,7 +38,7 @@ class MovieData {
 		if ($res) {
 			return $res;
 		} else {
-			$res = $this->fetchImdbData("http://akas.imdb.com/title/".$id."/");
+			$res = $this->fetchImdbData("https://www.imdb.com/title/".$id."/");
 
 			if (strlen($res["photo"]) > 10) {
 				@file_put_contents($this->imdbPicturesDir . $res["imdbid"] . '.jpg', @file_get_contents($res["photo"]));
@@ -47,7 +47,7 @@ class MovieData {
 				$res["photo"] = 0;
 			}
 
-			$sth = $this->db->prepare('INSERT INTO imdbinfo(imdbid, title, year, rating, tagline, genres, photo, director, writer, cast, runtime, seasoncount) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+			$sth = $this->db->prepare('INSERT INTO imdbinfo(imdbid, title, year, rating, tagline, genres, photo, director, writer, cast, runtime, trailer, seasoncount) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 
 			$sth->bindParam(1,		$res["imdbid"],			PDO::PARAM_STR);
 			$sth->bindValue(2,		$res["title"] ?: '',	PDO::PARAM_STR);
@@ -60,7 +60,8 @@ class MovieData {
 			$sth->bindParam(9,		$res["writer"],			PDO::PARAM_STR);
 			$sth->bindParam(10,		$res["cast"],			PDO::PARAM_STR);
 			$sth->bindParam(11,		$res["runtime"],		PDO::PARAM_INT);
-			$sth->bindParam(12,		$res["seasoncount"],	PDO::PARAM_INT);
+			$sth->bindParam(12,		$res["trailer"],		PDO::PARAM_STR);
+			$sth->bindParam(13,		$res["seasoncount"],	PDO::PARAM_INT);
 
 			$sth->execute();
 			$insertId = $this->db->lastInsertId();
@@ -71,12 +72,17 @@ class MovieData {
 
 	private function matchRegex($strContent, $strRegex, $intIndex = null) {
 	    preg_match_all($strRegex, $strContent, $arrMatches);
+
+//echo "$strContent";
+
 	    if ($arrMatches === FALSE) return false;
-	    if ($intIndex != null && is_int($intIndex)) {
+	   
+           if ($intIndex != null && is_int($intIndex)) {
 	        if ($arrMatches[$intIndex]) {
 	            return $arrMatches[$intIndex][0];
 	        }
 	        return false;
+
 	    }
 	    return $arrMatches;
 	}
@@ -93,26 +99,47 @@ class MovieData {
         $data = curl_exec($ch);
         curl_close($ch);
 
+       file_put_contents("log.txt", $data);
+
+
 		if (!$data) {
 			throw new Exception(L::get("MOVIE_FETCH_ERROR"));
 		}
 
 		/* GENRE */
+		//$arrReturned = $this->matchRegex($data, '~href="/genre/(.*)(?:\?.*)"(?:\s+|)><(.*)></a>~Ui');
+		//$arrReturned = $this->matchRegex($data, '~"genre": \[([^]]+)\]~Ui');
+               $arrReturned = $this->matchRegex($data, '~href="/genre/(.*[a-zA-Z])\?~Ui');
 
-		$arrReturned = $this->matchRegex($data, '~href="/genre/(.*)(?:\?.*)"(?:\s+|)>(.*)</a>~Ui');
 		if (count($arrReturned[1])) {
 			foreach ($arrReturned[1] as $strName) {
 				$arrReturn[] = trim($strName);
 		}
-		$arrReturn = array_slice($arrReturn, 1, 4);
+		$arrReturn = array_slice($arrReturn, 0, 4);
 			$info["genres"] = join(", ", array_unique($arrReturn));
+                   
 		}
 
-		/* Tagline */
+
+
+
+		/* Tagline */		
 		$info["tagline"] = '';
-		if (@preg_match('!Taglines:</h4>\s*(.*?)\s*<!ims',$data,$match)) {
-			$info["tagline"] = trim($match[1]);
+		if (@preg_match('~class="summary_text">([^]]*)<~Ui',$data,$match)) {
+                     
+			//$info["tagline"] = trim($match[1]);
+			$str = $match[1];
+			$str = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
+			return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
+			}, $str);
+
+			$info["tagline"] = trim($str);
 		}
+
+
+
+
+
 
 		/* Antal säsonger */
 		preg_match("/episodes\?season=(\d+)/ms", $data, $matches);
@@ -123,18 +150,30 @@ class MovieData {
 			$info["seasoncount"] = 0 + $matches[1];
 		}
 
+
+
+
+
 		/* Cover! */
 		$info["photo"] = 0;
-		if ($strReturn = $this->matchRegex($data, '~src="(.*)"\nitemprop="image" \/>~Ui', 1)) {
+		if ($strReturn = $this->matchRegex($data, '~"image": "(.*)"~Ui', 1)) {
 		  $info["photo"] = $strReturn;
 		}
 
+
+
+
+
 		/* Rating */
-		if (preg_match('!<span itemprop="ratingValue">(\d{1,2}\.\d)!i', $data ,$match)){
+		if (preg_match('~"ratingValue": "(.*)"~Ui', $data ,$match)){
 		  $info["rating"] = $match[1];
 		} else {
 		  $info["rating"] = 0;
 		}
+
+
+
+
 
 
 		/* Title + Year  */
@@ -154,36 +193,60 @@ class MovieData {
 			$info["title"] = trim($match[1]);
 		}
 
+
+
+
+
 		/* Director */
 		$info['director'] = "";
-		$strContainer = $this->matchRegex($data, "~(?:Director|Directors):</h4>(.*)</div>~Uis", 1);
-		$arrReturned  = $this->matchRegex($strContainer, '~href="/name/nm(\d+)/(?:.*)" itemprop=\'(?:\w+)\'><span class="itemprop" itemprop="name">(.*)</span>~Ui');
+		$strContainer = $this->matchRegex($data, '~"director": \[([^]]+)\]~Ui', 1);
 
-		if (count($arrReturned[2])) {
+		if (empty($strContainer)) {
+              $strContainer = $this->matchRegex($data, '~"director": {([^}]*)}~Ui', 1);
+		}
+
+		$arrReturned  = $this->matchRegex($strContainer, '~"name": "(.*)"~Ui');
+         
+		if (count($arrReturned[1])) {
 			$arrReturn = Array();
-			foreach ($arrReturned[2] as $i => $strName) {
+			foreach ($arrReturned[1] as $i => $strName) {
 						$arrReturn[] = trim($strName);
 			}
 			$info['director'] = join(", ", $arrReturn);
 		}
 
+
+
+
 		/* Writer */
 		$info['writer'] = "";
-		$strContainer = $this->matchRegex($data, '~(?:Writer|Writers):</h4>(.*)</div>~Uis', 1);
-		$arrReturned  = $this->matchRegex($strContainer, '~href="/name/nm(\d+)/(?:.*)" itemprop=\'(?:\w+)\'><span class="itemprop" itemprop="name">(.*)</span>~Ui');
+		$strContainer = $this->matchRegex($data, '~"creator": \[([^]]+)\]~Ui', 1);
 
-		if (count($arrReturned[2])) {
+		if (empty($strContainer)) {
+              $strContainer = $this->matchRegex($data, '~"creator": {([^}]*)}~Ui', 1);
+		}
+
+		$arrReturned  = $this->matchRegex($strContainer, '~"name": "(.*)"~Ui');
+
+
+		if (count($arrReturned[1])) {
 			$arrReturn = Array();
-			foreach ($arrReturned[2] as $i => $strName) {
+			foreach ($arrReturned[1] as $i => $strName) {
 				$arrReturn[] = trim($strName);
 			}
 			$info['writer'] = join(", ", $arrReturn);
 		}
 
+
+
+		/* Cast */
 		$info['cast'] = "";
 		$intLimit = 20;
-		$arrReturned = $this->matchRegex($data, '~<span class="itemprop" itemprop="name">(.*)</span>~Ui');
 
+              $strContainer = $this->matchRegex($data, '~"actor": \[([^]]+)\]~Ui', 1);
+		$arrReturned  = $this->matchRegex($strContainer, '~"name": "(.*)"~Ui');
+    
+       
 		if (count($arrReturned[1])) {
 			$arrReturn = Array();
 			foreach ($arrReturned[1] as $i => $strName) {
@@ -194,17 +257,38 @@ class MovieData {
 					$arrReturn[] = trim($strName);
 				}
 			}
+
+
+                     $str = $arrReturn;
+			$str = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
+			return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
+			}, $str);
+                     $arrReturn = $str;
+
+
 			$arrReturn = array_slice(array_unique($arrReturn), 0, 8);
 			$info['cast'] =  join(", ", $arrReturn);
 		}
 
+
+
+
 		/* Runtime */
 		$info['runtime'] = trim($this->match('/Runtime:<\/h4>.*?([0-9]+) min.*?<\/div>/ms', $data, 1));
 
+              /* Trailer */
+              $info['trailer'] = trim($this->match('~"embedUrl": "*(.*?)(vi\d++)"~Ui', $data, 2));
+
+
 		/* IMDB-ID */
-		$info['imdbid'] = $this->match('/<link rel="canonical" href="http:\/\/www.imdb.com\/title\/(tt[0-9]+)\/" \/>/ms', $data, 1);
+		$info['imdbid'] = $this->match('/<link rel="canonical" href="https:\/\/www.imdb.com\/title\/(tt[0-9]+)\/" \/>/ms', $data, 1);
+
+
 
 		return $info;
+
+
+
 	}
 
 	private function match($regex, $str, $i = 0) {
@@ -241,7 +325,7 @@ class MovieData {
 			throw new Exception(L::get("MOVIE_NOT_FOUND"), 404);
 		}
 
-		$url = 'http://akas.imdb.com/title/'.$res["imdbid"].'/';
+		$url = 'https://www.imdb.com/title/'.$res["imdbid"].'/';
 		$data = $this->fetchImdbData($url);
 
 //		if ($res["photo"] == 1) {
@@ -255,7 +339,7 @@ class MovieData {
 			}
 		//}
 
-		$sth = $this->db->prepare("UPDATE imdbinfo SET rating = ?, tagline = ?, genres = ?, photo = ?, director = ?, writer = ?, cast = ?, runtime = ?, seasoncount = ?, title = ?, lastUpdated = NOW() WHERE id = ?");
+		$sth = $this->db->prepare("UPDATE imdbinfo SET rating = ?, tagline = ?, genres = ?, photo = ?, director = ?, writer = ?, cast = ?, runtime = ?, seasoncount = ?, title = ?, trailer = ?, lastUpdated = NOW() WHERE id = ?");
 		$sth->bindParam(1,	$data["rating"],		PDO::PARAM_INT);
 		$sth->bindParam(2,	$data["tagline"],		PDO::PARAM_STR);
 		$sth->bindParam(3,	$data["genres"],		PDO::PARAM_STR);
@@ -266,7 +350,8 @@ class MovieData {
 		$sth->bindParam(8,	$data["runtime"],		PDO::PARAM_INT);
 		$sth->bindParam(9,	$data["seasoncount"],	PDO::PARAM_INT);
 		$sth->bindParam(10,	$data["title"],			PDO::PARAM_STR);
-		$sth->bindParam(11,	$id,					PDO::PARAM_INT);
+              $sth->bindParam(11,	$data["trailer"],			PDO::PARAM_STR);
+		$sth->bindParam(12,	$id,					PDO::PARAM_INT);
 		$sth->execute();
 
 	}
@@ -304,9 +389,9 @@ class MovieData {
 			throw new Exception(L::get("MUST_BE_RUN_BY_SERVER_ERROR"), 401);
 		}
 
-		$data = file_get_contents("http://akas.imdb.com/boxoffice/rentals");
-		preg_match_all("/\/title\/(.*?)\//", $data, $matches);
-		$array = $matches[1];
+		$data = file_get_contents("https://www.imdb.com/chart/boxoffice");
+		preg_match_all("~/title/(.*?)(tt[0-9]+)~", $data, $matches);
+		$array = $matches[2];
 
 		unset($array[0]);
 

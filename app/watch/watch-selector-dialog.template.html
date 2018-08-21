@@ -6,9 +6,12 @@
 	<div class="modal-body">
 		<button class="btn btn-default btn-xs" ng-model="vm.model.formats.hd720" uib-btn-checkbox>720p</button>
 		<button class="btn btn-default btn-xs" ng-model="vm.model.formats.hd1080" uib-btn-checkbox>1080p</button>
-		<button class="btn btn-default btn-xs" ng-model="vm.model.formats.dvdrpal" uib-btn-checkbox>DVDR PAL</button>
-		<button class="btn btn-default btn-xs" ng-model="vm.model.formats.dvdrcustom" uib-btn-checkbox>DVDR CUSTOM</button>
+		<button class="btn btn-default btn-xs" ng-model="vm.model.formats.dvdrpal" uib-btn-checkbox>DVDR</button>
+		<button class="btn btn-default btn-xs" ng-model="vm.model.formats.xvidsd" uib-btn-checkbox>XVID SD</button>
+              <button class="btn btn-default btn-xs" ng-model="vm.model.formats.xvidtv" uib-btn-checkbox>XVID TV</button>
 		<button class="btn btn-default btn-xs" ng-model="vm.model.formats.bluray" uib-btn-checkbox ng-show="vm.model.typ == 0">BLURAY</button>
+              <button class="btn btn-default btn-xs" ng-model="vm.model.formats.movie4k" uib-btn-checkbox ng-show="vm.model.typ == 0">4K</button>
+
 		<button class="btn btn-default btn-xs" ng-model="vm.model.swesub" uib-btn-checkbox ng-change="vm.updateWatch(w)" translate="WATCHER.REQUIRE_SUB"></button>
 	</div>
 	<div class="modal-footer">

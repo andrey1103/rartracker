@@ -20,14 +20,15 @@ $search = $_GET["search"];
 
 $categories = [
 	Config::$categories["DVDR_PAL"]["id"],
-	Config::$categories["DVDR_CUSTOM"]["id"],
+	Config::$categories["MOVIE_SD"]["id"],
 	Config::$categories["DVDR_TV"]["id"],
 	Config::$categories["MOVIE_720P"]["id"],
 	Config::$categories["MOVIE_1080P"]["id"],
 	Config::$categories["TV_720P"]["id"],
 	Config::$categories["TV_1080P"]["id"],
 	Config::$categories["BLURAY"]["id"],
-	Config::$categories["MOVIE_4K"]["id"]
+	Config::$categories["MOVIE_4K"]["id"],
+	Config::$categories["XVID_TV"]["id"]
 ];
 
 if (!preg_match("/^[a-z0-9]{32}$/", $passkey) || (empty($imdbid) && empty($search))) {
@@ -56,7 +57,7 @@ foreach($result as &$res) {
 		"release_name" => $res["name"],
 		"torrent_id" => $res["id"],
 		"details_url" => Config::SITE_URL . "/torrent/" . $res["id"] . "/" . $res["name"],
-		"download_url" => Config::SITE_URL . "/api/v1/torrents/download/". $res["id"]. "/ " . $passkey,
+		"download_url" => Config::SITE_URL . "/api/v1/torrents/download/". $res["id"]. "/" . $passkey,
 		"imdb_id" => $res["imdbid2"],
 		"freeleech" => (bool)$res["frileech"],
 		"type" => typeByCategory($res["category"]),
@@ -81,7 +82,7 @@ function bitsToMb($bits) {
 function typeByCategory($category) {
 	switch($category) {
 		case Config::$categories["DVDR_PAL"]["id"]:
-		case Config::$categories["DVDR_CUSTOM"]["id"]:
+		case Config::$categories["MOVIE_SD"]["id"]:
 		case Config::$categories["MOVIE_720P"]["id"]:
 		case Config::$categories["MOVIE_1080P"]["id"]:
 		case Config::$categories["BLURAY"]["id"]:
