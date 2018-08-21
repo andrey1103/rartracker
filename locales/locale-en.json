@@ -830,7 +830,6 @@
 		"SHOW_TRAILER":					"Show trailer",
 		"HIDE_TRAILER":					"Hide trailer",
 		"ADD_TRAILER":					"Add IMDB Trailer",
-              
-		"IMDB_URL":					"IMDB Video url"
+              "IMDB_URL":					"IMDB Video url"
 	}
 }
