@@ -5,16 +5,32 @@
 <div style="font-weight: bold; font-size: 15px;"><a target="_blank" ng-href="http://anonym.to/?https://www.imdb.com/title/{{ vm.movieData.imdbid }}/">{{ vm.movieData.title }} ({{ vm.movieData.year }})</a></div>
 <br />
 <div data-goldstars="" stars="vm.movieData.rating"></div>
-<br /> 
+<br />
+
+<div ng-if="vm.movieData.tagline">   
 <b translate="MOVIE.TAGLINE"></b><br /> <span ng-show="vm.movieData.tagline" ng-repeat-start="tagline in vm.movieData.tagline | split">{{tagline}}</span> <span ng-repeat-end=""></span> 
-<br /><br /> 
+</div>
+
+<br />
+<div ng-if="vm.movieData.genres">  
 <b translate="MOVIE.GENRES"></b><br /> <span ng-show="vm.movieData.genres" class="label label-default" ng-repeat-start="genre in vm.movieData.genres | split">{{genre}}</span> <span ng-repeat-end=""></span> 
-<br /><br /> 
+</div>
+
+<br />
+<div ng-if="vm.movieData.cast"> 
 <b translate="MOVIE.ACTORS"></b><br /> <span ng-show="vm.movieData.cast" class="label label-default" ng-repeat-start="cast in vm.movieData.cast | split">{{cast}}</span> <span ng-repeat-end=""></span> 
-<br /><br /> 
+</div>
+
+<br />
+<div ng-if="vm.movieData.director">
 <b translate="MOVIE.DIRECTORS"></b><br /> <span ng-show="vm.movieData.director" class="label label-default" ng-repeat-start="director in vm.movieData.director | split">{{director}}</span> <span ng-repeat-end=""></span> 
-<br /><br /> 
+</div>
+
+<br />
+<div ng-if="vm.movieData.writer">
 <b translate="MOVIE.WRITERS"></b><br /> <span ng-show="vm.movieData.writer" class="label label-default" ng-repeat-start="writer in vm.movieData.writer | split">{{writer}}</span> <span ng-repeat-end=""></span> 
+</div>
+
 <br /> <br /> <br />
 
 
