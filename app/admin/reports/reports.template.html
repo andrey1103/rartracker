@@ -78,14 +78,7 @@
 						<td translate="TORRENTS.UPLOADER"></td>
 						<td><user user="report.request.user"></user> <button ng-click="vm.sendMessage(report.request.user)" class="btn btn-xs btn-default"><i class="fa fa-envelope-o fa-fw"></i></button></td>
 					</tr>
-					<tr ng-if="!report.deleted && report.type == 'subtitle'">
-						<td translate="WATCHER.SUBS"></td>
-						<td><a target="_self" ng-href="/api/v1/subtitles/{{ report.subtitle.id }}/download">{{ report.subtitle.filnamn }}</a> <br /><a target="_blank" ui-sref="torrent({id:report.subtitle.torrentid})"><i class="fa fa-external-link"></i> {{ 'ADMIN.GO_TO_TORRENT' | translate }}</a></td>
-					</tr>
-					<tr ng-if="!report.deleted && report.type == 'subtitle'">
-						<td translate="TORRENTS.UPLOADER"></td>
-						<td><user user="report.subtitle.user"></user> <button ng-click="vm.sendMessage(report.subtitle.user)" class="btn btn-xs btn-default"><i class="fa fa-envelope-o fa-fw"></i></button></td>
-					</tr>
+
 					<tr>
 						<td style="width: 125px;" translate="TORRENTS.REASON"></td>
 						<td>{{ ::report.reason | bbCode }}</td>
@@ -111,7 +104,6 @@
 									<button ng-click="vm.delete(report)" class="btn btn-xs btn-default"><i class="fa fa-trash-o"></i> {{ 'ADMIN.DELETE_REPORT' | translate }}</button>
 									<button ng-if="report.type == 'comment'" ng-click="vm.deleteComment(report)" class="btn btn-xs btn-default"><i class="fa fa-trash-o"></i> {{ 'ADMIN.DELETE_COMMENT' | translate }}</button>
 									<button ng-if="report.type == 'post'" ng-click="vm.deletePost(report)" class="btn btn-xs btn-default"><i class="fa fa-trash-o"></i> {{ 'FORUM.DELETE_POST' | translate }}</button>
-									<button ng-if="report.type == 'subtitle'" ng-click="vm.deleteSubtitle(report)" class="btn btn-xs btn-default"><i class="fa fa-trash-o"></i> {{ 'SUBTITLES.DELETE_TOPIC' | translate }}</button>
 									<button ng-if="report.type == 'request'" ng-click="vm.deleteRequest(report)" class="btn btn-xs btn-default"><i class="fa fa-trash-o"></i> {{ 'REQUESTS.DELETE' | translate }}</button>
 									<button ng-if="report.type == 'torrent'" ng-click="vm.deleteTorrent(report)" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> {{ 'TORRENTS.DELETE' | translate }}</button>
 								</div>

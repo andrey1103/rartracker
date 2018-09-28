@@ -9,7 +9,6 @@
 		this.movie = movie;
 		this.dialogStatus = 0;
 		this.model = {
-			swesub: false,
 			formats: {
 				hd720: movie.category ? movie.category === categories.MOVIE_720P.id || movie.category === categories.TV_720P.id : true,
 				hd1080: movie.category === categories.MOVIE_1080P.id || movie.category === categories.TV_1080P.id,

@@ -61,14 +61,7 @@ class Bonus {
 				$bonusp = 50;
 			}
 
-			$subs = $this->db->query("SELECT * FROM subs WHERE datum > $datumnix AND userid = $ros[id] GROUP BY torrentid;");
-			$antalsubs = $subs->rowCount();
-			$subp = 0;
-			while($sub = $subs->fetch(PDO::FETCH_ASSOC)) {
 
-				$subp += 2;
-
-			}
 
 			$torrb = $this->db->query("SELECT owner, reqid, section, id, UNIX_TIMESTAMP(added) as added1, category FROM torrents WHERE added > '$datum' AND owner = $ros[id];");
 			$torrantal = 0;
@@ -99,8 +92,8 @@ class Bonus {
 
 			}
 
-			$finalBonus = $bonusp + $torrp + $subp + $requestReward;
-			if ($finalBonus > 0 || $bonusNew > 0 || $subp > 0) {
+			$finalBonus = $bonusp + $torrp + $requestReward;
+			if ($finalBonus > 0 || $bonusNew > 0) {
 				$totusers++;
 				$totbonus += $finalBonus;
 
@@ -117,9 +110,7 @@ class Bonus {
 					$msg .= L::get("BONUS_PAYOUT_REQUESTS", [$requestReward]);
 				}
 
-				if ($subp > 0) {
-					$msg .= L::get("BONUS_PAYOUT_SUBTITLES", [$subp, $antalsubs]);
-				}
+
 
 				$this->user->bonusLog($finalBonus, $msg, $ros["id"]);
 			}

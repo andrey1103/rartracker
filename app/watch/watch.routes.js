@@ -47,12 +47,6 @@
 				controller  : 'MyWatchController as vm',
 				resolve		: { user: authService => authService.getPromise() }
 			})
-			.state('watcher.subtitles', {
-				url			: '/subtitles',
-				templateUrl : '../app/watch/watch-subtitles.template.html',
-				controller  : 'WatchingSubtitlesController as vm',
-				resolve		: { user: authService => authService.getPromise() }
-			})
 			.state('watcher.rss', {
 				url			: '/rss',
 				templateUrl : '../app/watch/watch-rss.template.html',

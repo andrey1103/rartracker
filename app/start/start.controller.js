@@ -8,7 +8,6 @@
 	function StartController(StartTorrentsResource, NewsResource, StatisticsResource, PollsResource, TorrentListsResource) {
 
 		this.pollAnswer = '';
-
 		this.fetchPoll = function () {
 			PollsResource.Latest.get({}, (data) => {
 				this.poll = data;

@@ -5,7 +5,7 @@
 		.module('app.admin')
 		.controller('ReportsController', ReportsController);
 
-	function ReportsController($state, $stateParams, SendMessageDialog, user, ErrorDialog, DeleteDialog, authService, AdminResource, SubtitlesResource, RequestsResource, TorrentsResource, ForumResource) {
+	function ReportsController($state, $stateParams, SendMessageDialog, user, ErrorDialog, DeleteDialog, authService, AdminResource, RequestsResource, TorrentsResource, ForumResource) {
 
 		this.currentUser = user;
 		this.itemsPerPage = 10;
@@ -72,23 +72,6 @@
 			});
 		};
 
-		this.deleteSubtitle = function (report){
-			DeleteDialog('Radera undertext', 'Vill du radera undertexten?', true, report.reason)
-				.then((reason) => {
-					return SubtitlesResource.delete({
-						id: report.subtitle.id,
-						reason: reason
-					});
-				})
-				.then(() => {
-					this.delete(report);
-				})
-				.catch((error) => {
-					if (error) {
-						ErrorDialog.display(error.data);
-					}
-				});
-		};
 
 		this.deleteRequest = function (report) {
 			DeleteDialog('Radera request', 'Vill du radera requesten \''+report.request.request+'\'?', true, report.reason)

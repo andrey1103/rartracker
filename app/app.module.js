@@ -13,7 +13,6 @@
 			'app.requests',
 			'app.forums',
 			'app.watcher',
-			'app.swetv',
 			'app.suggestions',
 			'app.torrentLists',
 		]);

@@ -20,7 +20,7 @@
 		$stateProvider
 			.state('search', {
 				parent		: 'header',
-				url			: '/search?page&sort&order&search&cats&fc&extended&p2p&swesub&sweaudio&freeleech&stereoscopic',
+				url			: '/search?page&sort&order&search&cats&fc&extended&p2p&freeleech&stereoscopic',
 				views		: {
 					'content@': {
 						templateUrl : '../app/torrents/torrents.template.html',
@@ -46,15 +46,13 @@
 					fc: { value: 'false', squash: true },
 					extended: { value: 'false', squash: true },
 					p2p: { value: 'true', squash: true },
-					swesub: { value: 'false', squash: true },
-					sweaudio: { value: 'false', squash: true },
 					stereoscopic: { value: 'false', squash: true },
 					freeleech: { value: 'false', squash: true },
 				}
 			})
 			.state('movies', {
 				parent		: 'header',
-				url			: '/movies?page&sort&order&cats&p2p&fc&section&swesub&freeleech&sweaudio&stereoscopic',
+				url			: '/movies?page&sort&order&cats&p2p&fc&section&freeleech&stereoscopic',
 				views		: {
 					'content@': {
 						templateUrl : '../app/torrents/torrents.template.html',
@@ -85,15 +83,13 @@
 					fc: { value: 'false', squash: true },
 					p2p: { value: 'true', squash: true },
 					section: { value: 'all', squash: true },
-					swesub: { value: 'false', squash: true },
-					sweaudio: { value: 'false', squash: true },
 					stereoscopic: { value: 'false', squash: true },
 					freeleech: { value: 'false', squash: true },
 				}
 			})
 			.state('tvseries', {
 				parent		: 'header',
-				url			: '/tvseries?page&sort&order&cats&p2p&fc&section&swesub&freeleech&sweaudio&stereoscopic',
+				url			: '/tvseries?page&sort&order&cats&p2p&fc&section&freeleech&stereoscopic',
 				views		: {
 					'content@': {
 						templateUrl : '../app/torrents/torrents.template.html',
@@ -123,15 +119,13 @@
 					fc: { value: 'false', squash: true },
 					p2p: { value: 'true', squash: true },
 					section: { value: 'all', squash: true },
-					swesub: { value: 'false', squash: true },
-					sweaudio: { value: 'false', squash: true },
 					stereoscopic: { value: 'false', squash: true },
 					freeleech: { value: 'false', squash: true },
 				}
 			})
 			.state('other', {
 				parent		: 'header',
-				url			: '/other?page&sort&order&cats&p2p&fc&section&swesub&freeleech&sweaudio&stereoscopic',
+				url			: '/other?page&sort&order&cats&p2p&fc&section&freeleech&stereoscopic',
 				views		: {
 					'content@': {
 						templateUrl : '../app/torrents/torrents.template.html',
@@ -163,15 +157,13 @@
 					fc: { value: 'false', squash: true },
 					p2p: { value: 'true', squash: true },
 					section: { value: 'all', squash: true },
-					swesub: { value: 'false', squash: true },
-					sweaudio: { value: 'false', squash: true },
 					stereoscopic: { value: 'false', squash: true },
 					freeleech: { value: 'false', squash: true },
 				}
 			})
 			.state('alltorrents', {
 				parent		: 'header',
-				url			: '/alltorrents?page&sort&order&cats&fc&p2p&swesub&sweaudio&stereoscopic&freeleech',
+				url			: '/alltorrents?page&sort&order&cats&fc&p2p&stereoscopic&freeleech',
 				views		: {
 					'content@': {
 						templateUrl : '../app/torrents/torrents.template.html',
@@ -195,8 +187,6 @@
 					order: { value: 'desc', squash: true },
 					cats: { value: '', squash: true },
 					fc: { value: 'false', squash: true },
-					swesub: { value: 'false', squash: true },
-					sweaudio: { value: 'false', squash: true },
 					stereoscopic: { value: 'false', squash: true },
 					freeleech: { value: 'false', squash: true },
 				}

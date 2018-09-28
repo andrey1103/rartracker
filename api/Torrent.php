@@ -5,25 +5,28 @@ class Torrent {
 	private $user;
 	private $log;
 	private $movieData;
-	private $sweTv;
+
 	private $requests;
 	private $mailbox;
-	private $subtitles;
 	private $adminlog;
 	private $torrentDir = "../torrents/";
-	private $subsDir = "../subs/";
-	public static $torrentFieldsUser = array('torrents.id', 'name', 'category', 'size', 'torrents.added', 'type', 'numfiles', 'comments', 'times_completed', 'leechers', 'seeders', 'reqid', 'torrents.section', 'torrents.frileech', 'torrents.imdbid', 'p2p', 'swesub', 'sweaudio', 'pack', '3d');
+	public static $torrentFieldsUser = array('torrents.id', 'name', 'category', 'size', 'torrents.added', 'type', 'numfiles', 'comments', 'times_completed', 'leechers', 'seeders', 'reqid', 'torrents.section', 'torrents.frileech', 'torrents.imdbid', 'p2p', 'pack', '3d');
 
-	public function __construct($db, $user = null, $log = null, $movieData = null, $sweTv = null, $requests = null, $mailbox = null, $subtitles = null, $adminlog = null) {
+
+
+
+
+
+	public function __construct($db, $user = null, $log = null, $movieData = null, $requests = null, $mailbox = null, $adminlog = null) {
 		$this->db = $db;
 		$this->user = $user;
 		$this->log = $log;
 		$this->adminlog = $adminlog;
 		$this->movieData = $movieData;
-		$this->sweTv = $sweTv;
+
 		$this->requests = $requests;
 		$this->mailbox = $mailbox;
-		$this->subtitles = $subtitles;
+
 	}
 
 	public function search($params) {
@@ -89,13 +92,7 @@ class Torrent {
 			$where[] = 'p2p = 0';
 		}
 
-		if ($params["swesub"] == "true") {
-			$where[] = "torrents.swesub > 0";
-		}
 
-		if ($params["sweaudio"] == "true") {
-			$where[] = "sweaudio = 1";
-		}
 
 		if ($params["freeleech"] == "true") {
 			$where[] = "frileech = 1";
@@ -113,17 +110,16 @@ class Torrent {
 
 		if ($params["watchview"] === "true") {
 
-			//$sth = $this->db->query("SELECT COUNT(*) FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(4,5,6,7)) AND torrents.pack = 0 AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(4,5,6,7)) AND bevaka.swesub = 0) OR (torrents.category NOT IN (4,5,6,7))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $this->user->getId() . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : ''));
+			//$sth = $this->db->query("SELECT COUNT(*) FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(4,5,6,7)) AND torrents.pack = 0) OR ((torrents.category IN(4,5,6,7))) OR (torrents.category NOT IN (4,5,6,7))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $this->user->getId() . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : ''));
 		
 
-			$sth = $this->db->query("SELECT COUNT(*) FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND torrents.pack = 0 AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND bevaka.swesub = 0) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $this->user->getId() . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : ''));
+			$sth = $this->db->query("SELECT COUNT(*) FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND torrents.pack = 0) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $this->user->getId() . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : ''));
 			$arr = $sth->fetch();
 			$totalCount = $arr[0];
 
-			//$sth = $this->db->prepare("SELECT imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2, torrents.* FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE (((torrents.category IN(4,5,6,7)) AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(4,5,6,7)) AND bevaka.swesub = 0) OR (torrents.category NOT IN (4,5,6,7))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = ? " . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : '') ." ORDER BY ".$sortColumn." ".$order." LIMIT ?, ?");
 
 
-			$sth = $this->db->prepare("SELECT imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2, torrents.* FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND bevaka.swesub = 0) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = ? " . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : '') ." ORDER BY ".$sortColumn." ".$order." LIMIT ?, ?");
+			$sth = $this->db->prepare("SELECT imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2, torrents.* FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = ? " . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : '') ." ORDER BY ".$sortColumn." ".$order." LIMIT ?, ?");
 			$sth->bindValue(1, $this->user->getId(), PDO::PARAM_INT);
 			$sth->bindParam(2, $index, PDO::PARAM_INT);
 			$sth->bindParam(3, $limit, PDO::PARAM_INT);
@@ -278,7 +274,7 @@ class Torrent {
 				$wherea[] = 't.category IN (5)';
 				$formatString = L::get("TORRENT_HIGHLIGHT_CATEGORY_HD_MOVIES");
 			} else {
-				$wherea[] = 't.category IN (7)';
+				$wherea[] = 't.category IN (8)';
 				$formatString = L::get("TORRENT_HIGHLIGHT_CATEGORY_HD_TV");
 			}
 
@@ -332,35 +328,13 @@ class Torrent {
 
 		$where = implode(" AND ", $wherea);
 
-		$sth = $this->db->prepare('SELECT i.imdbid, i.genres, t.name, t.swesub, t.id, t.frileech, t.added, t.reqid FROM torrents AS t LEFT JOIN imdbinfo i ON t.imdbid = i.id WHERE '.$where.' AND i.photo = 1 AND t.imdbid > 0 '.$year.' GROUP BY i.imdbid '.$sort.', seeders ASC LIMIT 6');
+		$sth = $this->db->prepare('SELECT i.imdbid, i.genres, t.name, t.id, t.frileech, t.added, t.reqid FROM torrents AS t LEFT JOIN imdbinfo i ON t.imdbid = i.id WHERE '.$where.' AND i.photo = 1 AND t.imdbid > 0 '.$year.' GROUP BY i.imdbid '.$sort.', seeders ASC LIMIT 6');
 		$sth->execute();
 
 		return Array($headline, $sth->fetchAll(PDO::FETCH_ASSOC));
 	}
 
-	public function getSweTvGuideTorrents($dateStart, $dateEnd) {
-		$sth = $this->db->prepare('SELECT added, DATE(added) AS dateShort, frileech, tv_klockslag, tv_program, tv_episode, tv_info, tv_programid, tv_kanaler.pic FROM `torrents` JOIN tv_kanaler ON tv_kanaler.id = torrents.tv_kanalid WHERE category = 8 AND tv_klockslag >= ? AND tv_klockslag <= ? AND tv_programid > 0 AND torrents.section = \'new\' GROUP BY tv_programid, tv_program ORDER BY tv_klockslag ASC');
-		$sth->bindParam(1, $dateStart, PDO::PARAM_INT);
-		$sth->bindParam(2, $dateEnd, PDO::PARAM_INT);
-		$sth->execute();
 
-		$data = $sth->fetchAll(PDO::FETCH_ASSOC);
-
-		$torrents = array();
-		$torrents["date"] = $dateStart;
-		$torrents["day"] = array();
-		foreach ($data as $row) {
-			$sth = $this->db->prepare('SELECT torrents.id, frileech, torrents.added, torrents.name, tv_kanaler.pic FROM torrents JOIN tv_kanaler ON tv_kanaler.id = torrents.tv_kanalid WHERE torrents.tv_programid = ? AND torrents.tv_program = ?');
-			$sth->bindParam(1, $row["tv_programid"], PDO::PARAM_INT);
-			$sth->bindParam(2, $row["tv_program"], PDO::PARAM_STR);
-			$sth->execute();
-			$row["torrents"] = $sth->fetchAll(PDO::FETCH_ASSOC);
-
-			$torrents["day"][] = $row;
-		}
-
-		return $torrents;
-	}
 
 	public function getToplists($limit = 15) {
 		$topdata = array();
@@ -463,11 +437,6 @@ class Torrent {
 
 		@unlink($this->torrentDir . $id . ".torrent");
 
-		$sth = $this->db->query('SELECT * FROM subs WHERE torrentid = ' . $id);
-		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-			@unlink($this->subsDir . $row["filnamn"]);
-			$this->db->query("DELETE FROM subs WHERE id = " . $row["id"]);
-		}
 
 		if ($torrent["owner"] == $this->user->getId() && $torrent["ano_owner"] == 1) {
 			$anonymous = 1;
@@ -570,7 +539,7 @@ class Torrent {
 	}
 
 	public function update($id, $post) {
-		$sth = $this->db->prepare('SELECT id, owner, name, reqid, swesub, imdbid, tv_programid FROM torrents WHERE id = ?');
+		$sth = $this->db->prepare('SELECT id, owner, name, reqid, imdbid FROM torrents WHERE id = ?');
 		$sth->bindParam(1, $id, PDO::PARAM_INT);
 		$sth->execute();
 		$torrent = $sth->fetch(PDO::FETCH_ASSOC);
@@ -582,12 +551,6 @@ class Torrent {
 			throw new Exception(L::get("PERMISSION_DENIED"), 401);
 		}
 
-		if ($torrent["swesub"] != $post["swesub"] && $post["swesub"] == 0) {
-			$subtitles = $this->subtitles->fetch($torrent["id"]);
-			if (count($subtitles) > 0) {
-				throw new Exception(L::get("TORRENT_HAS_SUBTITLES"));
-			}
-		}
 
 		if ($post["imdbid"]) {
 			$imdbInfo = $this->movieData->getData($post["imdbid"]);
@@ -605,40 +568,12 @@ class Torrent {
 			}, $packFolders);
 		}
 
-		/* SWE-TV */
-		$tvProgramId = $post["tv_programid"] ?: 0;
-		$tvChannel = $post["tv_kanalid"] ?: 0;
-		$tvProgram = $post["tv_program"];
-		$tvTime = $post["tv_klockslag"];
-		$tvEpisode = $post["tv_episode"];
-		$tvInfo = $post["tv_info"];
 
-		if ($post["category"] == Config::$categories["TV_SWE"]["id"] && $tvProgramId > 0 && $tvChannel > 0 && $tvProgramId != $torrent["tv_programid"]) {
-			/* Manual entered program */
-			if ($tvProgramId == 1){
-				$tvProgram = $post["programTitle"];
-				$tvTime = strtotime($post["programDate"] . ' ' . $post["programTime"]);
-				if (strlen($tvProgram) < 2) {
-					throw new Exception(L::get("TORRENT_TV_NAME_TOO_SHORT"), 412);
-				}
-				$tvProgramId = 2;
-			} else {
-				$sweTv = $this->sweTv->getProgram($tvProgramId);
-				if (!$sweTv) {
-					throw new Exception(L::get("TORRENT_TV_PROGRAM_INVALID"));
-				}
-
-				$tvProgram = $sweTv["program"];
-				$tvEpisode = $sweTv["episod"];
-				$tvInfo = $sweTv["info"];
-				$tvTime = $sweTv["datum"];
-			}
-		}
 
 		$searchText = Helper::searchfield("$torrent[name] $imdbInfo[genres] $imdbInfo[imdbid] " . implode(" ", $packFolders));
 		$searchText2 = Helper::searchfield("$imdbInfo[director] $imdbInfo[writer] $imdbInfo[cast]");
 
-		$sth = $this->db->prepare("UPDATE torrents SET ano_owner = :anoymous, descr = :descr, category = :category, imdbid = :imdbid, swesub = :swesub, p2p = :p2p, 3d = :3d, search_text = :searchText, search_text2 = :searchText2, tv_kanalid = :tvChannel, tv_programid = :tvProgramId, tv_program = :tvProgram, tv_episode = :tvEpisode, tv_info = :tvInfo, tv_klockslag = :tvTime, section = :section, sweaudio = :sweaudio WHERE id = :id");
+		$sth = $this->db->prepare("UPDATE torrents SET ano_owner = :anoymous, descr = :descr, category = :category, imdbid = :imdbid, p2p = :p2p, 3d = :3d, search_text = :searchText, search_text2 = :searchText2, section = :section WHERE id = :id");
 
 		$sth->bindParam(":id",				$id,					PDO::PARAM_INT);
 		$sth->bindParam(":anoymous",		$post["ano_owner"],		PDO::PARAM_INT);
@@ -647,17 +582,12 @@ class Torrent {
 		$sth->bindParam(":imdbid",			$post["imdbid"],		PDO::PARAM_INT);
 		$sth->bindParam(":p2p",				$post["p2p"],			PDO::PARAM_INT);
 		$sth->bindParam(":3d",				$post["3d"],			PDO::PARAM_INT);
-		$sth->bindParam(":swesub",			$post["swesub"],		PDO::PARAM_INT);
+
 		$sth->bindParam(":searchText",		$searchText,			PDO::PARAM_STR);
 		$sth->bindParam(":searchText2",		$searchText2,			PDO::PARAM_STR);
-		$sth->bindParam(":tvChannel",		$tvChannel,				PDO::PARAM_INT);
-		$sth->bindParam(":tvProgram",		$tvProgram,				PDO::PARAM_STR);
-		$sth->bindParam(":tvEpisode",		$tvEpisode,				PDO::PARAM_STR);
-		$sth->bindParam(":tvInfo",			$tvInfo,				PDO::PARAM_STR);
-		$sth->bindParam(":tvTime",			$tvTime,				PDO::PARAM_INT);
-		$sth->bindParam(":tvProgramId",		$tvProgramId,			PDO::PARAM_INT);
+
 		$sth->bindParam(":section",			$post["section"],		PDO::PARAM_STR);
-		$sth->bindParam(":sweaudio",		$post["sweaudio"],		PDO::PARAM_INT);
+
 
 		$sth->execute();
 
@@ -710,10 +640,6 @@ class Torrent {
 			throw new Exception(L::get("TORRENT_EMPTY_FILE_ERROR"));
 		}
 
-		if ($post["category"] == Config::$categories["TV_SWE"]["id"] && $post["section"] == 'new' && ($post["channel"] == 0 || $post["program"] == 0)){
-			throw new Exception(L::get("TORRENT_SWE_TV_DATA_MISSING"), 412);
-		}
-
 		if ($post["reqid"] > 0) {
 			$request = $this->requests->get($post["reqid"]);
 			if ($this->user->getId() == $request["user"]["id"]) {
@@ -733,68 +659,11 @@ class Torrent {
 		$imdbId = $post["imdbId"];
 		$p2p = $post["p2p"];
 		$freeleech = 0;
-		$sweaudio = $post["sweaudio"] ?: 0;
+
 		$stereoscopic = 0;
 
-		$swesub = 0;
-		/* The following categories should always be tagged with "has swesub" */
-		if (in_array($category, array(
-				Config::$categories["MOVIE_720P"]["id"],
-				Config::$categories["MOVIE_1080P"]["id"],
-				Config::$categories["TV_720P"]["id"],
-				Config::$categories["TV_1080P"]["id"],
-				Config::$categories["MOVIE_4K"]["id"]))){
-			$swesub = 2;
-		}
-		/* The following categories should be marked with "has swesub" if release "contains" swesub */
-		if ($post["swesub"] == 1 && in_array($category, array(
-				Config::$categories["MOVIE_720P"]["id"],
-				Config::$categories["MOVIE_1080P"]["id"],
-				Config::$categories["TV_720P"]["id"],
-				Config::$categories["TV_1080P"]["id"],
-				Config::$categories["MOVIE_4K"]["id"]))) {
-			$swesub = 2;
-		}
 
-		/* SWE TV is excepted from swe audio tag */
-		if ($post["sweaudio"] && in_array($category, array(
-				Config::$categories["MOVIE_720P"]["id"],
-				Config::$categories["MOVIE_1080P"]["id"],
-				Config::$categories["TV_720P"]["id"],
-				Config::$categories["TV_1080P"]["id"],
-				Config::$categories["MOVIE_4K"]["id"]))) {
-			$sweaudio = 0;
-		}
 
-		/* SWE-TV */
-		$tvProgramId = $post["program"] ?: 0;
-		$tvChannel = $post["channel"] ?: 0;
-		$tvProgram = '';
-		$tvEpisode = '';
-		$tvInfo = '';
-		$tvTime = 0;
-
-		if ($category == Config::$categories["TV_SWE"]["id"] && $tvProgramId > 0 && $tvChannel > 0) {
-			/* Manual entered program */
-			if ($tvProgramId == 1){
-				$tvProgram = $post["programTitle"];
-				$tvTime = strtotime($post["programDate"]);
-				if (strlen($tvProgram) < 2) {
-					throw new Exception(L::get("TORRENT_TV_NAME_TOO_SHORT"));
-				}
-				$tvProgramId = 2;
-			} else {
-				$sweTv = $this->sweTv->getProgram($tvProgramId);
-				if (!$sweTv) {
-					throw new Exception(L::get("TORRENT_TV_PROGRAM_INVALID"));
-				}
-
-				$tvProgram = $sweTv["program"];
-				$tvEpisode = $sweTv["episod"];
-				$tvInfo = $sweTv["info"];
-				$tvTime = $sweTv["datum"];
-			}
-		}
 
 
 		if ($this->user->getClass() < User::CLASS_UPLOADER && $section == 'new') {
@@ -1037,7 +906,7 @@ class Torrent {
 		$searchText = Helper::searchfield("$name $imdbInfo[genres] $imdbInfo[imdbid] " . implode(" ", $packFolders));
 		$searchText2 = Helper::searchfield("$imdbInfo[director] $imdbInfo[writer] $imdbInfo[cast]");
 
-		$sth = $this->db->prepare("INSERT INTO torrents (name, filename, search_text, search_text2, owner, visible, info_hash, size, numfiles, type, ano_owner, descr, category, added, last_action,  frileech, tv_kanalid, tv_program, tv_episode, tv_info, imdbid, tv_klockslag, tv_programid, reqid, section, pre, p2p, 3d, pack, swesub, sweaudio) VALUES (:name, :filename, :searchText, :searchText2, :owner, 'no', :infoHash, :size, :numfiles, :type, :anoymous, :descr, :category, NOW(), NOW(), :freeLeech, :tvChannel, :tvProgram, :tvEpisode, :tvInfo, :imdbid, :tvTime, :tvProgramId, :reqid, :section, :pre, :p2p, :3d, :pack, :swesub, :sweaudio)");
+		$sth = $this->db->prepare("INSERT INTO torrents (name, filename, search_text, search_text2, owner, visible, info_hash, size, numfiles, type, ano_owner, descr, category, added, last_action,  frileech, imdbid, reqid, section, pre, p2p, 3d, pack) VALUES (:name, :filename, :searchText, :searchText2, :owner, 'no', :infoHash, :size, :numfiles, :type, :anoymous, :descr, :category, NOW(), NOW(), :freeLeech, :imdbid, :reqid, :section, :pre, :p2p, :3d, :pack)");
 
 		$sth->bindParam(":name",			$name, 					PDO::PARAM_STR);
 		$sth->bindParam(":filename",		$fname,					PDO::PARAM_STR);
@@ -1052,12 +921,6 @@ class Torrent {
 		$sth->bindParam(":descr",			$nfo,					PDO::PARAM_STR);
 		$sth->bindParam(":category",		$category,				PDO::PARAM_INT);
 		$sth->bindParam(":freeLeech",		$freeleech,				PDO::PARAM_INT);
-		$sth->bindParam(":tvChannel",		$tvChannel,				PDO::PARAM_INT);
-		$sth->bindParam(":tvProgram",		$tvProgram,				PDO::PARAM_STR);
-		$sth->bindParam(":tvEpisode",		$tvEpisode,				PDO::PARAM_STR);
-		$sth->bindParam(":tvInfo",			$tvInfo,				PDO::PARAM_STR);
-		$sth->bindParam(":tvTime",			$tvTime,				PDO::PARAM_INT);
-		$sth->bindParam(":tvProgramId",		$tvProgramId,			PDO::PARAM_INT);
 		$sth->bindParam(":imdbid",			$imdbId,				PDO::PARAM_INT);
 		$sth->bindParam(":reqid",			$reqid,					PDO::PARAM_INT);
 		$sth->bindParam(":section",			$section,				PDO::PARAM_STR);
@@ -1065,8 +928,6 @@ class Torrent {
 		$sth->bindParam(":p2p",				$p2p,					PDO::PARAM_INT);
 		$sth->bindParam(":3d",				$stereoscopic,			PDO::PARAM_INT);
 		$sth->bindParam(":pack",			$pack,					PDO::PARAM_INT);
-		$sth->bindParam(":swesub",			$swesub,				PDO::PARAM_INT);
-		$sth->bindParam(":sweaudio",		$sweaudio,				PDO::PARAM_INT);
 
 		$sth->execute();
 
@@ -1119,12 +980,6 @@ class Torrent {
 
 		$this->log->log(1, L::get("TORRENT_UPLOADED_LOG", [$insertId, $name, $name], Config::DEFAULT_LANGUAGE), $this->user->getId(), $anonymousUpload);
 
-		/* Flush memcached */
-		if ($memcached && $category == 8) {
-			$memcached->delete('swetvguide-0');
-			$memcached->delete('swetvguide-1');
-			$memcached->delete('swetvguide-2');
-		}
 
 		/* Give uploaders more free leech when uploading torrent */
 		if ($section == 'new' && $p2p == 0 && $pack == 0) {

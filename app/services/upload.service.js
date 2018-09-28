@@ -165,49 +165,9 @@
 			}
 		};
 
-		this.generateProgramSelectList = function (programs) {
-			var result = [];
 
-			result.push({
-				id: 1,
-				program: $translate.instant('TORRENTS.ENTER_TV_MANUALLY')
-			});
 
-			var lastDate = '';
 
-			for (var i = 0, len = programs.length; i < len; i++) {
-				var date = DateService.getYMD(programs[i].datum);
-				if (lastDate != date) {
-					result.push(
-						{
-							id: 0,
-							program: ''
-						},
-						{
-							id: 0,
-							program: DateService.getWeekDay(programs[i].datum) + ' (' + date + ')'
-						}
-					);
-					lastDate = date;
-				}
-
-				result.push({
-					id: programs[i].id,
-					program: DateService.getHI(programs[i].datum) + ' - ' + programs[i].program
-				});
-			}
-
-			return result;
-		};
-
-		this.getSweTvDates = function () {
-			var arr = [];
-			for (var i = 0; i < 21; i++) {
-				var d = new Date();
-				arr.push(DateService.getYMD(d.getTime()/1000 - i*86400 ));
-			}
-			return arr;
-		};
 
 		this.$guessImdbFromName = function (name) {
 			return MovieDataResource.Guess.get({ name: name }).$promise;

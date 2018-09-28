@@ -14,7 +14,7 @@
 		return {
 			Data:				resourceExtension('moviedata/:id', { id: '@id' }),
 			Imdb:				resourceExtension('moviedata/imdb/:id', { id: '@id' }),
-			Search:				resourceExtension('moviedata/search'),
+			Search:			resourceExtension('moviedata/search'),
 			Guess:				resourceExtension('moviedata/guess'),
 			Youtube:			resourceExtension('moviedata/:id/youtube', { id: '@id' }),
 			Refresh:			resourceExtension('moviedata/:id/refresh'),

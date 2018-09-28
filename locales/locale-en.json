@@ -164,11 +164,12 @@
 	"BUTTONS": {
 		"DELETE":						"Delete",
 		"ERASE":						"Remove",
-		"EDIT":							"Edit",
+		"EDIT":						"Edit",
 		"YES":							"Yes",
 		"NO":							"No",
 		"ABORT":						"Abort",
 		"CONFIRM":						"Confirm",
+		"BUTTONS":						"Edit/Delete",
 		"CLOSE":						"Close"
 	},
 	"NEWS": {
@@ -354,6 +355,7 @@
 		"REQUESTER":					"Requester",
 		"UPLOAD":						"Upload",
 		"SEASON":						"Season",
+		"GIVECOMMENTHERE":                         "Give your comment",
 		"CHOOSE_SEASON":				"Choose season"
 	},
 	"USER": {

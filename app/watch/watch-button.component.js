@@ -64,9 +64,7 @@
 			var formats = format.map(cat => this.getCatName(cat)).join(', ');
 			string += $translate.instant('WATCHER.WATCHING_FORMATS', {formats: formats});
 
-			if (this.watching.swesub === true) {
-				string += $translate.instant('WATCHER.WATCHING_WITH_SUBS');
-			}
+
 			string += '.';
 			return string;
 		};

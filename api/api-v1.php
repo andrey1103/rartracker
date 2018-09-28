@@ -296,27 +296,24 @@ try {
 		case validateRoute('PATCH', 'torrents/\d+'):
 			$log = new Logs($db);
 			$movieData = new MovieData($db);
-			$sweTv = new SweTv($db);
-			$subtitles = new Subtitles($db, $user);
-			$torrent = new Torrent($db, $user, $log, $movieData, $sweTv, null, null, $subtitles);
+
+			$torrent = new Torrent($db, $user, $log, $movieData, null, null);
 			$torrent->update((int)$params[1], $postdata);
 			httpResponse();
 			break;
 
 		case validateRoute('GET', 'torrents/\d+/multi'):
 			$torrent = new Torrent($db, $user);
-			$subtitles = new Subtitles($db, $user);
 			$requests = new Requests($db, $user);
 			$movieData = new MovieData($db);
-			$sweTv = new SweTv($db);
-			$watchSubtitles = new WatchingSubtitles($db, $user);
+
 
 			$myTorrent = $torrent->get($params[1], true);
 			if ($myTorrent["imdbid"] > 0) {
 				$relatedTorrents = $torrent->getRelated($myTorrent["imdbid"], $myTorrent["id"]);
 				$moviedata = $movieData->getData($myTorrent["imdbid"]);
 			}
-			$subtitles = $subtitles->fetch($myTorrent["id"]);
+
 
 			if ($myTorrent["reqid"] > 0) {
 				$request = $requests->get($myTorrent["reqid"]);
@@ -327,10 +324,9 @@ try {
 				"packContent" => $torrent->getPackFolders($myTorrent["id"]),
 				"movieData" => $moviedata,
 				"relatedTorrents" => $relatedTorrents,
-				"subtitles" => $subtitles,
-				"request" => $request,
-				"watchSubtitles" => $watchSubtitles->getByTorrentId($params[1]),
-				"tvChannel" => $sweTv->getChannel($myTorrent["tv_kanalid"])));
+				"request" => $request
+
+				));
 			break;
 
 		case validateRoute('GET', 'related-torrents/\d+'):
@@ -416,11 +412,10 @@ try {
 		case validateRoute('POST', 'torrents/upload'):
 			$log = new Logs($db);
 			$movieData = new MovieData($db);
-			$sweTv = new SweTv($db);
 			$mailbox = new Mailbox($db, $user);
 			$requests = new Requests($db, $user);
 			$adminlogs = new AdminLogs($db, $user);
-			$torrent = new Torrent($db, $user, $log, $movieData, $sweTv, $requests, $mailbox, null, $adminlogs);
+			$torrent = new Torrent($db, $user, $log, $movieData, $requests, $mailbox, null, $adminlogs);
 			$torrentId = $torrent->upload($_FILES["file"], $_POST);
 			httpResponse($torrentId);
 			break;
@@ -753,25 +748,7 @@ try {
 			httpResponse($watching->getToplist());
 			break;
 
-		case validateRoute('GET', 'watching-subtitles'):
-			$watchSubtitles = new WatchingSubtitles($db, $user);
-			httpResponse($watchSubtitles->query(null));
-			break;
 
-		case validateRoute('GET', 'watching-subtitles/\d+'):
-			$watchSubtitles = new WatchingSubtitles($db, $user);
-			httpResponse($watchSubtitles->get($params[1]));
-			break;
-
-		case validateRoute('POST', 'watching-subtitles'):
-			$watchSubtitles = new WatchingSubtitles($db, $user);
-			httpResponse($watchSubtitles->create($postdata));
-			break;
-
-		case validateRoute('DELETE', 'watching-subtitles/\d+'):
-			$watchSubtitles = new WatchingSubtitles($db, $user);
-			httpResponse($watchSubtitles->delete((int)$params[1]));
-			break;
 
 		case validateRoute('GET', 'users/\d+/forum-posts'):
 			$forum = new Forum($db, $user);
@@ -837,34 +814,7 @@ try {
 			httpResponse($suggestions->delete($params[1]));
 			break;
 
-		case validateRoute('GET', 'sweTvGuide'):
-			$week = (int)$_GET["week"];
-			$cacheId = 'swetvguide-' . $week;
-			if ($memcached && $cached = $memcached->get($cacheId)) {
-				if ($week == 0) {
-					$user->updateLastTorrentViewAccess('last_tvbrowse');
-				}
-				httpResponse($cached);
-			} else {
-				$torrent = new Torrent($db, $user);
-				if ($week > 3) {
-					$week = 4;
-				}
 
-				$array = array();
-				for ($i = 0; $i < 8; ++$i) {
-					$d = time() - (86400*$i) - ($week * 604800);
-					$startDate = strtotime( date("Y-m-d", $d) . ' 00:00');
-					$endDate = strtotime( date("Y-m-d", $d) . ' 23:59');
-					$array[] = $torrents = $torrent->getSweTvGuideTorrents($startDate, $endDate);
-				}
-				$memcached && $memcached->set($cacheId, $array, 60*15);
-				if ($week == 0) {
-					$user->updateLastTorrentViewAccess('last_tvbrowse');
-				}
-				httpResponse($array);
-			}
-			break;
 
 		/* Forum */
 
@@ -1003,21 +953,6 @@ try {
 			httpResponse($data);
 			break;
 
-		case validateRoute('GET', 'swetv/channels'):
-			$swetv = new SweTv($db);
-			httpResponse($swetv->getChannels());
-			break;
-
-		case validateRoute('GET', 'swetv/programs/\d+'):
-			$swetv = new SweTv($db);
-			httpResponse($swetv->getPrograms((int)$params[2]));
-			break;
-
-		case validateRoute('GET', 'swetv/guess'):
-			$swetv = new SweTv($db);
-			list($channel, $program) = $swetv->guessChannelAndProgram($_GET["name"]);
-			httpResponse(array("channel" => $channel, "program" => $program));
-			break;
 
 		case validateRoute('GET', 'logs'):
 			$logs = new Logs($db, $user);
@@ -1102,38 +1037,8 @@ try {
 			httpResponse($bookmarks->delete((int)$params[1]));
 			break;
 
-		case validateRoute('GET', 'subtitles'):
-			$subtitles = new Subtitles($db, $user);
-			httpResponse($subtitles->fetch($_GET["torrentid"]));
-			break;
 
-		case validateRoute('POST', 'subtitles'):
-			$torrent = new Torrent($db, $user);
-			$log = new Logs($db);
-			$mailbox = new Mailbox($db, $user);
-			$subtitles = new Subtitles($db, $user, $log, $torrent, $mailbox);
-			httpResponse($subtitles->upload($_FILES["file"], $_POST));
-			break;
 
-		case validateRoute('DELETE', 'subtitles/\d+'):
-			$log = new Logs($db);
-			$torrent = new Torrent($db, $user);
-			$mailbox = new Mailbox($db, $user);
-			$subtitles = new Subtitles($db, $user, $log, $torrent, $mailbox);
-			httpResponse($subtitles->delete((int)$params[1], $_GET["reason"]));
-			break;
-
-		case validateRoute('GET', 'subtitles/\d+/download'):
-			$subtitles = new Subtitles($db, $user);
-			$subtitles->download((int)$params[1]);
-			die;
-			break;
-
-		case validateRoute('GET', 'torrents/\d+/subtitle'):
-			$subtitles = new Subtitles($db, $user);
-			$subtitles->downloadByTorrentId((int)$params[1]);
-			die;
-			break;
 
 		case validateRoute('GET', 'donations'):
 			$donations = new Donations($db, $user);
@@ -1187,12 +1092,11 @@ try {
 		case validateRoute('GET', 'reports'):
 			$mailbox = new Mailbox($db, $user);
 			$torrent = new Torrent($db, $user);
-			$subtitles = new Subtitles($db, $user);
 			$requests = new Requests($db, $user);
 			$forum = new Forum($db, $user);
 			$log = new Logs($db);
 			$comments = new Comments($db, $user);
-			$reports = new Reports($db, $user, $torrent, $subtitles, $requests, $forum, $mailbox, $comments, $log);
+			$reports = new Reports($db, $user, $torrent, $requests, $forum, $mailbox, $comments, $log);
 			list($result, $totalCount) = $reports->query(array("limit" => $_GET["limit"], "index" => $_GET["index"]));
 			httpResponse($result, $totalCount);
 			break;

@@ -13,10 +13,10 @@
 		this.searchText = $stateParams.search;
 		this.currentPage = $stateParams.page;
 		this.extended = $stateParams.extended === 'true';
-
+		this.swesub = $stateParams.swesub === 'true';
 		this.freeleech = $stateParams.freeleech === 'true';
 		this.stereoscopic = settings.stereoscopic !== undefined ? null : $stateParams.stereoscopic == 'true';
-
+		this.sweaudio = settings.sweaudio !== undefined ? null : $stateParams.sweaudio == 'true';
 
 		/* Settings */
 		this.currentUser = user;
@@ -73,7 +73,7 @@
 				cats: this.checkboxCategories.join(),
 				p2p: this.p2p,
 				section: this.section,
-
+				swesub: this.swesub,
 				freeleech: this.freeleech,
 				stereoscopic: this.stereoscopic
 			}, { notify: false, location: (!this.hasLoadedFirstTime ? 'replace' : true) });
@@ -91,10 +91,10 @@
 				'searchText': this.searchText,
 				'extendedSearch': this.extended === true,
 				'watchview': settings.pageName === 'last_bevakabrowse',
-
+				'swesub': this.swesub,
 				'freeleech': this.freeleech,
-				'stereoscopic': this.stereoscopic
-
+				'stereoscopic': this.stereoscopic,
+				'sweaudio': this.sweaudio
 			}, (torrents, responseHeaders) => {
 				var headers = responseHeaders();
 				this.totalItems = headers['x-total-count'];

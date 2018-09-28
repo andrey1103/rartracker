@@ -695,13 +695,13 @@ class User {
 			return Array(array(), array());
 		}
 
-		$sth = $this->db->prepare('SELECT torrents.id, peers.torrent, peers.added, peers.uploaded, peers.downloaded, torrents.name,reqid,size,category,seeders,leechers,connectable,ip,port,agent,p2p,swesub,pack,3d, imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2 FROM peers LEFT JOIN torrents ON peers.torrent = torrents.id LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE userid = ? AND seeder="yes" ORDER BY torrents.name ASC');
+		$sth = $this->db->prepare('SELECT torrents.id, peers.torrent, peers.added, peers.uploaded, peers.downloaded, torrents.name,reqid,size,category,seeders,leechers,connectable,ip,port,agent,p2p,pack,3d, imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2 FROM peers LEFT JOIN torrents ON peers.torrent = torrents.id LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE userid = ? AND seeder="yes" ORDER BY torrents.name ASC');
 		$sth->bindParam(1, $userId, PDO::PARAM_INT);
 		$sth->execute();
 
 		$seeding = $sth->fetchAll(PDO::FETCH_ASSOC);
 
-		$sth = $this->db->prepare('SELECT torrents.id, peers.torrent, peers.added, peers.uploaded, peers.downloaded, torrents.name,size,reqid,category,seeders,leechers,connectable,ip,port,agent,p2p,swesub,pack,3d, imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2 FROM peers LEFT JOIN torrents ON peers.torrent = torrents.id LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE userid = ? AND seeder="no" ORDER BY torrents.name ASC');
+		$sth = $this->db->prepare('SELECT torrents.id, peers.torrent, peers.added, peers.uploaded, peers.downloaded, torrents.name,size,reqid,category,seeders,leechers,connectable,ip,port,agent,p2p,pack,3d, imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2 FROM peers LEFT JOIN torrents ON peers.torrent = torrents.id LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE userid = ? AND seeder="no" ORDER BY torrents.name ASC');
 		$sth->bindParam(1, $userId, PDO::PARAM_INT);
 		$sth->execute();
 
@@ -1162,7 +1162,7 @@ class User {
 	}
 
 	public function getAmountUnreadWatch() {
-		$sth = $this->db->query("SELECT COUNT(*) FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND bevaka.swesub = 0) OR (torrents.category NOT IN(1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND UNIX_TIMESTAMP(torrents.added) > " . $this->getLastWatch() ." AND bevaka.userid = " . $this->getId());
+		$sth = $this->db->query("SELECT COUNT(*) FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR (torrents.category NOT IN(1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND UNIX_TIMESTAMP(torrents.added) > " . $this->getLastWatch() ." AND bevaka.userid = " . $this->getId());
 		$res = $sth->fetch();
 		return $res[0];
 	}
@@ -1403,7 +1403,7 @@ class User {
 		if ($this->getClass() < User::CLASS_ADMIN) {
 			throw new Exception(L::get("PERMISSION_DENIED"), 401);
 		}
-		$sth = $this->db->query('SELECT snatch.*, snatch.id AS snatchId, torrents.id, torrents.p2p, torrents.pack, torrents.3d, torrents.swesub, torrents.category, torrents.frileech, torrents.name, imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2 FROM snatch LEFT JOIN torrents ON snatch.torrentid = torrents.id LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id  WHERE snatch.userid = '.$userId.' ORDER BY snatch.id DESC');
+		$sth = $this->db->query('SELECT snatch.*, snatch.id AS snatchId, torrents.id, torrents.p2p, torrents.pack, torrents.3d, torrents.category, torrents.frileech, torrents.name, imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2 FROM snatch LEFT JOIN torrents ON snatch.torrentid = torrents.id LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id  WHERE snatch.userid = '.$userId.' ORDER BY snatch.id DESC');
 
 		$result = array();
 		while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
@@ -1429,7 +1429,6 @@ class User {
 				"p2p" => $row["p2p"],
 				"pack" => $row["pack"],
 				"3d" => $row["3d"],
-				"swesub" => $row["swesub"],
 				"frileech" => $row["frileech"],
 				"genres" => $row["genres"],
 				"photo" => $row["photo"],

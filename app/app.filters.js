@@ -220,7 +220,6 @@
 					case 'request':		return $translate.instant('REQUESTS.TITLE_SINGLE');
 					case 'pm':			return $translate.instant('MAILBOX.MESSAGE');
 					case 'comment':		return $translate.instant('REQUESTS.COMMENT');
-					case 'subtitle':	return $translate.instant('TORRENTS.SWE_SUBTITLES');
 					case 'user':		return $translate.instant('TORRENTS.USER');
 				}
 			};

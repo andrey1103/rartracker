@@ -25,7 +25,6 @@
 				case 'request':		title = $translate.instant('GENERAL.REPORT_REQUEST');		break;
 				case 'pm':			title = $translate.instant('GENERAL.REPORT_MESSAGE');		break;
 				case 'comment':		title = $translate.instant('GENERAL.REPORT_COMMENT');		break;
-				case 'subtitle':	title = $translate.instant('GENERAL.REPORT_SUBTITLE');		break;
 				case 'user':		title = $translate.instant('GENERAL.REPORT_USER');			break;
 			}
 			var modal = $uibModal.open({

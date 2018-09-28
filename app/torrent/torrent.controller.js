@@ -5,7 +5,7 @@
 		.module('app.shared')
 		.controller('TorrentController', TorrentController);
 
-	function TorrentController($scope, $state, $timeout, $translate, $stateParams, user, DeleteDialog, ConfirmDialog, SubtitlesResource, WatchingSubtitlesResource, uploadService, ErrorDialog, TorrentsResource, ReseedRequestsResource, $anchorScroll, $location) {
+	function TorrentController($scope, $state, $timeout, $translate, $stateParams, user, DeleteDialog, ConfirmDialog, uploadService, ErrorDialog, TorrentsResource, ReseedRequestsResource, $anchorScroll, $location) {
 
 		this.torrentId = $stateParams.id;
 		this.currentUser = user;
@@ -25,10 +25,7 @@
 			this.movieData = torrent.movieData;
 			this.relatedTorrents = torrent.relatedTorrents;
 			this.packContent = torrent.packContent;
-			this.tvChannel = torrent.tvChannel;
-			this.subtitles = torrent.subtitles;
 			this.request = torrent.request;
-			this.watchingSubtitle = torrent.watchSubtitles;
 			if ($stateParams.scrollTo == 'seeders') {
 				this.togglePeers('seeders');
 			} else if ($stateParams.scrollTo == 'leechers') {
@@ -135,12 +132,6 @@
 			});
 		};
 
-		this.addSubtitleWatch = function () {
-			WatchingSubtitlesResource.save({torrentid: this.torrent.id}).$promise
-				.then(() => {
-					this.watchingSubtitle = true;
-				});
-		};
 
 		this.gotoPostAnchor = function (x) {
 			this.gotoAnchor('post' + x);
@@ -178,15 +169,7 @@
 			});
 		};
 
-		this.deleteSubtitle = function (subtitle){
-			DeleteDialog($translate.instant('SUBTITLES.DELETE_TOPIC'), $translate.instant('SUBTITLES.DELETE_BODY'), true)
-				.then((reason) => {
-					SubtitlesResource.delete({id: subtitle.id, reason: reason}, () => {
-						var index = this.subtitles.indexOf(subtitle);
-						this.subtitles.splice(index, 1);
-					});
-				});
-		};
+
 
 		this.deleteComment = function (comment){
 			DeleteDialog($translate.instant('COMMENTS.DELETE_TOPIC'), $translate.instant('COMMENTS.DELETE_BODY'), true)
@@ -213,31 +196,8 @@
 				});
 		};
 
-		this.subtitleFileChanged = function () {
- 			if (this.subFile.size > 2097152) {
- 				ErrorDialog.display($translate.instant('TORRENTS.SUBTITLE_FILE_TOO_LARGE'));
- 				return;
- 			}
 
- 			var params = {
-				url: '/api/v1/subtitles',
-				data: {
-					torrentid:	this.torrent.id,
-					quality: 	this.subtitleQuality,
-					file:			this.subFile,
-				}
-			};
 
-			uploadService.uploadFile(params)
-				.then(() => {
-					this.showSubtitleUpload = !this.showSubtitleUpload;
-					SubtitlesResource.query({torrentid: this.torrent.id}, (subtitles) => {
-						this.subtitles = subtitles;
-					});
-				}, (error) => {
-					ErrorDialog.display(error);
-				});
-	 	};
 
 	 	this.multiDelete = function () {
 	 		this.deletingPackFiles = true;

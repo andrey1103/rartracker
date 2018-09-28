@@ -33,14 +33,11 @@
 		MOVIE_4K:			{id: 4, text: 'Movies/4K'},		
 		MOVIE_720P:			{id: 5, text: 'Movies/720p'},
 		MOVIE_1080P:			{id: 6, text: 'Movies/1080p'},
-
 		TV_720P: 			{id: 8, text: 'Tv/720p'},
 		TV_1080P:			{id: 9, text: 'Tv/1080p'},
         	XVID_TV:			{id: 10, text: 'Tv/XVID'},
-		DVDR_TV:			{id: 11, text: 'Tv/DVDR'},		
-
+		DVDR_TV:			{id: 11, text: 'Tv/DVDR'},
 		MUSIC:				{id: 12, text: 'Music'},
-
 		UNKNOWN:			{id: 17, text: 'Unknown'},
 		APPS_0DAY:			{id: 18, text: 'Apps/0DAY'},
 		PC_GAMES:			{id: 19, text: 'Games/PC'},

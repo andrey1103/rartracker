@@ -22,7 +22,6 @@ class Watching {
 
 		$fixed = array();
 		while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-			$row["swesub"] = $row["swesub"] == 1;
 			if ($row["typ"] == 0) {
 				$formatsArray = explode(",", $row["format"]);
 				$row["formats"] = array(
@@ -56,7 +55,6 @@ class Watching {
 			throw new Exception(L::get("WATCHER_CONFLICT"), 409);
 		}
 
-		$swesub = $post["swesub"] == 1 ? 1 : 0;
 
 		$formats = array();
 		if ($post["typ"] == 0) {
@@ -74,12 +72,11 @@ class Watching {
 		}
 		$formats = implode(",", $formats);
 
-		$sth = $this->db->prepare('INSERT INTO bevaka (userid, imdbid, typ, format, swesub, datum) VALUES(?, ?, ?, ?, ?, NOW())');
+		$sth = $this->db->prepare('INSERT INTO bevaka (userid, imdbid, typ, format, datum) VALUES(?, ?, ?, ?, ?, NOW())');
 		$sth->bindValue(1,	$this->user->getId(),	PDO::PARAM_INT);
 		$sth->bindParam(2,	$post["imdbinfoid"],	PDO::PARAM_INT);
 		$sth->bindParam(3,	$post["typ"],			PDO::PARAM_INT);
 		$sth->bindParam(4,	$formats,				PDO::PARAM_INT);
-		$sth->bindParam(5,	$swesub,				PDO::PARAM_INT);
 		$sth->execute();
 	}
 
@@ -91,7 +88,6 @@ class Watching {
 			throw new Exception(L::get("PERMISSION_DENIED"), 401);
 		}
 
-		$swesub = $post["swesub"] == 1 ? 1 : 0;
 
 		$formats = array();
 		if ($post["typ"] == 0) {
@@ -109,11 +105,10 @@ class Watching {
 		}
 		$formats = implode(",", $formats);
 
-		$sth = $this->db->prepare('UPDATE bevaka SET swesub = ?, format = ? WHERE id = ? AND userid = ?');
-		$sth->bindParam(1,	$swesub,	PDO::PARAM_INT);
-		$sth->bindParam(2,	$formats,	PDO::PARAM_STR);
-		$sth->bindParam(3,	$watchId,	PDO::PARAM_INT);
-		$sth->bindParam(4,	$userId,	PDO::PARAM_INT);
+		$sth = $this->db->prepare('UPDATE bevaka SET format = ? WHERE id = ? AND userid = ?');
+		$sth->bindParam(1,	$formats,	PDO::PARAM_STR);
+		$sth->bindParam(2,	$watchId,	PDO::PARAM_INT);
+		$sth->bindParam(3,	$userId,	PDO::PARAM_INT);
 		$sth->execute();
 	}
 
@@ -194,7 +189,7 @@ class Watching {
 		"<image><title>" . $SITENAME . "</title>\n<url>" . $BASEURL . "/favicon.ico</url>\n<link>" . $BASEURL . "</link>\n" .
 		"<width>16</width>\n<height>16</height>\n<description>" . $DESCR . "</description>\n</image>\n");
 
-		$res = $this->db->query("SELECT torrents.id, torrents.name, torrents.size, torrents.seeders, torrents.leechers, torrents.added FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND bevaka.swesub = 1 AND torrents.swesub = 1) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND bevaka.swesub = 0) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $user[0] . $where . " ORDER BY torrents.id DESC LIMIT 25") or sqlerr(__FILE__, __LINE__);
+		$res = $this->db->query("SELECT torrents.id, torrents.name, torrents.size, torrents.seeders, torrents.leechers, torrents.added FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $user[0] . $where . " ORDER BY torrents.id DESC LIMIT 25") or sqlerr(__FILE__, __LINE__);
 
 		while ($row = $res->fetch()){
 

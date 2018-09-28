@@ -5,18 +5,13 @@
 		.module('app.shared')
 		.controller('EditTorrentController', EditTorrentController);
 
-	function EditTorrentController($state, $stateParams, $translate, DateService, ErrorDialog, SweTvResource, user, MovieDataResource, categories, TorrentsResource, uploadService) {
+	function EditTorrentController($state, $stateParams, $translate, DateService, ErrorDialog, user, MovieDataResource, categories, TorrentsResource, uploadService) {
 
 		this.currentUser = user;
-		this.tvChannels = SweTvResource.Channels.query();
-		this.tvDates = uploadService.getSweTvDates();
 		this.categories = categories;
 
 		TorrentsResource.Torrents.get({id: $stateParams.id}, (torrent) => {
 			this.torrent = torrent;
-			if (this.torrent.tv_kanalid > 0) {
-				this.updatePrograms();
-			}
 			if (this.torrent.imdbid) {
 				TorrentsResource.Related.query({id: this.torrent.imdbid}, (torrents) => {
 					torrents = torrents.filter(torrent => torrent.id !== this.torrent.id);
@@ -76,21 +71,7 @@
 			this.torrent.imdbInfo = '';
 		};
 
-		this.updatePrograms = function () {
-	 		this.tvPrograms = null;
-			SweTvResource.Programs.query({id: this.torrent.tv_kanalid }).$promise
-				.then((programs) => {
-					programs = Array.prototype.slice.call(programs);
-					programs = uploadService.generateProgramSelectList(programs);
-					if (!programs.some(p => p.id == this.torrent.tv_programid)) {
-						programs.unshift({
-							id: 2,
-							program: DateService.getHI(this.torrent.tv_klockslag) + ' - ' + this.torrent.tv_program,
-						});
-					}
-					this.tvPrograms = programs;
-				});
-	 	};
+
 
 	}
 

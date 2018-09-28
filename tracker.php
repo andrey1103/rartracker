@@ -1,4 +1,8 @@
 <?php
+
+$event = "";
+$setting = "";
+
 if ($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443) {
 	die();
 }
@@ -28,7 +32,7 @@ try {
 	err('Database error (' .$e->getMessage() .')');
 }
 $setting['time_me']                 = false; // calculate execution times (requires log_debug)
-$setting['log_debug']               = true; // log debugging information using debuglog()
+$setting['log_debug']               = false; // log debugging information using debuglog()
 $setting['log_errors']              = true; // log all errors sent using err()
 $setting['timestamp_format']        = '[d/m/y H:i:s] ';
 $setting['log_file']                = '/home/www/rartor/rartracker/debug.txt';
@@ -45,6 +49,7 @@ $setting['register_stats']          = true; // save transfer statistics for the 
 $setting['upload_multiplier']       = 1;
 $setting['download_multiplier']     = 1;
 $setting['passkey_length']          = 32;
+
 function debuglog($str) {
 	if ($setting['log_debug']) {
 		file_put_contents('trackerdebug.txt', date('[H:i:s]') . ' ' . $str . ' URL: ' . $_SERVER['REQUEST_URI'] . "\n", FILE_APPEND);
@@ -97,6 +102,9 @@ if (strpos($keys[3], 'announce') !== false) { // jump into appropriate section f
 			err('Invalid opt key: ' . $var . '.');
 		}
 	}
+
+
+
 	if (isset($_GET['event'])) {
 		if (ctype_alpha($_GET['event']) === false) {
 			// event was sent, but it contains invalid information
@@ -368,6 +376,7 @@ if (strpos($keys[3], 'announce') !== false) { // jump into appropriate section f
 		}
 		// $finishedat =
 		$finishedAt = "";
+              
 		if ($event == 'completed' && $seeder == 'yes' && $seeder_db == 'no') {
 			$finishedAt = ", finishedat = UNIX_TIMESTAMP(NOW())";
 		}
@@ -434,7 +443,9 @@ function give_peers()
 	$resp = 'd8:intervali' . $setting['announce_interval'] . 'e12:min intervali' . intval(900) . 'e5:peers';
 	if ($_GET['compact'] == 1) { // compact mode - we like (gzip not gaining anything - don't use)e
 		while ($peer = $sth->fetch(PDO::FETCH_ASSOC)) {
-			$clients .= $peer['compact'];
+		$clients = "";
+	
+              $clients .= $peer['compact'];
 		}
 		echo $resp . strlen($clients) . ':' . $clients . 'ee';
 		if ($setting['log_debug']) {
