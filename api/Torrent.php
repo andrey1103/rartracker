@@ -119,7 +119,7 @@ class Torrent {
 
 
 
-			$sth = $this->db->prepare("SELECT imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2, torrents.* FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = ? " . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : '') ." ORDER BY ".$sortColumn." ".$order." LIMIT ?, ?");
+			$sth = $this->db->prepare("SELECT imdbinfo.cast, imdbinfo.tagline, imdbinfo.year, imdbinfo.title, imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2, torrents.* FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = ? " . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : '') ." ORDER BY ".$sortColumn." ".$order." LIMIT ?, ?");
 			$sth->bindValue(1, $this->user->getId(), PDO::PARAM_INT);
 			$sth->bindParam(2, $index, PDO::PARAM_INT);
 			$sth->bindParam(3, $limit, PDO::PARAM_INT);
@@ -131,7 +131,7 @@ class Torrent {
 			$arr = $sth->fetch();
 			$totalCount = $arr[0];
 
-			$sth = $this->db->prepare('SELECT imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2, '.implode(self::$torrentFieldsUser, ', ').' FROM torrents LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id  ' . (count($where) > 0 ? ' WHERE '.implode($where, ' AND ' ) : '') .' ORDER BY '.$sortColumn.' '.$order.' LIMIT ?, ?');
+			$sth = $this->db->prepare('SELECT imdbinfo.cast, imdbinfo.tagline, imdbinfo.year, imdbinfo.title, imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2, '.implode(self::$torrentFieldsUser, ', ').' FROM torrents LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id  ' . (count($where) > 0 ? ' WHERE '.implode($where, ' AND ' ) : '') .' ORDER BY '.$sortColumn.' '.$order.' LIMIT ?, ?');
 			$sth->bindParam(1, $index, PDO::PARAM_INT);
 			$sth->bindParam(2, $limit, PDO::PARAM_INT);
 			$sth->execute();
@@ -431,7 +431,7 @@ class Torrent {
 			$this->db->query("DELETE FROM $x WHERE torrent = $id");
 		}
 
-		foreach (explode(", ","bevakasubs, snatch, bookmarks") as $x) {
+		foreach (explode(", ","snatch, bookmarks") as $x) {
 			$this->db->query("DELETE FROM $x WHERE torrentid = $id");
 		}
 
@@ -906,27 +906,27 @@ class Torrent {
 		$searchText = Helper::searchfield("$name $imdbInfo[genres] $imdbInfo[imdbid] " . implode(" ", $packFolders));
 		$searchText2 = Helper::searchfield("$imdbInfo[director] $imdbInfo[writer] $imdbInfo[cast]");
 
-		$sth = $this->db->prepare("INSERT INTO torrents (name, filename, search_text, search_text2, owner, visible, info_hash, size, numfiles, type, ano_owner, descr, category, added, last_action,  frileech, imdbid, reqid, section, pre, p2p, 3d, pack) VALUES (:name, :filename, :searchText, :searchText2, :owner, 'no', :infoHash, :size, :numfiles, :type, :anoymous, :descr, :category, NOW(), NOW(), :freeLeech, :imdbid, :reqid, :section, :pre, :p2p, :3d, :pack)");
+		$sth = $this->db->prepare("INSERT INTO torrents (name, filename, search_text, search_text2, owner, info_hash, size, numfiles, type, ano_owner, descr, category, added, last_action,  frileech, imdbid, reqid, section, pre, p2p, 3d, pack) VALUES (:name, :filename, :searchText, :searchText2, :owner, :infoHash, :size, :numfiles, :type, :anoymous, :descr, :category, NOW(), NOW(), :freeLeech, :imdbid, :reqid, :section, :pre, :p2p, :3d, :pack)");
 
-		$sth->bindParam(":name",			$name, 					PDO::PARAM_STR);
-		$sth->bindParam(":filename",		$fname,					PDO::PARAM_STR);
-		$sth->bindParam(":searchText",		$searchText,			PDO::PARAM_STR);
-		$sth->bindParam(":searchText2",		$searchText2,			PDO::PARAM_STR);
-		$sth->bindValue(":owner",			$this->user->getId(),	PDO::PARAM_INT);
+		$sth->bindParam(":name",			$name, 				PDO::PARAM_STR);
+		$sth->bindParam(":filename",		$fname,				PDO::PARAM_STR);
+		$sth->bindParam(":searchText",		$searchText,				PDO::PARAM_STR);
+		$sth->bindParam(":searchText2",		$searchText2,				PDO::PARAM_STR);
+		$sth->bindValue(":owner",			$this->user->getId(),		PDO::PARAM_INT);
 		$sth->bindParam(":infoHash",		$infohash,				PDO::PARAM_STR);
 		$sth->bindParam(":size",			$totallen,				PDO::PARAM_INT);
-		$sth->bindValue(":numfiles",		count($filelist),		PDO::PARAM_INT);
+		$sth->bindValue(":numfiles",		count($filelist),			PDO::PARAM_INT);
 		$sth->bindParam(":type",			$type,					PDO::PARAM_STR);
-		$sth->bindParam(":anoymous",		$anonymousUpload,		PDO::PARAM_INT);
+		$sth->bindParam(":anoymous",		$anonymousUpload,			PDO::PARAM_INT);
 		$sth->bindParam(":descr",			$nfo,					PDO::PARAM_STR);
 		$sth->bindParam(":category",		$category,				PDO::PARAM_INT);
 		$sth->bindParam(":freeLeech",		$freeleech,				PDO::PARAM_INT);
 		$sth->bindParam(":imdbid",			$imdbId,				PDO::PARAM_INT);
-		$sth->bindParam(":reqid",			$reqid,					PDO::PARAM_INT);
+		$sth->bindParam(":reqid",			$reqid,				PDO::PARAM_INT);
 		$sth->bindParam(":section",			$section,				PDO::PARAM_STR);
-		$sth->bindParam(":pre",				$pre,					PDO::PARAM_INT);
-		$sth->bindParam(":p2p",				$p2p,					PDO::PARAM_INT);
-		$sth->bindParam(":3d",				$stereoscopic,			PDO::PARAM_INT);
+		$sth->bindParam(":pre",			$pre,					PDO::PARAM_INT);
+		$sth->bindParam(":p2p",			$p2p,					PDO::PARAM_INT);
+		$sth->bindParam(":3d",			$stereoscopic,			PDO::PARAM_INT);
 		$sth->bindParam(":pack",			$pack,					PDO::PARAM_INT);
 
 		$sth->execute();
