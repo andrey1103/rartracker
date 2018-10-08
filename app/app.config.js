@@ -12,7 +12,6 @@
 
 	var languageSupport = [
 		{ id: 'en', name: 'English' },
-		{ id: 'sv', name: 'Swedish' },
 	];
 
 	var userClasses = {

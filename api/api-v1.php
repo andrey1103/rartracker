@@ -105,12 +105,6 @@ try {
 			httpResponse();
 			break;
 
-		case validateRoute('GET', 'fetch-tvdata'):
-			$tvData = new TvData($db);
-			$tvData->run($_GET);
-			httpResponse();
-			break;
-
 		case validateRoute('GET', 'fetch-moviedata'):
 			$movieData = new MovieData($db);
 			$movieData->updateImdbToplist();
@@ -543,9 +537,9 @@ try {
 			httpResponse($movieData->updateImdbInfo($params[1]));
 			break;
 
-		case validateRoute('PATCH', 'moviedata/\d+/youtube'):
+		case validateRoute('PATCH', 'moviedata/\d+/mov'):
 			$movieData = new MovieData($db, $user);
-			httpResponse($movieData->updateYoutube($params[1], $postdata["youtube_id"]));
+			httpResponse($movieData->updateTrailer($params[1], $postdata["trailer_id"]));
 			break;
 
 		case validateRoute('GET', 'moviedata/search'):
@@ -721,9 +715,12 @@ try {
 		case validateRoute('GET', 'users/\d+/watching/imdb/\d+'):
 			$watching = new Watching($db, $user);
 			$watch = $watching->query($params[1], $params[4]);
+
+
 			if (is_array($watch) && $watch[0]) {
 				httpResponse($watch[0]);
 			} else {
+//print_r($watch[0]);
 				httpResponseError(404);
 			}
 			break;

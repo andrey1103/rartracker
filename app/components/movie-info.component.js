@@ -25,34 +25,33 @@
 
 		this.currentUser = authService.getUser();
 
-		this.saveYoutubeTrailer = function () {
-			let youtubeId = this.getYoutubeIdFromUrl(this.youtubeUrl);
-			if (!youtubeId) {
+		this.saveMovTrailer = function () {
+			let movId = this.getMovIdFromUrl(this.movUrl);
+			if (!movId) {
 				return;
 			}
 
-			MovieDataResource.Youtube.update({id: this.movieData.id, trailer: youtubeId}).$promise
+		MovieDataResource.Mov.update({id: this.movieData.id, trailer_id: movId}).$promise
 				.then(() => {
-					this.movieData.trailer = youtubeId;
+					this.movieData.mov_id = movId;
 					this.showTrailerUpload = false;
 				});
 		};
 
 		this.removeTrailer = function () {
-			MovieDataResource.Youtube.update({id: this.movieData.id, trailer: ''}).$promise
+			MovieDataResource.Mov.update({id: this.movieData.id, trailer_id: ''}).$promise
 				.then(() => {
-					this.movieData.trailer = '';
+					this.movieData.trailer_id = '';
 					this.showTrailer = false;
 				});
 		};
 
 		this.getIFrameSrc = function () {
-			return $sce.trustAsResourceUrl('https://www.imdb.com/videoembed/' + this.movieData.trailer);
+			return $sce.trustAsResourceUrl('https://www.imdb.com/videoembed/' + this.movieData.trailer_id);
 		};
 
 
-
-		this.getYoutubeIdFromUrl = function (url) {
+		this.getMovIdFromUrl = function (url) {
 			var regExp = /^.*(vi.*)/;
 			var match = url.match(regExp);
 			return (match && match[1].length==12) ? match[1] : false;

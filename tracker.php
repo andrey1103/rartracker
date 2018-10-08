@@ -1,7 +1,7 @@
 <?php
 
-$event = "";
-$setting = "";
+ini_set('display_errors', 0);
+
 
 if ($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443) {
 	die();
@@ -31,6 +31,7 @@ try {
 } catch (PDOException $e) {
 	err('Database error (' .$e->getMessage() .')');
 }
+
 $setting['time_me']                 = false; // calculate execution times (requires log_debug)
 $setting['log_debug']               = false; // log debugging information using debuglog()
 $setting['log_errors']              = true; // log all errors sent using err()
@@ -443,8 +444,7 @@ function give_peers()
 	$resp = 'd8:intervali' . $setting['announce_interval'] . 'e12:min intervali' . intval(900) . 'e5:peers';
 	if ($_GET['compact'] == 1) { // compact mode - we like (gzip not gaining anything - don't use)e
 		while ($peer = $sth->fetch(PDO::FETCH_ASSOC)) {
-		$clients = "";
-	
+
               $clients .= $peer['compact'];
 		}
 		echo $resp . strlen($clients) . ':' . $clients . 'ee';
@@ -515,32 +515,49 @@ function err($txt, $err = '')
 	}
 	die();
 }
-function getip()
-{
-if (isset($_SERVER)) {
-if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-} elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
-$ip = $_SERVER['HTTP_CLIENT_IP'];
-} else {
-$ip = $_SERVER['REMOTE_ADDR'];
-}
-} else {
-if (getenv('HTTP_X_FORWARDED_FOR')) {
-$ip = getenv('HTTP_X_FORWARDED_FOR');
-} elseif (getenv('HTTP_CLIENT_IP')) {
-$ip = getenv('HTTP_CLIENT_IP');
-} else {
-$ip = getenv('REMOTE_ADDR');
-}
-}
-if (strstr($ip, ', ')) {
-    $ips = explode(', ', $ip);
-    $ip = $ips[0];
-}
 
-return $ip;
-}
+
+function getip()
+	{
+	if (isset($_SERVER))
+		{
+		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+			{
+			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			}
+		elseif (isset($_SERVER['HTTP_CLIENT_IP']))
+			{
+			$ip = $_SERVER['HTTP_CLIENT_IP'];
+			}
+		  else
+			{
+			$ip = $_SERVER['REMOTE_ADDR'];
+			}
+		}
+	  else
+		{
+		if (getenv('HTTP_X_FORWARDED_FOR'))
+			{
+			$ip = getenv('HTTP_X_FORWARDED_FOR');
+			}
+		elseif (getenv('HTTP_CLIENT_IP'))
+			{
+			$ip = getenv('HTTP_CLIENT_IP');
+			}
+		  else
+			{
+			$ip = getenv('REMOTE_ADDR');
+			}
+		}
+
+	if (strstr($ip, ', '))
+		{
+		$ips = explode(', ', $ip);
+		$ip = $ips[0];
+		}
+
+	return $ip;
+	}
 
 
 

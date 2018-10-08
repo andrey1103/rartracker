@@ -18,7 +18,7 @@
 
 <br />
 <div ng-if="vm.movieData.cast"> 
-<b translate="MOVIE.ACTORS"></b><br /> <span ng-show="vm.movieData.cast" class="label label-default" ng-repeat-start="cast in vm.movieData.cast | split">{{cast}}</span> <span ng-repeat-end=""></span> 
+<b translate="MOVIE.CAST"></b><br /> <span ng-show="vm.movieData.cast" class="label label-default" ng-repeat-start="cast in vm.movieData.cast | split">{{cast}}</span> <span ng-repeat-end=""></span> 
 </div>
 
 <br />
@@ -44,7 +44,7 @@
 </tr>
 </tbody>
 </table>
-<div ng-if="vm.trailer == 'true' && vm.movieData.trailer" style="margin-top: 10px;">
+<div ng-if="vm.trailer == 'true' && vm.movieData.trailer_id" style="margin-top: 10px;">
 	<div class="videowrapper" ng-if="vm.showTrailer" style="margin-bottom: 10px;">
 		<iframe ng-src="{{ vm.getIFrameSrc() }}" width="720" height="400" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" frameborder="no" scrolling="no"></iframe>
 
@@ -55,12 +55,12 @@
 	<button class="btn btn-default" ng-if="vm.currentUser.class >= 8" ng-click="vm.removeTrailer()"><i class="fa fa-trash" aria-hidden="true"></i></button>
 	<br />
 </div>
-<div ng-if="vm.trailer == 'true' && vm.currentUser.class >= 3 && !vm.movieData.trailer">
+<div ng-if="vm.trailer == 'true' && vm.currentUser.class >= 3 && !vm.movieData.trailer_id">
 	<button class="btn btn-default btn-xs" ng-click="vm.showTrailerUpload = !vm.showTrailerUpload"><i class="fa fa-plus" aria-hidden="true"></i> {{ 'MOVIE.ADD_TRAILER' | translate }}</button>
 </div>
 <div ng-if="vm.showTrailerUpload">
 	<div class="input-group" style="margin:auto;width: 500px;">
-		<span class="input-group-addon" id="basic-addon2" translate="IMDB_URL"></span>
-		<input type="text" class="form-control" ng-model="vm.youtubeUrl" ng-change="vm.saveYoutubeTrailer()" placeholder="https://www.imdb.com/videoembed/XXXXXXXXXXXX" />
+		<span class="input-group-addon" id="basic-addon2" translate="MOVIE.IMDBTRAILER_URL"></span>
+		<input type="text" class="form-control" ng-model="vm.movUrl" ng-change="vm.saveMovTrailer()" placeholder="https://www.imdb.com/videoembed/XXXXXXXXXXXX" />
 	</div>
 </div>

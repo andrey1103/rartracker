@@ -227,7 +227,6 @@
 		"TYPE":							"Type",
 		"DATA":							"Data",
 		"SECTION":						"Section",
-		"IMDB_URL":						"IMDB url",
 		"REMOVE_IMDB":					"Remove IMDB",
 		"CATEGORY":						"Category",
 		"TV_CHANNEL":					"TV channel",
@@ -807,31 +806,31 @@
 		"WRITE_POST":					"Write post..."
 	},
 	"DONATE": {
-		"DONATIONS":					"Donations",
+		"DONATIONS":						"Donations",
 		"HEADER":						"Information about donation",
-		"I_HAVE_DONATED":				"I have donated",
+		"I_HAVE_DONATED":					"I have donated",
 		"SUM":							"Donated amount",
 		"GOLDSTAR":						"Goldstar",
 		"MESSAGE":						"Message (optional)",
-		"SEND":							"Send",
-		"EDIT":							"Edit donation from",
+		"SEND":						"Send",
+		"EDIT":						"Edit donation from",
 		"DELETE":						"Deleate donation",
-		"DELETE_CONFIRM":				"Are you sure you want to delete the donation?",
+		"DELETE_CONFIRM":					"Are you sure you want to delete the donation?",
 		"ACTION":						"Action",
-		"CONFIRMED":					"Confirmed",
+		"CONFIRMED":						"Confirmed",
 		"METHOD":						"Method"
 	},
 	"MOVIE": {
 		"GENRES":						"Genres",
-		"ACTORS":						"Actors",
+		"CAST":						"Cast",
               "TAGLINE":						"Tagline",
               "DIRECTORS":						"Directors",
               "WRITERS":						"Writers",
 		"RELOAD_DATA":					"Reload IMDB data",
-		"RELOADING":					"Reloading data... wait...",
+		"RELOADING":						"Reloading data... wait...",
 		"SHOW_TRAILER":					"Show trailer",
 		"HIDE_TRAILER":					"Hide trailer",
 		"ADD_TRAILER":					"Add IMDB Trailer",
-              "IMDB_URL":					"IMDB Video url"
+              "IMDBTRAILER_URL":					"IMDB Video url"
 	}
 }

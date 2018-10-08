@@ -74,9 +74,9 @@ class Watching {
 
 		$sth = $this->db->prepare('INSERT INTO bevaka (userid, imdbid, typ, format, datum) VALUES(?, ?, ?, ?, ?, NOW())');
 		$sth->bindValue(1,	$this->user->getId(),	PDO::PARAM_INT);
-		$sth->bindParam(2,	$post["imdbinfoid"],	PDO::PARAM_INT);
+		$sth->bindParam(2,	$post["imdbinfoid"],		PDO::PARAM_INT);
 		$sth->bindParam(3,	$post["typ"],			PDO::PARAM_INT);
-		$sth->bindParam(4,	$formats,				PDO::PARAM_INT);
+		$sth->bindParam(4,	$formats,			PDO::PARAM_INT);
 		$sth->execute();
 	}
 
@@ -189,7 +189,8 @@ class Watching {
 		"<image><title>" . $SITENAME . "</title>\n<url>" . $BASEURL . "/favicon.ico</url>\n<link>" . $BASEURL . "</link>\n" .
 		"<width>16</width>\n<height>16</height>\n<description>" . $DESCR . "</description>\n</image>\n");
 
-		$res = $this->db->query("SELECT torrents.id, torrents.name, torrents.size, torrents.seeders, torrents.leechers, torrents.added FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $user[0] . $where . " ORDER BY torrents.id DESC LIMIT 25") or sqlerr(__FILE__, __LINE__);
+		//$res = $this->db->query("SELECT torrents.id, torrents.name, torrents.size, torrents.seeders, torrents.leechers, torrents.added FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $user[0] . $where . " ORDER BY torrents.id DESC LIMIT 25") or sqlerr(__FILE__, __LINE__);
+		$res = $this->db->query("SELECT torrents.id, torrents.name, torrents.size, torrents.seeders, torrents.leechers, torrents.added FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $user[0] . $where . " ORDER BY torrents.id DESC LIMIT 25") or sqlerr(__FILE__, __LINE__);
 
 		while ($row = $res->fetch()){
 

@@ -32,20 +32,10 @@ CREATE TABLE IF NOT EXISTS `bevaka` (
   `imdbid` int(11) NOT NULL,
   `typ` tinyint(4) NOT NULL,
   `format` varchar(10) NOT NULL,
-  `swesub` tinyint(4) NOT NULL,
   `datum` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `userid` (`userid`,`imdbid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
-
-CREATE TABLE IF NOT EXISTS `bevakasubs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userid` int(11) NOT NULL,
-  `torrentid` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `userid` (`userid`,`torrentid`),
-  KEY `torrentid` (`torrentid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 
 CREATE TABLE IF NOT EXISTS `blocks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -232,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `imdbinfo` (
   `trailer` varchar(300) CHARACTER SET utf8 NOT NULL,
   `releaseNameStart` varchar(100) CHARACTER SET utf8 NOT NULL,
   `lastUpdated` datetime NOT NULL,
-  `youtube_id` varchar(15) CHARACTER SET utf8 NOT NULL,
+  `trailer_id` varchar(15) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `imdbid` (`imdbid`),
   KEY `releaseNameStart` (`releaseNameStart`),
@@ -635,6 +625,14 @@ CREATE TABLE IF NOT EXISTS `statistics` (
   `cat10torrents` int(11) NOT NULL,
   `cat11torrents` int(11) NOT NULL,
   `cat12torrents` int(11) NOT NULL,
+`cat13torrents` int(11) NOT NULL,
+`cat14torrents` int(11) NOT NULL,
+`cat15torrents` int(11) NOT NULL,
+`cat16torrents` int(11) NOT NULL,
+`cat17torrents` int(11) NOT NULL,
+`cat18torrents` int(11) NOT NULL,
+`cat19torrents` int(11) NOT NULL,
+`cat20torrents` int(11) NOT NULL,
   `cat1newtorrents` int(11) NOT NULL,
   `cat2newtorrents` int(11) NOT NULL,
   `cat3newtorrents` int(11) NOT NULL,
@@ -668,17 +666,6 @@ CREATE TABLE IF NOT EXISTS `statistics` (
   `userdesign6` int(11) NOT NULL,
   `userdesign7` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
-
-CREATE TABLE IF NOT EXISTS `subs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `torrentid` int(11) NOT NULL,
-  `filnamn` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `quality` enum('','custom','retail') COLLATE utf8_general_ci NOT NULL,
-  `datum` int(11) NOT NULL,
-  `userid` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `torrentid` (`torrentid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 
 CREATE TABLE IF NOT EXISTS `suggestions` (
@@ -754,26 +741,16 @@ CREATE TABLE IF NOT EXISTS `torrents` (
   `frileech` tinyint(1) NOT NULL DEFAULT '0',
   `imdbid` int(11) NOT NULL,
   `p2p` tinyint(1) NOT NULL DEFAULT '0',
-  `visible` enum('yes','no') CHARACTER SET utf8 NOT NULL DEFAULT 'yes',
-  `tv_kanalid` int(11) NOT NULL,
-  `tv_programid` int(11) NOT NULL,
-  `tv_program` varchar(250) CHARACTER SET utf8 NOT NULL,
-  `tv_episode` varchar(250) CHARACTER SET utf8 NOT NULL,
-  `tv_info` text CHARACTER SET utf8 NOT NULL,
-  `tv_klockslag` int(11) NOT NULL,
   `pre` int(11) NOT NULL,
-  `swesub` tinyint(1) NOT NULL,
-  `sweaudio` tinyint(4) NOT NULL DEFAULT '0',
   `pack` tinyint(4) NOT NULL DEFAULT '0',
   `3d` tinyint(4) NOT NULL,
-  `section` enum('new','archive') COLLATE utf8_swedish_ci NOT NULL,
+  `section` enum('new','archive') COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `info_hash` (`info_hash`(15)),
   KEY `owner` (`owner`),
   KEY `reqid` (`reqid`),
   KEY `category` (`category`),
-  KEY `tv_programid` (`tv_programid`,`tv_klockslag`),
   KEY `imdbid` (`imdbid`),
   KEY `added` (`added`),
   KEY `seeders` (`seeders`),
@@ -782,29 +759,6 @@ CREATE TABLE IF NOT EXISTS `torrents` (
   FULLTEXT KEY `ft_search` (`search_text`),
   FULLTEXT KEY `search_text2` (`search_text2`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci DELAY_KEY_WRITE=1 ;
-
-CREATE TABLE IF NOT EXISTS `tv_kanaler` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `xmlid` varchar(200) CHARACTER SET utf8 NOT NULL,
-  `namn` varchar(100) CHARACTER SET utf8 NOT NULL,
-  `pic` varchar(200) CHARACTER SET utf8 NOT NULL,
-  `visible` tinyint(4) NOT NULL DEFAULT '1',
-  `priority` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `xmlid` (`xmlid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
-
-CREATE TABLE IF NOT EXISTS `tv_program` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `datum` int(11) NOT NULL,
-  `kanalid` int(11) NOT NULL,
-  `program` varchar(250) CHARACTER SET utf8 NOT NULL,
-  `program_search` text CHARACTER SET utf8 NOT NULL,
-  `episod` text CHARACTER SET utf8 NOT NULL,
-  `info` text CHARACTER SET utf8 NOT NULL,
-  PRIMARY KEY (`id`),
-  FULLTEXT KEY `program_search` (`program_search`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
