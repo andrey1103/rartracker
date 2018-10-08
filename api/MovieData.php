@@ -76,7 +76,7 @@
 									$res["photo"] = 0;
 							}
 							
-							$sth = $this->db->prepare('INSERT INTO imdbinfo(imdbid, title, year, rating, tagline, genres, photo, director, writer, cast, runtime, trailer, seasoncount) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+							$sth = $this->db->prepare('INSERT INTO imdbinfo(imdbid, title, year, rating, tagline, genres, photo, director, writer, cast, runtime, trailer_id, seasoncount) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 							
 							$sth->bindParam(1, $res["imdbid"], PDO::PARAM_STR);
 							$sth->bindValue(2, $res["title"] ?: '', PDO::PARAM_STR);
@@ -89,7 +89,7 @@
 							$sth->bindParam(9, $res["writer"], PDO::PARAM_STR);
 							$sth->bindParam(10, $res["cast"], PDO::PARAM_STR);
 							$sth->bindParam(11, $res["runtime"], PDO::PARAM_INT);
-							$sth->bindParam(12, $res["trailer"], PDO::PARAM_STR);
+							$sth->bindParam(12, $res["trailer_id"], PDO::PARAM_STR);
 							$sth->bindParam(13, $res["seasoncount"], PDO::PARAM_INT);
 							
 							$sth->execute();
@@ -236,6 +236,14 @@
 									$arrReturn[] = trim($strName);
 							}
 							//$info['director'] = join(", ", $arrReturn);
+
+							$str = $arrReturn;
+							$str       = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function($match)
+							{
+									return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
+							}, $str);
+							$arrReturn = $str;
+
 							$info["director"] = join(", ", array_unique($arrReturn));
 					}
 					
@@ -254,8 +262,18 @@
 							foreach ($arrReturned[1] as $i => $strName) {
 									$arrReturn[] = trim($strName);
 							}
+
+
+							$str = $arrReturn;
+							$str       = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function($match)
+							{
+									return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
+							}, $str);
+							$arrReturn = $str;
+
 							//$info['writer'] = join(", ", $arrReturn);
                                                  $info["writer"] = join(", ", array_unique($arrReturn));
+
 					}
 					
 					/* Cast */
@@ -297,7 +315,7 @@
 					$info['runtime'] = trim($this->match('/Runtime:<\/h4>.*?([0-9]+) min.*?<\/div>/ms', $data, 1));
 					
 					/* Trailer */
-					$info['trailer'] = trim($this->match('~"embedUrl": "*(.*?)(vi\d++)"~Ui', $data, 2));
+					$info['trailer_id'] = trim($this->match('~"embedUrl": "*(.*?)(vi\d++)"~Ui', $data, 2));
 					
 					
 					/* IMDB-ID */
@@ -383,7 +401,7 @@
 							$data["photo"] = 0;
 					}
 					
-					$sth = $this->db->prepare("UPDATE imdbinfo SET rating = ?, tagline = ?, genres = ?, photo = ?, director = ?, writer = ?, cast = ?, runtime = ?, seasoncount = ?, title = ?, trailer = ?, lastUpdated = NOW() WHERE id = ?");
+					$sth = $this->db->prepare("UPDATE imdbinfo SET rating = ?, tagline = ?, genres = ?, photo = ?, director = ?, writer = ?, cast = ?, runtime = ?, seasoncount = ?, title = ?, trailer_id = ?, lastUpdated = NOW() WHERE id = ?");
 					$sth->bindParam(1, $data["rating"], PDO::PARAM_INT);
 					$sth->bindParam(2, $data["tagline"], PDO::PARAM_STR);
 					$sth->bindParam(3, $data["genres"], PDO::PARAM_STR);
@@ -394,7 +412,7 @@
 					$sth->bindParam(8, $data["runtime"], PDO::PARAM_INT);
 					$sth->bindParam(9, $data["seasoncount"], PDO::PARAM_INT);
 					$sth->bindParam(10, $data["title"], PDO::PARAM_STR);
-					$sth->bindParam(11, $data["trailer"], PDO::PARAM_STR);
+					$sth->bindParam(11, $data["trailer_id"], PDO::PARAM_STR);
 					$sth->bindParam(12, $id, PDO::PARAM_INT);
 					$sth->execute();
 					
@@ -418,16 +436,16 @@
 					}
 			}
 			
-			public function updateYoutube($id, $youtubeId)
+			public function updateTrailer($id, $trailerId)
 			{
-					if ($this->user->getClass() < User::CLASS_ADMIN && strlen($youtubeId) == 0) {
+					if ($this->user->getClass() < User::CLASS_ADMIN && strlen($trailerId) == 0) {
 							throw new Exception(L::get("PERMISSION_DENIED"), 401);
 					}
 					if ($this->user->getClass() < User::CLASS_DIRECTOR) {
 							throw new Exception(L::get("PERMISSION_DENIED"), 401);
 					}
-					$sth = $this->db->prepare("UPDATE imdbinfo SET youtube_id = ? WHERE id = ?");
-					$sth->bindParam(1, $youtubeId, PDO::PARAM_STR);
+					$sth = $this->db->prepare("UPDATE imdbinfo SET trailer_id = ? WHERE id = ?");
+					$sth->bindParam(1, $trailerId, PDO::PARAM_STR);
 					$sth->bindParam(2, $id, PDO::PARAM_INT);
 					$sth->execute();
 			}
