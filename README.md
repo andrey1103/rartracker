@@ -32,6 +32,7 @@ From the project folder install all build script packages and all 3rd party depe
 $ npm install --global bower
 $ npm install --global gulp-cli
 $ npm install
+$ bower install --allow-root <-- keep the allow-root flag, if logged in as root
 $ npm run dist
 ```
 ## 3. Import database (databse/database.sql)
