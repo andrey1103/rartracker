@@ -12,7 +12,7 @@ class Config {
 	const NEWS_FORUM_ID = 1;
 
 	const DEFAULT_LANGUAGE = "en";
-	public static $languages = ["en", "sv"];
+	public static $languages = ["en"];
 
 	const TRACKER_URL = "http://digitalcore.nl:80";
     	const TRACKER_URL_SSL = "https://digitalcore.nl:443";

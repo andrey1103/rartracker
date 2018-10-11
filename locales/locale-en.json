@@ -298,6 +298,7 @@
 		"BAN_RELEASE":					"Ban the release",
 		"NO_BOOKMARKS":					"You have no bookmarked torrents",
 		"ALL_COMMENTS":					"All torrent comments",
+              "IMDB_URL":					"IMDB Url",
 		"DELETE_ALL":					"Delete all these from the site"
 	},
 	"SUBTITLES": {

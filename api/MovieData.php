@@ -129,7 +129,7 @@
 					$data = curl_exec($ch);
 					curl_close($ch);
 					
-					file_put_contents("log.txt", $data);
+					//file_put_contents("log.txt", $data);
 					
 					
 					if (!$data) {
