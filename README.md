@@ -62,7 +62,7 @@ The "System" account **must remain** as a parked account and have Staff rights b
 
 ## Server settings
 ### Recommended packages
-``php5 apache2 mariadb-server libapache2-mod-php5 php5-mysql memcached php5-curl php5-memcached``
+``php7.2 apache2 mariadb-server libapache2-mod-php7.2 php7.2-mysql memcached php7.2-curl php7.2-memcached``
 ### Enable rewrite module and change AllowOverride from "None" to "All" in httpd.conf in order for .htaccess to work
 ``a2enmod rewrite``
 ### Permissions
@@ -91,6 +91,38 @@ location ~ .(html)$ { }
 location /api { rewrite ^/api/v1/(.*)$ /api/api-v1.php?url=$1 break; }
 ```
 
+## Apache Configuration
+```sh 
+<VirtualHost domainname.nl:443>
+    ServerName domainname.nl
+    DocumentRoot /var/www/rartracker
+    LogLevel warn
+    ServerSignature Off
+    ErrorLog /var/log/apache2/error.log
+    <Directory "/var/www/rartracker">
+        AllowOverride All
+        Require all granted
+    RewriteEngine On
+    </Directory>
+SSLEngine on
+SSLCertificateFile /etc/apache2/ssl/certname_nl.crt
+SSLCertificateKeyFile /etc/apache2/ssl/certname.key
+SSLCertificateChainFile /etc/apache2/ssl/certname_nl.ca-bundle 
+</VirtualHost>
+
+<VirtualHost domainname.nl:80>
+    ServerName domainname.nl
+    DocumentRoot /var/www/rartracker
+    LogLevel warn
+    ServerSignature Off
+    ErrorLog /var/log/apache2/error.log
+    <Directory "/var/www/rartracker">
+        AllowOverride All
+        Require all granted
+    RewriteEngine On
+    </Directory>
+</VirtualHost>
+```
 ## General Configurations
 
 You'll need to listen on:
@@ -103,11 +135,11 @@ In /api/Config.php you'll need to edit TRACKER_URL and TRACKER_URL_SSL.
 
 ```php
 <?php
-    const TRACKER_URL = "http://<hostname>:1337";
-    const TRACKER_URL_SSL = "https://<hostname>:1338"
+    const TRACKER_URL = "http://domain.nl:1337";
+    const TRACKER_URL_SSL = "https://domain.nl:1338"
 ```
 
-Obviously replace <hostname> with whatever hostname you use.
+Obviously replace domain.nl with whatever domain you use.
 
 Dev-hint
 
