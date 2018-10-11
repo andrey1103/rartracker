@@ -120,7 +120,6 @@ I do recommend setting up SSL if you're using this in production.
 ```sh
 12      *       *       *       *       wget -O /dev/null http://127.0.0.1/api/v1/run-leechbonus
 */20    *       *       *       *       wget -O /dev/null http://127.0.0.1/api/v1/run-cleanup
-0       0       *       *       *       wget -O /dev/null http://127.0.0.1/api/v1/fetch-tvdata
 0       0       *       *       5       wget -O /dev/null http://127.0.0.1/api/v1/run-bonus
 0       20      *       *       *       wget -O /dev/null http://127.0.0.1/api/v1/run-statistics
 ```
