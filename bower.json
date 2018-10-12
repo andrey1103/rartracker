@@ -1,6 +1,6 @@
 {
   "name": "rartracker",
-  "version": "0.3.2",
+  "version": "0.3.5",
   "description": "A modern bittorrent tracker solution",
   "dependencies": {
     "angular": "~1.5.8",
@@ -15,8 +15,8 @@
     "angular-translate": "^2.11.0",
     "angular-translate-loader-static-files": "^2.11.0"
   },
-  "homepage": "http://swetorrentking.github.io/rartracker/",
-  "author": "the swedish torrent king <swetorrentking@users.noreply.github.com>",
+  "homepage": "https://github.com/ERR1R/rartracker",
+  "author": "the swedish torrent king / ERR1R",
   "license": "WTFPL"
 }
 
