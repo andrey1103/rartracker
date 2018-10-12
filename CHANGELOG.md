@@ -1,5 +1,22 @@
 # rartracker changelog
 
+# 0.3.5 (2018-10-12)
+
+### New features and improvements
+
+* Removed all swe 
+* Removed youtube trailer
+* Removed subtitles (who need this)
+* Add Jackett indexer file so you can compile jackett for this tracker
+* Updated readme
+
+### Bugfixes
+
+* Fixed IMDB
+* Fixed Watch
+* Fixed couchpotato
+* Fixed some more stuff
+
 # 0.3.2 (2016-08-27)
 
 ### New features and improvements

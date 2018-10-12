@@ -715,12 +715,9 @@ try {
 		case validateRoute('GET', 'users/\d+/watching/imdb/\d+'):
 			$watching = new Watching($db, $user);
 			$watch = $watching->query($params[1], $params[4]);
-
-
 			if (is_array($watch) && $watch[0]) {
 				httpResponse($watch[0]);
 			} else {
-//print_r($watch[0]);
 				httpResponseError(404);
 			}
 			break;

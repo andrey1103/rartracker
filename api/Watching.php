@@ -61,7 +61,7 @@ class Watching {
 			if ($post["formats"]["hd720"]) { array_push($formats, Config::$categories["MOVIE_720P"]["id"]); }
 			if ($post["formats"]["hd1080"]) { array_push($formats, Config::$categories["MOVIE_1080P"]["id"]); }
 			if ($post["formats"]["dvdrpal"]) { array_push($formats, Config::$categories["DVDR_PAL"]["id"]); }
-			if ($post["formats"]["xvidsd"]) { array_push($formats, Config::$categories["MOVIES_SD"]["id"]); }
+			if ($post["formats"]["xvidsd"]) { array_push($formats, Config::$categories["MOVIE_SD"]["id"]); }
 			if ($post["formats"]["bluray"]) { array_push($formats, Config::$categories["BLURAY"]["id"]); }
 			if ($post["formats"]["movie4k"]) { array_push($formats, Config::$categories["MOVIE_4K"]["id"]); }
 		} else {
@@ -72,7 +72,7 @@ class Watching {
 		}
 		$formats = implode(",", $formats);
 
-		$sth = $this->db->prepare('INSERT INTO bevaka (userid, imdbid, typ, format, datum) VALUES(?, ?, ?, ?, ?, NOW())');
+		$sth = $this->db->prepare('INSERT INTO bevaka (userid, imdbid, typ, format, datum) VALUES(?, ?, ?, ?, NOW())');
 		$sth->bindValue(1,	$this->user->getId(),	PDO::PARAM_INT);
 		$sth->bindParam(2,	$post["imdbinfoid"],		PDO::PARAM_INT);
 		$sth->bindParam(3,	$post["typ"],			PDO::PARAM_INT);
@@ -94,7 +94,7 @@ class Watching {
 			if ($post["formats"]["hd720"]) { array_push($formats, Config::$categories["MOVIE_720P"]["id"]); }
 			if ($post["formats"]["hd1080"]) { array_push($formats, Config::$categories["MOVIE_1080P"]["id"]); }
 			if ($post["formats"]["dvdrpal"]) { array_push($formats, Config::$categories["DVDR_PAL"]["id"]); }
-			if ($post["formats"]["xvidsd"]) { array_push($formats, Config::$categories["MOVIES_SD"]["id"]); }
+			if ($post["formats"]["xvidsd"]) { array_push($formats, Config::$categories["MOVIE_SD"]["id"]); }
 			if ($post["formats"]["bluray"]) { array_push($formats, Config::$categories["BLURAY"]["id"]); }
 			if ($post["formats"]["movie4k"]) { array_push($formats, Config::$categories["MOVIE_4K"]["id"]); }
 		} else {
