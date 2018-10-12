@@ -9,6 +9,7 @@
 * Removed subtitles (who need this)
 * Add Jackett indexer file so you can compile jackett for this tracker
 * Updated readme
+* Added IMDB trailer
 
 ### Bugfixes
 
