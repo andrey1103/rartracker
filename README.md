@@ -72,7 +72,6 @@ Tested with mariadb-server-10.3 / php7.2
 The following folders needs to be created and be given write permission:
 
 * torrents/
-* subs/
 * img/imdb/
 
 ### Recommended MariaDB settings
