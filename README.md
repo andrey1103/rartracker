@@ -1,3 +1,5 @@
+<img src="https://user-images.githubusercontent.com/25137010/46918261-65087380-cfd0-11e8-8a47-5810dc217eb2.png" width="15%"></img> <img src="https://user-images.githubusercontent.com/25137010/46918262-65087380-cfd0-11e8-99fe-135033d2a976.png" width="15%"></img> <img src="https://user-images.githubusercontent.com/25137010/46918263-65087380-cfd0-11e8-9127-bda7cbaea364.png" width="15%"></img> 
+
 # rartracker
 A modern front and backend bittorrent tracker written in AngularJS and PHP.
 ## Current version
@@ -72,7 +74,6 @@ Tested with mariadb-server-10.3 / php7.2
 The following folders needs to be created and be given write permission:
 
 * torrents/
-* subs/
 * img/imdb/
 
 ### Recommended MariaDB settings
