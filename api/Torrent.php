@@ -568,8 +568,6 @@ class Torrent {
 			}, $packFolders);
 		}
 
-
-
 		$searchText = Helper::searchfield("$torrent[name] $imdbInfo[genres] $imdbInfo[imdbid] " . implode(" ", $packFolders));
 		$searchText2 = Helper::searchfield("$imdbInfo[director] $imdbInfo[writer] $imdbInfo[cast]");
 
@@ -662,9 +660,30 @@ class Torrent {
 
 		$stereoscopic = 0;
 
+		$preurl = json_decode(file_get_contents('https://predb.ovh/api/v1/?q='.$name), true);
 
+		$preurl = $preurl["data"];
+			foreach ( $preurl["rows"] as $dat ) {
+              		$pre = $dat["preAt"];
+				$predate = $dat["preAt"];
+              		$predate = date('Y-m-d H:i:s', $predate);
+              	}
 
-
+		if (!$pre) {
+			$pre = 0;
+		} else {
+			if ($pre > time()){
+				$pre = time() - 100;
+			}
+			/* Use pre-time to determine New or Archive section */
+			if ($section == 'archive' && $pre > time() - 604800) {
+				$section = 'new';
+				$this->adminlog->create(L::get("TORRENT_AUTO_MOVED_NEW", [$this->user->getUsername(), $name], Config::DEFAULT_LANGUAGE));
+			} else if ($section == 'new' && time() - $pre > 604800) {
+				$this->adminlog->create(L::get("TORRENT_AUTO_MOVED_ARCHIVE", [$this->user->getUsername(), $name], Config::DEFAULT_LANGUAGE));
+				$section = 'archive';
+			}
+		}
 
 		if ($this->user->getClass() < User::CLASS_UPLOADER && $section == 'new') {
 			throw new Exception(L::get("TORRENT_UPLOADER_REQUIRED_NEW"));
@@ -821,23 +840,6 @@ class Torrent {
 			throw new Exception(L::get("TORRENT_CONFLICT"), 409);
 		}
 
-		$pre = Helper::preCheck($name);
-		if (!$pre) {
-			$pre = 0;
-		} else {
-			if ($pre > time()){
-				$pre = time() - 100;
-			}
-			/* Use pre-time to determine New or Archive section */
-			if ($section == 'archive' && $pre > time() - 604800) {
-				$section = 'new';
-				$this->adminlog->create(L::get("TORRENT_AUTO_MOVED_NEW", [$this->user->getUsername(), $name], Config::DEFAULT_LANGUAGE));
-			} else if ($section == 'new' && time() - $pre > 604800) {
-				$this->adminlog->create(L::get("TORRENT_AUTO_MOVED_ARCHIVE", [$this->user->getUsername(), $name], Config::DEFAULT_LANGUAGE));
-				$section = 'archive';
-			}
-		}
-
 		if (stripos($name, '.3d.') > -1 || stripos($name, '.hsbs.') > -1 || stripos($name, '-sbs.') > -1) {
 			$stereoscopic = 1;
 		}
@@ -906,7 +908,7 @@ class Torrent {
 		$searchText = Helper::searchfield("$name $imdbInfo[genres] $imdbInfo[imdbid] " . implode(" ", $packFolders));
 		$searchText2 = Helper::searchfield("$imdbInfo[director] $imdbInfo[writer] $imdbInfo[cast]");
 
-		$sth = $this->db->prepare("INSERT INTO torrents (name, filename, search_text, search_text2, owner, info_hash, size, numfiles, type, ano_owner, descr, category, added, last_action,  frileech, imdbid, reqid, section, pre, p2p, 3d, pack) VALUES (:name, :filename, :searchText, :searchText2, :owner, :infoHash, :size, :numfiles, :type, :anoymous, :descr, :category, NOW(), NOW(), :freeLeech, :imdbid, :reqid, :section, :pre, :p2p, :3d, :pack)");
+		$sth = $this->db->prepare("INSERT INTO torrents (name, filename, search_text, search_text2, owner, info_hash, size, numfiles, type, ano_owner, descr, category, added, last_action, frileech, imdbid, reqid, section, pre, p2p, 3d, pack, predate) VALUES (:name, :filename, :searchText, :searchText2, :owner, :infoHash, :size, :numfiles, :type, :anoymous, :descr, :category, NOW(), NOW(), :freeLeech, :imdbid, :reqid, :section, :pre, :p2p, :3d, :pack, :predate)");
 
 		$sth->bindParam(":name",			$name, 				PDO::PARAM_STR);
 		$sth->bindParam(":filename",		$fname,				PDO::PARAM_STR);
@@ -928,7 +930,7 @@ class Torrent {
 		$sth->bindParam(":p2p",			$p2p,					PDO::PARAM_INT);
 		$sth->bindParam(":3d",			$stereoscopic,			PDO::PARAM_INT);
 		$sth->bindParam(":pack",			$pack,					PDO::PARAM_INT);
-
+		$sth->bindParam(":predate",			$predate,	  			PDO::PARAM_STR);
 		$sth->execute();
 
 		$insertId = $this->db->lastInsertId();

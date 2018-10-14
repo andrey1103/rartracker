@@ -6,7 +6,7 @@
 </script>
 
 <div class="text-center">
-	{{ 'WATCHER.SEARCH_BY_IMDB' | translate}}: <a href="http://anonym.to/?http://www.imdb.com/" target="_blank">www.imdb.com</a>
+	{{ 'WATCHER.SEARCH_BY_IMDB' | translate}}: <a href="http://anonym.to/?https://www.imdb.com/" target="_blank">imdb.com</a>
 	<input type="text" class="form-control" ng-model="vm.asyncSelected" uib-typeahead="movie.title for movie in vm.getMovieData($viewValue)" typeahead-on-select="vm.onSelected($item)" typeahead-template-url="movieSearchTemplate.html" style="width: 300px; margin: auto;" />
 </div>
 
@@ -18,8 +18,8 @@
 	<table class="table table-striped table-hover table-nowrap table-text-center">
 		<tr class="colhead">
 			<th class="text-left" translate="WATCHER.NAME"></th>
-			<th style="width: 350px;" translate="WATCHER.FORMAT"></th>
-			<th style="width: 120px;" translate="WATCHER.REQUIRE_SUB"></th>
+			<th style="width: 400px;" translate="WATCHER.FORMAT"></th>
+			<th style="width: 70px;"></th>
 			<th style="width: 100px;" translate="WATCHER.STOP"></th>
 		</tr>
 		<tr ng-repeat="w in vm.watching | filter: {typ : 0}">
@@ -53,8 +53,8 @@
 	<table class="table table-striped table-hover table-nowrap table-text-center">
 		<tr class="colhead">
 			<th class="text-left" translate="WATCHER.NAME"></th>
-			<th style="width: 350px;" translate="WATCHER.FORMAT"></th>
-			<th style="width: 120px;" translate="WATCHER.REQUIRE_SUB"></th>
+			<th style="width: 400px;" translate="WATCHER.FORMAT"></th>
+                     <th style="width: 70px;"></th>
 			<th style="width: 100px;" translate="WATCHER.STOP"></th>
 		</tr>
 		<tr ng-repeat="w in vm.watching | filter: {typ : 1}">

@@ -45,6 +45,22 @@
 					</div>
 				</td>
 			</tr>
+
+			<tr>
+				<td class="text-right tdBold alignMiddle" translate="TORRENTS.TVDB_URL"></td>
+				<td class="text-left">
+					<div class="input-group" style="width: 100%">
+						<input type="text" class="form-control" style="width: 50%" ng-model="vm.settings.imdbUrl" placeholder="http://" ng-click="vm.fetchImdbInfo()"/>
+						<span class="input-group" style="width: 50%;">
+							<input type="text" class="form-control" ng-model="vm.settings.imdbInfo" readonly />
+							<span class="input-group-btn" ng-show="vm.settings.imdbId">
+								<button class="btn btn-default" type="button" ng-click="vm.removeImdb()"><i class="fa fa-times"></i></button>
+							</span>
+						</span>
+					</div>
+				</td>
+			</tr>
+
 			<tr>
 				<td class="text-right tdBold alignMiddle" translate="GENERAL.ANONYMOUS"></td>
 				<td class="text-left">

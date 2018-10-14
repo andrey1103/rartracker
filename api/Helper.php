@@ -43,9 +43,10 @@ class Helper {
 	}
 
 	public static function preCheck($releaseName){
-		$res = @file_get_contents('http://predb.org/api/pre/'.$releaseName);
-		if ($res && strlen($res) > 2) {
-			return strtotime($res);
+		$pre = json_decode(file_get_contents('https://predb.ovh/api/v1/?q='.$releaseName), true);
+		foreach ( $pre["rows"] as $dat ) {
+		$pre = $dat["preAt"];
+		return $pre;
 		}
 	}
 
