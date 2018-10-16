@@ -88,11 +88,30 @@ max_heap_table_size=2G
 
 ## Nginx configuration
 ```sh
-location / { try_files $uri /index.html;}
-location ~ ./img { } 
-location ~ ./phpMyAdmin { } 
-location ~ .(html)$ { } 
-location /api { rewrite ^/api/v1/(.*)$ /api/api-v1.php?url=$1 break; }
+server {
+#simple config
+	listen 80;
+	listen 443 ssl;
+	server_name digitalcore.nl;
+   
+       ssl_certificate     /etc/nginx/ssl/digitalcore.nl.crt;
+	ssl_certificate_key /etc/nginx/ssl/digitalcore.nl.key;
+
+	root /home/www/rartor/rartracker;
+	index index.html;
+
+	location / { try_files $uri /index.html;}
+	location ~ ./img { } 
+	location ~ ./phpMyAdmin { } 
+	location ~ .(html)$ { } 
+	rewrite ^/api/v1/(.*)$ /api/api-v1.php?url=$1 last;
+
+	location ~ \.php$ {
+       include snippets/fastcgi-php.conf;
+       fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+       }
+}
+
 ```
 
 ## Apache Configuration

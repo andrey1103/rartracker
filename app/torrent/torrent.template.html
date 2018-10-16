@@ -95,7 +95,7 @@
 			</tr>
 			<tr>
 				<td class="text-right tdBold hidden-xs alignMiddle" translate="TORRENTS.UPLOADED_WHEN"></td>
-				<td class="text-left alignMiddle">{{ ::vm.torrent.added }} <span ng-hide="vm.torrent.preDate == '1970-01-01 01:00:00'" translate="TORRENTS.AFTER_PRE" translate-value-time="{{::vm.torrent.added | dateDifference:vm.torrent.preDate }}"></span></td>
+				<td class="text-left alignMiddle">{{ ::vm.torrent.added }} <br><span ng-hide="vm.torrent.preDate == '1970-01-01 01:00:00'" class="label label-success" translate="TORRENTS.AFTER_PRE" translate-value-time="{{::vm.torrent.added | dateDifference:vm.torrent.preDate }}"><br /></span></td>
 			</tr>
 			<tr>
 				<td class="text-right tdBold hidden-xs alignMiddle" translate="TORRENTS.SIZE"></td>

@@ -253,7 +253,7 @@
 		"UPLOADED_WHEN":				"Uploaded",
 		"UPLOADER":						"Uploader",
 		"EDIT":							"Edit torrent",
-		"AFTER_PRE":					"({{ time }} after pre)",
+		"AFTER_PRE":					"{{ time }} after pre",
 		"BOOKMARK":						"Bookmark",
 		"REPORT":						"@:GENERAL.REPORT",
 		"SHOW_SNATCH":					"Show snatch log",
