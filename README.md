@@ -64,9 +64,13 @@ The "System" account **must remain** as a parked account and have Staff rights b
 
 ## Server settings
 ### Recommended packages
+Apache:
 ``php7.2 apache2 mariadb-server libapache2-mod-php7.2 php7.2-mysql memcached php7.2-curl php7.2-memcached php-msgpack php-igbinary``
 
-Tested with mariadb-server-10.3 / php7.2
+Nginx:
+``php7.2 nginx mariadb-server libapache2-mod-php7.2 php7.2-mysql memcached php7.2-curl php7.2-memcached php-msgpack php-igbinary php7.2-fpm``
+
+Tested with mariadb-server-10.3 / php7.2/php7.2-fpm / apache/ nginx
 
 ### Enable rewrite module and change AllowOverride from "None" to "All" in httpd.conf in order for .htaccess to work
 ``a2enmod rewrite``
