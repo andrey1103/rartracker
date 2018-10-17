@@ -292,7 +292,7 @@ class Torrent {
 
 			if ($type == 0) {
 				$wherea[] = 't.category IN (4)';
-				$formatString = L::get("TORRENT_HIGHLIGHT_CATEGORY_FULL_HD4K_MOVIES");
+				$formatString = L::get("TORRENT_HIGHLIGHT_CATEGORY_FULL_HD_4K_MOVIES");
 			} 
 
 		}
@@ -668,6 +668,10 @@ class Torrent {
 				$predate = $dat["preAt"];
               		$predate = date('Y-m-d H:i:s', $predate);
               	}
+   
+              if (!$predate) {
+			$predate = "0000-00-00 00:00:00";
+              } 
 
 		if (!$pre) {
 			$pre = 0;
