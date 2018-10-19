@@ -66,15 +66,16 @@ The "System" account **must remain** as a parked account and have Staff rights b
 ### Recommended packages
 Apache:
 ``php7.2 apache2 mariadb-server libapache2-mod-php7.2 php7.2-mysql memcached php7.2-curl php7.2-memcached php-msgpack php-igbinary``
+## Only for apache2
+### Enable rewrite module and change AllowOverride from "None" to "All" in httpd.conf in order for .htaccess to work
+``a2enmod rewrite``
 
 Nginx:
 ``php7.2 nginx mariadb-server libapache2-mod-php7.2 php7.2-mysql memcached php7.2-curl php7.2-memcached php-msgpack php-igbinary php7.2-fpm``
 
 Tested with mariadb-server-10.3 / php7.2/php7.2-fpm / apache/ nginx
 
-# Only for apache2
-### Enable rewrite module and change AllowOverride from "None" to "All" in httpd.conf in order for .htaccess to work
-``a2enmod rewrite``
+
 ### Permissions
 The following folders needs to be created and be given write permission:
 
@@ -83,11 +84,12 @@ The following folders needs to be created and be given write permission:
 
 ### Recommended MariaDB settings
 This is for making the fulltext search work. Use innoDB database and add below lines in your my.cnf under [mysqld].
-Also disable the stopword function.. The "rartracker" is the name of your database. The table is "innodb_stopwords" and is already there.
+Also disable the stopword function with innodb_ft_enable_stopword = OFF.
 ```sh
+innodb_ft_enable_stopword = OFF
+innodb_ft_min_token_size=1
 ft_min_word_len=1
-innodb_ft_enable_stopword=1
-innodb_ft_server_stopword_table=rartracker/innodb_stopwords
+
 ```
 
 ## Nginx configuration

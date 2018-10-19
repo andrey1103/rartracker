@@ -381,18 +381,6 @@ CREATE TABLE `inlogg` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `innodb_stopwords`
---
-
-DROP TABLE IF EXISTS `innodb_stopwords`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `innodb_stopwords` (
-  `value` int(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `invites`
 --
 
@@ -1051,24 +1039,6 @@ CREATE TABLE `statistics` (
 ) ENGINE=InnoDB AUTO_INCREMENT=413 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `subs`
---
-
-DROP TABLE IF EXISTS `subs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `subs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `torrentid` int(11) NOT NULL,
-  `filnamn` varchar(255) NOT NULL,
-  `quality` enum('','custom','retail') NOT NULL,
-  `datum` int(11) NOT NULL,
-  `userid` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `torrentid` (`torrentid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `suggestions`
@@ -1249,36 +1219,6 @@ CREATE TABLE `torrents` (
   FULLTEXT KEY `ft_search` (`search_text`),
   FULLTEXT KEY `search_text2` (`search_text2`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19956 DEFAULT CHARSET=utf8 DELAY_KEY_WRITE=1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `tvdbinfo`
---
-
-DROP TABLE IF EXISTS `tvdbinfo`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tvdbinfo` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tvdbid` varchar(10) NOT NULL,
-  `imdbid` varchar(10) NOT NULL,
-  `seriesName` text NOT NULL,
-  `firstAired` int(11) NOT NULL,
-  `network` varchar(250) NOT NULL,
-  `runtime` int(11) NOT NULL,
-  `genres` varchar(250) NOT NULL,
-  `photo` tinyint(4) NOT NULL,
-  `tagline` tinytext NOT NULL,
-  `seasoncount` int(11) NOT NULL,
-  `releaseNameStart` varchar(100) NOT NULL,
-  `year` int(4) NOT NULL,
-  `added` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `tvdbid` (`tvdbid`),
-  KEY `releaseNameStart` (`releaseNameStart`),
-  KEY `year` (`year`),
-  FULLTEXT KEY `seriesName` (`seriesName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
