@@ -72,6 +72,7 @@ Nginx:
 
 Tested with mariadb-server-10.3 / php7.2/php7.2-fpm / apache/ nginx
 
+# Only for apache2
 ### Enable rewrite module and change AllowOverride from "None" to "All" in httpd.conf in order for .htaccess to work
 ``a2enmod rewrite``
 ### Permissions
@@ -81,13 +82,12 @@ The following folders needs to be created and be given write permission:
 * img/imdb/
 
 ### Recommended MariaDB settings
-This is for making the fulltext search work
+This is for making the fulltext search work. Use innoDB database and add below lines in your my.cnf under [mysqld].
+Also disable the stopword function.. The "rartracker" is the name of your database. The table is "innodb_stopwords" and is already there.
 ```sh
-[mysqld]
 ft_min_word_len=1
-ft_stopword_file='stopword_file.txt'
-tmp_table_size=2G
-max_heap_table_size=2G
+innodb_ft_enable_stopword=1
+innodb_ft_server_stopword_table=rartracker/innodb_stopwords
 ```
 
 ## Nginx configuration

@@ -1,19 +1,6 @@
--- MySQL dump 10.16  Distrib 10.3.10-MariaDB, for debian-linux-gnu (x86_64)
---
--- Host: localhost    Database: rrcker4030
--- ------------------------------------------------------
--- Server version	10.3.10-MariaDB-1:10.3.10+maria~xenial
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 --
 -- Table structure for table `adminlog`
@@ -394,6 +381,18 @@ CREATE TABLE `inlogg` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `innodb_stopwords`
+--
+
+DROP TABLE IF EXISTS `innodb_stopwords`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `innodb_stopwords` (
+  `value` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `invites`
 --
 
@@ -612,7 +611,7 @@ CREATE TABLE `peers` (
   KEY `userid` (`userid`),
   KEY `info_hash` (`info_hash`(5)),
   KEY `torrent_2` (`info_hash`,`peer_id`)
-) ENGINE=MEMORY AUTO_INCREMENT=1338 DEFAULT CHARSET=utf8;
+) ENGINE=MEMORY AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1247,9 +1246,39 @@ CREATE TABLE `torrents` (
   KEY `seeders` (`seeders`),
   KEY `frileech` (`frileech`),
   KEY `section` (`section`),
-  FULLTEXT KEY `search_text2` (`search_text2`),
-  FULLTEXT KEY `ft_search` (`search_text`)
+  FULLTEXT KEY `ft_search` (`search_text`),
+  FULLTEXT KEY `search_text2` (`search_text2`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19956 DEFAULT CHARSET=utf8 DELAY_KEY_WRITE=1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tvdbinfo`
+--
+
+DROP TABLE IF EXISTS `tvdbinfo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tvdbinfo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tvdbid` varchar(10) NOT NULL,
+  `imdbid` varchar(10) NOT NULL,
+  `seriesName` text NOT NULL,
+  `firstAired` int(11) NOT NULL,
+  `network` varchar(250) NOT NULL,
+  `runtime` int(11) NOT NULL,
+  `genres` varchar(250) NOT NULL,
+  `photo` tinyint(4) NOT NULL,
+  `tagline` tinytext NOT NULL,
+  `seasoncount` int(11) NOT NULL,
+  `releaseNameStart` varchar(100) NOT NULL,
+  `year` int(4) NOT NULL,
+  `added` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tvdbid` (`tvdbid`),
+  KEY `releaseNameStart` (`releaseNameStart`),
+  KEY `year` (`year`),
+  FULLTEXT KEY `seriesName` (`seriesName`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1366,4 +1395,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-19  9:30:10
+-- Dump completed on 2018-10-19  9:50:48
