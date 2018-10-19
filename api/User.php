@@ -317,15 +317,23 @@ class User {
 		}
 
 		switch ($postdata["format"]) {
-			case 0:
-				$indexlist = '2, 6'; // DVDR
+			case 1:
+				$indexlist = '1,2'; // SD MOVIE/TV
+				break;
+			case 2:
+				$indexlist = '4,5'; // 720p MOVIE/TV
 				break;
 			case 3:
-				$indexlist = '11, 163'; // 1080p
+				$indexlist = '7, 8'; // 1080 MOVIE/TV
 				break;
+			case 4:
+				$indexlist = '9'; // 4K MOVIE
+				break;
+
 			default:
-				$indexlist = '1, 141'; // 720p
+				$indexlist = '10'; 
 		}
+
 
 		$age = (int) $postdata["age"];
 		$gender = (int) $postdata["gender"];
@@ -1203,7 +1211,7 @@ class User {
 		$sth->bindParam(1, $postdata["tid"],		PDO::PARAM_INT);
 		$sth->bindParam(2, $postdata["typ"],		PDO::PARAM_INT);
 		$sth->bindParam(3, $postdata["format"],		PDO::PARAM_INT);
-		$sth->bindParam(4, $postdata["sektion"],	PDO::PARAM_INT);
+		$sth->bindParam(4, $postdata["sektion"],		PDO::PARAM_INT);
 		$sth->bindParam(5, $postdata["sort"],		PDO::PARAM_INT);
 		$sth->bindParam(6, $postdata["genre"],		PDO::PARAM_STR);
 		$sth->execute();
@@ -1294,12 +1302,15 @@ class User {
 
 	public function resetIndexList($category) {
 
+
 		if ($category == Config::$categories["DVDR_PAL"]["id"]) {
-			$customlist = '1,141'; // 720p
-		} else if ($category == Config::$categories["DVDR_TV"]["id"]) {
-			$customlist = '11,163'; // 1080p
+		$customlist = '1,2';
+		} else if ($category == Config::$categories["MOVIE_SD"]["id"]) {
+		$customlist = '4,5';
+		} else if ($category == Config::$categories["BLURAY"]["id"]) {
+		$customlist = '7,8';
 		} else {
-			$customlist = '2,6'; // DVDR
+		$customlist = '9'; 
 		}
 
 		$sth = $this->db->prepare("UPDATE users SET indexlist = ? WHERE id = ?");
