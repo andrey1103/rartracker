@@ -10,12 +10,8 @@ class Torrent {
 	private $mailbox;
 	private $adminlog;
 	private $torrentDir = "../torrents/";
+	
 	public static $torrentFieldsUser = array('torrents.id', 'name', 'category', 'size', 'torrents.added', 'type', 'numfiles', 'comments', 'times_completed', 'leechers', 'seeders', 'reqid', 'torrents.section', 'torrents.frileech', 'torrents.imdbid', 'p2p', 'pack', '3d');
-
-
-
-
-
 
 	public function __construct($db, $user = null, $log = null, $movieData = null, $requests = null, $mailbox = null, $adminlog = null) {
 		$this->db = $db;
@@ -91,8 +87,6 @@ class Torrent {
 		} else if ($params["p2p"] === "false") {
 			$where[] = 'p2p = 0';
 		}
-
-
 
 		if ($params["freeleech"] == "true") {
 			$where[] = "frileech = 1";
@@ -902,7 +896,7 @@ class Torrent {
 		if ($imdbId) {
 			$imdbInfo = $this->movieData->getData($imdbId);
 			/* Always replace the release name start when empty or tv-show to keep it up to date for auto-matching */
-			if ($imdbInfo["releaseNameStart"] == "" || in_array($category, [Config::$categories["TV_720P"]["id"], Config::$categories["TV_1080P"]["id"]])) {
+			if ($imdbInfo["releaseNameStart"] == "" || in_array($category, Config::$categories["TV_720P"]["id"], Config::$categories["TV_1080P"]["id"], Config::$categories["XVID_TV"]["id"], Config::$categories["DVDR_TV"]["id"])) {
 				$this->movieData->updateReleaseNameStart($name, $imdbId);
 			}
 		}

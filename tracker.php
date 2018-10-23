@@ -227,7 +227,7 @@ if (strpos($keys[3], 'announce') !== false) { // jump into appropriate section f
 		$sth->bindParam(17, $u_class,						PDO::PARAM_INT);
 		$sth->bindParam(18, $u_mbitupp,						PDO::PARAM_INT);
 		$sth->bindParam(19, $u_mbitner,						PDO::PARAM_INT);
-		$sth->bindParam(20, $t_section,						PDO::PARAM_INT);
+		$sth->bindParam(20, $t_section,						PDO::PARAM_STR);
 		$sth->bindParam(21, $u_leechbonus,					PDO::PARAM_INT);
 		$sth->bindParam(22, $t_size,						PDO::PARAM_INT);
 		$sth->bindParam(23, $t_added,						PDO::PARAM_STR);

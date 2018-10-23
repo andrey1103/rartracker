@@ -14,6 +14,7 @@
 			});
 		};
 
+
 		this.fetchData = function () {
 			StartTorrentsResource.query({}, (data) => {
 				this.highligtedTorrents = data;

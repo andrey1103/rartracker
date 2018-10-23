@@ -34,9 +34,6 @@
 <br /> <br /> <br />
 
 
-
-
-
 <div style="margin-top: 5px;" ng-if="vm.currentUser.class &gt;= 6"><button ng-show="!vm.updatingMovieData" ng-click="vm.refreshMovieData()" class="btn btn-xs btn-default" translate="MOVIE.RELOAD_DATA"></button><button ng-show="vm.updatingMovieData" class="btn btn-default btn-xs disabled" translate="MOVIE.RELOADING"></button></div>
 </td>
 <td style="border: 0px; padding: 20px;" ng-show="vm.movieData.photo"><a target="_blank" ng-href="http://anonym.to/?http://www.imdb.com/title/{{ vm.movieData.imdbid }}/"> 
@@ -64,3 +61,4 @@
 		<input type="text" class="form-control" ng-model="vm.movUrl" ng-change="vm.saveMovTrailer()" placeholder="https://www.imdb.com/videoembed/XXXXXXXXXXXX" />
 	</div>
 </div>
+<br /><br />

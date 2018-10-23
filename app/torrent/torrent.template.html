@@ -7,25 +7,14 @@
 
 	<loading-indicator hide="vm.torrent || vm.notFoundMessage"></loading-indicator>
 
-
-
-
-
-
 						<movie-info movie-data="::vm.movieData" ng-show="vm.movieData.title" trailer="true"></movie-info>
-						
-						<div ng-show="vm.movieData.title">
-						<br />
-						</div>
+							<div ng-show="vm.movieData.title">
+								<br />
+							</div>
 
 
 	<div class="table-responsive noborder col-md-9 col-centered" ng-class="{'col-lg-12': vm.showPeers || vm.showSnatchLog}" ng-show="vm.torrent">
 		<table class="table" cellpadding="15">
-
-
-
-
-
 
 				<td class="text-right tdBold hidden-xs alignMiddle" style="width: 130px;" translate="TORRENTS.THIS_TORRENT"></td>
 				<td class="text-left alignMiddle">

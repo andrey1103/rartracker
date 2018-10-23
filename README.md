@@ -73,23 +73,19 @@ Apache:
 Nginx:
 ``php7.2 nginx mariadb-server libapache2-mod-php7.2 php7.2-mysql memcached php7.2-curl php7.2-memcached php-msgpack php-igbinary php7.2-fpm``
 
-Tested with mariadb-server-10.3 / php7.2/php7.2-fpm / apache/ nginx
+Mysql/MariaDB:
 
+Are strict with newer versions so you need to use this sql_mode. Use this in your my.cnf under [mysqld]
 
-### Permissions
-The following folders needs to be created and be given write permission:
-
-* torrents/
-* img/imdb/
+```sql_mode=ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION```
 
 ### Recommended MariaDB settings
-This is for making the fulltext search work. Use innoDB database and add below lines in your my.cnf under [mysqld].
-Also disable the stopword function with innodb_ft_enable_stopword = OFF.
+This is for making the fulltext search work. Add below lines in your my.cnf under [mysqld].
+Also disable the stopword function with innodb_ft_enable_stopword = OFF
 ```sh
 innodb_ft_enable_stopword = OFF
 innodb_ft_min_token_size=1
 ft_min_word_len=1
-
 ```
 
 ## Nginx configuration
@@ -152,6 +148,15 @@ SSLCertificateChainFile /etc/apache2/ssl/certname_nl.ca-bundle
     </Directory>
 </VirtualHost>
 ```
+
+Tested with mariadb-server-10.3 / php7.2 / php7.2-fpm / apache2 / nginx
+
+### Permissions
+The following folders needs to be created and be given write permission:
+
+* torrents/
+* img/imdb/
+
 ## General Configurations
 
 You'll need to listen on:
