@@ -1,6 +1,7 @@
 <div ng-show="vm.notFoundMessage" class="alert alert-warning" role="alert">{{ vm.notFoundMessage }}</div>
 <div ng-show="vm.uploaded" class="alert alert-success" role="alert" style="margin-bottom: 0px;"><strong>{{ 'TORRENTS.UPLOAD_SUCCESS_TITLE' | translate }}</strong><br />{{ 'TORRENTS.UPLOAD_SUCCESS_BODY' | translate }}</div>
 
+
 <br />
 
 <div class="row row-centered ng-cloak" ng-hide="vm.notFoundMessage">
@@ -32,7 +33,7 @@
 				    			</a>
 				    			<a class="noBorder" target="_self" href="/api/v1/torrents/download/{{ ::vm.torrent.id }}" style="float: right;">
 				    				<button class="btn btn-default btn-xs"><i class="fa fa-download"></i> {{ 'TORRENTS.DOWNLOAD' | translate }}</button>
-								</a>
+							</a>
 							</td>
 						</tr>
 					</table>

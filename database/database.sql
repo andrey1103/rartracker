@@ -472,8 +472,6 @@ CREATE TABLE `readposts` (
 
 
 DROP TABLE IF EXISTS `recoverlog`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `recoverlog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
@@ -979,5 +977,6 @@ INSERT INTO `shop` (`id`, `name`, `description`, `price`) VALUES
 (8, 'CUSTOM TITLE', 'The custom title are displayed after your name everywhere instead of your class.', 300),
 (10, 'ICON - CROWN', 'If you want som extra status you can buy this fancy icon which will be visible everywhere after your username.', 1000);
 
-
+INSERT INTO `posts` (`id`, `topicid`, `userid`, `added`, `body`, `body_ori`, `editedby`, `editedat`) VALUES
+(1, 1, 1, '2018-10-23 23:40:14', 'Hope you enjoy our new site!', '', 0, '0000-00-00 00:00:00');
 

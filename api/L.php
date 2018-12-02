@@ -19,7 +19,7 @@ class L {
 		if (!$sentence) {
 			return $string;
 		}
-		for($i = 0; $i < count($variables); $i++) {
+		for($i = 0; $i < (is_array($variables)); $i++) {
 			$sentence = str_replace("{".$i."}", $variables[$i], $sentence);
 		}
 		return $sentence;

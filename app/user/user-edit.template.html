@@ -206,22 +206,19 @@
 						</td>
 					</tr>
 
-
 					<tr>
+
 						<td class="text-right tdBold alignMiddle" translate="RECOVER.PASSKEY"></td>
 						<td class="text-left">
-							<button ng-click="vm.generatePasskey()" class="btn btn-default btn-xs" translate="USER.GENERATE_PASSKEY"></button>
-							<input type="text" class="form-control" readonly ng-model="vm.user.passkey" />
+							<input type="text" class="form-control" readonly value="{{ ::vm.currentUser.passkey }}"/>
 						</td>
 					</tr>
 
 
 
-
-
-
 				</table>
 			</uib-tab>
+
 			<uib-tab>
 			<uib-tab-heading><i class="fa fa-user"></i> {{ 'USER.ACCOUNT' | translate }}</uib-tab-heading>
 				<table class="table table-striped" cellpadding="15">
@@ -370,8 +367,17 @@
 						<td class="text-right tdBold alignMiddle" translate="USER.UPLOAD_BANNED"></td>
 						<td class="text-left">
 							<div class="btn-group">
-								<label class="btn btn-default" ng-model="vm.user.uploadban" uib-btn-radio="'yes'" translate="BUTTONS.YES"></label>
-								<label class="btn btn-default" ng-model="vm.user.uploadban" uib-btn-radio="'no'" translate="BUTTONS.NO"></label>
+								<label class="btn btn-default" ng-model="vm.user.uploadban" uib-btn-radio="1" translate="BUTTONS.YES"></label>
+								<label class="btn btn-default" ng-model="vm.user.uploadban" uib-btn-radio="0" translate="BUTTONS.NO"></label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-right tdBold alignMiddle" translate="USER.DOWNLOAD_BANNED"></td>
+						<td class="text-left">
+							<div class="btn-group">
+								<label class="btn btn-default" ng-model="vm.user.downloadban" uib-btn-radio="1" translate="BUTTONS.YES"></label>
+								<label class="btn btn-default" ng-model="vm.user.downloadban" uib-btn-radio="0" translate="BUTTONS.NO"></label>
 							</div>
 						</td>
 					</tr>

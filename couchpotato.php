@@ -51,6 +51,7 @@ $torrents = new Torrent($db);
 
 list($result, $total) = $torrents->search(array("searchText" => $search, "categories" => $categories));
 
+
 $torr = array();
 foreach($result as &$res) {
 	$torrent = array(
@@ -63,10 +64,15 @@ foreach($result as &$res) {
 		"type" => typeByCategory($res["category"]),
 		"size" => bitsToMb($res["size"]),
 		"leechers" => $res["leechers"],
-		"seeders" => $res["seeders"]
+		"seeders" => $res["seeders"],
+              "publish_date" => $res["added"]
 	);
 	array_push($torr, $torrent);
 }
+
+
+
+
 
 $response = array(
 	"results" => $torr,

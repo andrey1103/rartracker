@@ -1,6 +1,6 @@
-<div ng-show="vm.currentUser.uploadban == 'yes'" class="alert alert-warning" role="alert" translate="TORRENTS.UPLOAD_BANNED"></div>
+<div ng-show="vm.currentUser.uploadban == 1" class="alert alert-warning" role="alert" translate="TORRENTS.UPLOAD_BANNED"></div>
 
-<div class="text-center" ng-show="vm.currentUser.uploadban == 'no'">
+<div class="text-center" ng-show="vm.currentUser.uploadban == 0">
 	<h2 ng-if="vm.settings.reqid == 0" translate="TORRENTS.UPLOAD"></h2>
 	<h2 ng-if="vm.settings.reqid > 0">{{ 'TORRENTS.UPLOAD_REQUEST' | translate }}: {{ vm.settings.request }}</h2>
 

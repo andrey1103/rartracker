@@ -17,7 +17,7 @@ class Torrent {
 		$this->db = $db;
 		$this->user = $user;
 		$this->log = $log;
-		$this->adminlog = $adminlog;
+		$this->adminlogs = $adminlog;
 		$this->movieData = $movieData;
 
 		$this->requests = $requests;
@@ -673,13 +673,16 @@ class Torrent {
 			if ($pre > time()){
 				$pre = time() - 100;
 			}
+
 			/* Use pre-time to determine New or Archive section */
 			if ($section == 'archive' && $pre > time() - 604800) {
 				$section = 'new';
-				$this->adminlog->create(L::get("TORRENT_AUTO_MOVED_NEW", [$this->user->getUsername(), $name], Config::DEFAULT_LANGUAGE));
+				$this->adminlogs->create(L::get("TORRENT_AUTO_MOVED_NEW", [$this->user->getUsername(), $name], Config::DEFAULT_LANGUAGE));
+                            
 			} else if ($section == 'new' && time() - $pre > 604800) {
-				$this->adminlog->create(L::get("TORRENT_AUTO_MOVED_ARCHIVE", [$this->user->getUsername(), $name], Config::DEFAULT_LANGUAGE));
-				$section = 'archive';
+                            echo "Wrong section. Upload is older then 7 days";
+  				$this->adminlogs->create(L::get("TORRENT_AUTO_MOVED_ARCHIVE", [$this->user->getUsername(), $name], Config::DEFAULT_LANGUAGE));
+				$section = 'archive'; 
 			}
 		}
 
@@ -809,12 +812,12 @@ class Torrent {
 			foreach($foundBanned as $f)
 				$files .= '\''.$f. '\', ';
 
-			$this->adminlog->create(L::get("TORRENT_CONTAINING_BANNED_FILES_LOG", [$this->user->getUsername(), $name, $files], Config::DEFAULT_LANGUAGE));
+			$this->adminlogs->create(L::get("TORRENT_CONTAINING_BANNED_FILES_LOG", [$this->user->getUsername(), $name, $files], Config::DEFAULT_LANGUAGE));
 			throw new Exception(L::get("TORRENT_CONTAINING_BANNED_FILES", [$files]));
 		}
 
 		if(($txt = $this->detectMissingFiles($filelist)) != false) {
-			$this->adminlog->create(L::get("TORRENT_PREVENTED_BANNED_FILE", [$this->user->getUsername(), $name], Config::DEFAULT_LANGUAGE) . $txt);
+			$this->adminlogs->create(L::get("TORRENT_PREVENTED_BANNED_FILE", [$this->user->getUsername(), $name], Config::DEFAULT_LANGUAGE) . $txt);
 			throw new Exception(L::get("TORRENT_MISSING_FOLLOWING_FILES") . $txt);
 		}
 
@@ -997,16 +1000,27 @@ class Torrent {
 	}
 
 	public function download($id, $passkey = null) {
+
+		if ($this->user->isDownloadBanned()) {
+			throw new Exception(L::get("TORRENT_DOWNLOAD_BANNED"));
+	       }
+
+
+
 		$useHttps = null;
 
 		if ($passkey) {
-			$sth = $this->db->prepare("SELECT https FROM users WHERE passkey = ? AND enabled = 'yes'");
+			$sth = $this->db->prepare("SELECT https, downloadban FROM users WHERE passkey = ? AND enabled = 'yes'");
 			$sth->bindParam(1, $passkey, PDO::PARAM_STR);
 			$sth->execute();
 			$user = $sth->fetch(PDO::FETCH_ASSOC);
 
 			if (!$user) {
 				throw new Exception(L::get("USER_NOT_EXIST"), 404);
+			}
+
+                     if ($user["downloadban"] == '1') {
+				throw new Exception(L::get("TORRENT_DOWNLOAD_BANNED"), 401);
 			}
 
 			$useHttps = $user["https"] == 1;
@@ -1044,10 +1058,11 @@ class Torrent {
 		unset($dict['value']['announce-list']);
 
 		header('Content-Disposition: attachment;filename="'.$torrent['filename'].'"');
-		header("Content-Type: application/x-bittorrent");
+		header("Content-Type: application/x-bittorrent");  
 
 		print(benc($dict));
 		exit;
+
 	}
 
 	private function detectMissingFiles($array) {

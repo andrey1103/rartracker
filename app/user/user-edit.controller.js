@@ -6,12 +6,12 @@
 		.controller('UserEditController', UserEditController);
 
 	function UserEditController($stateParams, $state, $translate, DeleteDialog, UsersResource, userClasses, cssDesigns, authService, languageSupport, user) {
-
+              
 		this.currentUser = user;
 		this.userClasses = userClasses;
 		this.cssDesigns = cssDesigns;
 		this.languageSupport = languageSupport;
-
+              
 		this.getUser = function () {
 			UsersResource.Users.get({id: $stateParams.id}, (user) => {
 				this.user = user;
@@ -40,7 +40,9 @@
 				randomstring += chars.substring(rnum,rnum+1);
 			}
 			this.user.passkey = randomstring;
+                      
 		};
+
 
 		this.deleteUser = function () {
 			DeleteDialog($translate.instant('USER.DELETE'), $translate.instant('USER.DELETE_CONFIRM', {'username': this.user.username}))
@@ -77,6 +79,8 @@
 		};
 
 		this.getUser();
+              
 	}
+
 
 })();

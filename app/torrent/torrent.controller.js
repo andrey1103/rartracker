@@ -33,7 +33,11 @@
 			}
 		}, (error) => {
 			this.notFoundMessage = error.data;
+			this.addAlert({ type: 'danger', msg: error });
 		});
+
+
+
 
 		this.loadComments = function (scrollToLastPost) {
 			var index = this.currentPage * this.itemsPerPage - this.itemsPerPage || 0;
@@ -195,8 +199,6 @@
 					}
 				});
 		};
-
-
 
 
 	 	this.multiDelete = function () {

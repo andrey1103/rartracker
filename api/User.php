@@ -534,6 +534,18 @@ class User {
 				}
 			}
 
+
+			if ($user["downloadban"] != $userData["downloadban"]) {
+				if ($userData["downloadban"] == 1) {
+					$adminlogs->create(L::get("DOWNLOADBAN_ADDED", [$user["id"], $user["username"], $user["username"]], Config::DEFAULT_LANGUAGE));
+					$userData["modcomment"] = $this->appendAdminComments($userData["modcomment"], L::get("DOWNLOADBAN_ADDED_LOG", [$this->getUsername()], Config::DEFAULT_LANGUAGE));
+				} else {
+					$adminlogs->create(L::get("DOWNLOADBAN_REMOVED", [$user["id"], $user["username"], $user["username"]], Config::DEFAULT_LANGUAGE));
+					$userData["modcomment"] = $this->appendAdminComments($userData["modcomment"], L::get("DOWNLOADBAN_REMOVED_LOG", [$this->getUsername()], Config::DEFAULT_LANGUAGE));
+				}
+			}
+
+
 			if ($user["forumban"] != $userData["forumban"]) {
 				if ($userData["forumban"] == 1) {
 					$adminlogs->create(L::get("FORUMBAN_ADDED", [$user["id"], $user["username"], $user["username"]], Config::DEFAULT_LANGUAGE));
@@ -556,7 +568,7 @@ class User {
 		}
 
 		if ($this->getClass() >= User::CLASS_ADMIN) {
-			$sth = $this->db->prepare("UPDATE users SET avatar = :avatar, gender = :gender, parkerad = :parkerad, alder = :alder, info = :info, mbitupp = :mbitupp, mbitner = :mbitner, isp = :isp, anonym = :anonym, anonymratio = :anonymratio, anonymicons = :anonymicons, acceptpms = :acceptpms, tvvy = :tvvy, https = :https, notifs = :notifs, avatars = :avatars, torrentsperpage = :torrentsperpage, topicsperpage = :topicsperpage, postsperpage = :postsperpage, passhash = :passhash, design = :design, css = :css, search_sort = :search_sort, doljuploader = :doljuploader, leechstart = :leechstart, invites = :invites, reqslots = :reqslots, forumban = :forumban, inviteban = :inviteban, uploadban = :uploadban, passkey = :passkey, warneduntil = :warneduntil, warned = :warned, username = :username, enabled = :enabled, bonuspoang = :bonuspoang, donor = :donor, downloaded = :downloaded, uploaded = :uploaded, title = :title, modcomment = :modcomment, email = :email, secret = :secret, class = :class, invited_by = :invited_by, section = :section, p2p = :p2p, language = :language WHERE id = :userId");
+			$sth = $this->db->prepare("UPDATE users SET avatar = :avatar, gender = :gender, parkerad = :parkerad, alder = :alder, info = :info, mbitupp = :mbitupp, mbitner = :mbitner, isp = :isp, anonym = :anonym, anonymratio = :anonymratio, anonymicons = :anonymicons, acceptpms = :acceptpms, tvvy = :tvvy, https = :https, notifs = :notifs, avatars = :avatars, torrentsperpage = :torrentsperpage, topicsperpage = :topicsperpage, postsperpage = :postsperpage, passhash = :passhash, design = :design, css = :css, search_sort = :search_sort, doljuploader = :doljuploader, leechstart = :leechstart, invites = :invites, reqslots = :reqslots, forumban = :forumban, inviteban = :inviteban, downloadban = :downloadban, uploadban = :uploadban, passkey = :passkey, warneduntil = :warneduntil, warned = :warned, username = :username, enabled = :enabled, bonuspoang = :bonuspoang, donor = :donor, downloaded = :downloaded, uploaded = :uploaded, title = :title, modcomment = :modcomment, email = :email, secret = :secret, class = :class, invited_by = :invited_by, section = :section, p2p = :p2p, language = :language WHERE id = :userId");
 
 		} else {
 			$sth = $this->db->prepare("UPDATE users SET avatar = :avatar, gender = :gender, parkerad = :parkerad, alder = :alder, info = :info, mbitupp = :mbitupp, mbitner = :mbitner, isp = :isp, anonym = :anonym, anonymratio = :anonymratio, anonymicons = :anonymicons, acceptpms = :acceptpms, tvvy = :tvvy, https = :https, notifs = :notifs, avatars = :avatars, torrentsperpage = :torrentsperpage, topicsperpage = :topicsperpage, postsperpage = :postsperpage, passhash = :passhash, design = :design, css = :css, search_sort = :search_sort, doljuploader = :doljuploader, section = :section, p2p = :p2p, language = :language WHERE id = :userId");
@@ -568,6 +580,7 @@ class User {
 			$sth->bindParam(":reqslots",		$userData["reqslots"],			PDO::PARAM_INT);
 			$sth->bindParam(":forumban",		$userData["forumban"],			PDO::PARAM_INT);
 			$sth->bindParam(":inviteban",		$userData["inviteban"],			PDO::PARAM_INT);
+			$sth->bindParam(":downloadban",		$userData["downloadban"],			PDO::PARAM_INT);
 			$sth->bindParam(":uploadban",		$userData["uploadban"],			PDO::PARAM_INT);
 			$sth->bindParam(":passkey",			$userData["passkey"],			PDO::PARAM_STR);
 			$sth->bindParam(":warned",			$userData["warned"],			PDO::PARAM_STR);
@@ -983,7 +996,11 @@ class User {
 	}
 
 	public function isUploadBanned() {
-		return ($this->user["uploadban"] == 'yes');
+		return ($this->user["uploadban"] == '1');
+	}
+
+	public function isDownloadBanned() {
+		return ($this->user["downloadban"] == '1');
 	}
 
 	public function getLanguage() {
@@ -1122,6 +1139,7 @@ class User {
 			'forumban',
 			'inviteban',
 			'uploadban',
+			'downloadban',
 			'passkey',
 			'warned',
 			'modcomment',
