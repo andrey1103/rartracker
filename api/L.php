@@ -19,10 +19,15 @@ class L {
 		if (!$sentence) {
 			return $string;
 		}
-		for($i = 0; $i < (is_array($variables)); $i++) {
+
+              if (is_array($variables)){
+		for($i = 0; $i < (count($variables)); $i++) {
 			$sentence = str_replace("{".$i."}", $variables[$i], $sentence);
 		}
+              }
 		return $sentence;
 	}
 
 }
+
+

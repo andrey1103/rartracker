@@ -2,6 +2,7 @@
 
 ini_set('display_errors', 0);
 
+$event = "";
 
 if ($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443) {
 	die();
@@ -339,7 +340,7 @@ if (strpos($keys[3], 'announce') !== false) { // jump into appropriate section f
 			$timesCompleted = 0;
 			$timesStopped = 0;
 			$timesUpdated = 0;
-			if ($event == 'completed' && $_GET['left'] == 0) {
+			if (!empty($event == 'completed' && $_GET['left'] == 0)) {
 				$timesCompleted = 1;
 			} else if ($event == "stopped" && $_GET['left'] > 0) {
 				$timesStopped = 1;
@@ -377,8 +378,8 @@ if (strpos($keys[3], 'announce') !== false) { // jump into appropriate section f
 		}
 		// $finishedat =
 		$finishedAt = "";
-              
-		if ($event == 'completed' && $seeder == 'yes' && $seeder_db == 'no') {
+               
+              if (!empty($event == 'completed' && $seeder == 'yes' && $seeder_db == 'no')) {
 			$finishedAt = ", finishedat = UNIX_TIMESTAMP(NOW())";
 		}
 		$sth = $db->prepare("UPDATE LOW_PRIORITY peers SET uploaded = ?, downloaded = ?, to_go = ?, seeder = ?, last_action = NOW(), ip = ? " . $finishedAt . " WHERE id = ?");
@@ -443,11 +444,18 @@ function give_peers()
 	$sth->execute();
 	$resp = 'd8:intervali' . $setting['announce_interval'] . 'e12:min intervali' . intval(900) . 'e5:peers';
 	if ($_GET['compact'] == 1) { // compact mode - we like (gzip not gaining anything - don't use)e
-		while ($peer = $sth->fetch(PDO::FETCH_ASSOC)) {
 
+		while ($peer = $sth->fetch(PDO::FETCH_ASSOC)) {
+              
+              $clients = "NULL";
+                        
               $clients .= $peer['compact'];
 		}
+
+		if (!empty($clients)) {
 		echo $resp . strlen($clients) . ':' . $clients . 'ee';
+              }
+
 		if ($setting['log_debug']) {
 			debuglog('announce: gave ' . $sth->rowCount() . ' using compact protocol');
 		}

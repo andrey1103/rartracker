@@ -91,7 +91,7 @@ class Cleanup {
 		while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
 			$id = $row["id"];
 			$torr = array();
-			if ($torrents[$id]) {
+			if (!empty($torrents[$id])) {
 				$torr = $torrents[$id];
 			}
 			foreach ($fields as $field) {
@@ -129,11 +129,12 @@ class Cleanup {
 		}
 
 		/* Remove free leech from new torrents */
-		$dt = time() - $self->max_free_leech_days * 86400;
+		$dt = time() - $this->max_free_leech_days * 86400;
 		$this->db->query("UPDATE torrents SET frileech = 0 WHERE section = 'new' AND added < FROM_UNIXTIME($dt) AND size < 16106127360");
 
-
+               
 		/* Bad ratio warning */
+              $limit = "0";
 		$limit = $limit*1024*1024*1024;
 		$siteName = Config::NAME;
 		$min_downloaded = $this->ratio_warning_minimum_gb*1024*1024*1024;
