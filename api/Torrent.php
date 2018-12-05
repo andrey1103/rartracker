@@ -8,16 +8,16 @@ class Torrent {
 
 	private $requests;
 	private $mailbox;
-	private $adminlog;
+	private $adminlogs;
 	private $torrentDir = "../torrents/";
 	
 	public static $torrentFieldsUser = array('torrents.id', 'name', 'category', 'size', 'torrents.added', 'type', 'numfiles', 'comments', 'times_completed', 'leechers', 'seeders', 'reqid', 'torrents.section', 'torrents.frileech', 'torrents.imdbid', 'p2p', 'pack', '3d');
 
-	public function __construct($db, $user = null, $log = null, $movieData = null, $requests = null, $mailbox = null, $adminlog = null) {
+	public function __construct($db, $user = null, $log = null, $movieData = null, $requests = null, $mailbox = null, $adminlogs = null) {
 		$this->db = $db;
 		$this->user = $user;
 		$this->log = $log;
-		$this->adminlogs = $adminlog;
+		$this->adminlogs = $adminlogs;
 		$this->movieData = $movieData;
 
 		$this->requests = $requests;

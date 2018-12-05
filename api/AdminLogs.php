@@ -12,9 +12,9 @@ class AdminLogs implements IResource {
 	public function create($text) {
 		$searchText = Helper::searchfield($text);
 		$sth = $this->db->prepare('INSERT INTO adminlog (added, txt, userid, search_text) VALUES (NOW(), ?, ?, ?)');
-		$sth->bindParam(1, $text,			PDO::PARAM_STR);
+		$sth->bindParam(1, $text,						PDO::PARAM_STR);
 		$sth->bindValue(2, $this->user->getId(),	PDO::PARAM_INT);
-		$sth->bindParam(3, $searchText,		PDO::PARAM_STR);
+		$sth->bindParam(3, $searchText,				PDO::PARAM_STR);
 		$sth->execute();
 	}
 

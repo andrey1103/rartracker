@@ -93,8 +93,8 @@ try {
 			$mailbox = new Mailbox($db, $user);
 			$requests = new Requests($db, $user, $log, $mailbox);
 			$torrent = new Torrent($db, $user, $log, null, null, $requests, $mailbox);
-			$adminlog = new AdminLogs($db, $user);
-			$cleanup = new Cleanup($db, $user, $torrent, $log, $adminlog, $mailbox, $requests);
+			$adminlogs = new AdminLogs($db, $user);
+			$cleanup = new Cleanup($db, $user, $torrent, $log, $adminlogs, $mailbox, $requests);
 			$cleanup->run();
 			httpResponse();
 			break;
@@ -409,7 +409,7 @@ try {
 			$mailbox = new Mailbox($db, $user);
 			$requests = new Requests($db, $user);
 			$adminlogs = new AdminLogs($db, $user);
-			$torrent = new Torrent($db, $user, $log, $movieData, $requests, $mailbox, null, $adminlogs);
+			$torrent = new Torrent($db, $user, $log, $movieData, $requests, $mailbox, $adminlogs);
 			$torrentId = $torrent->upload($_FILES["file"], $_POST);
 			httpResponse($torrentId);
 			break;
