@@ -1,7 +1,13 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+--
+-- Table structure for table `adminlog`
+--
+
 DROP TABLE IF EXISTS `adminlog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `adminlog` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `search_text` text NOT NULL,
@@ -11,9 +17,16 @@ CREATE TABLE `adminlog` (
   PRIMARY KEY (`id`),
   KEY `added` (`added`),
   FULLTEXT KEY `search_text` (`search_text`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `banned`
+--
 
 DROP TABLE IF EXISTS `banned`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `banned` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `namn` varchar(250) NOT NULL,
@@ -22,8 +35,15 @@ CREATE TABLE `banned` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `namn` (`namn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `bevaka`
+--
 
 DROP TABLE IF EXISTS `bevaka`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bevaka` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
@@ -33,9 +53,16 @@ CREATE TABLE `bevaka` (
   `datum` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `userid` (`userid`,`imdbid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `blocks`
+--
 
 DROP TABLE IF EXISTS `blocks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `blocks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userid` int(10) unsigned NOT NULL DEFAULT 0,
@@ -44,8 +71,15 @@ CREATE TABLE `blocks` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `userfriend` (`userid`,`blockid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `bonuslog`
+--
 
 DROP TABLE IF EXISTS `bonuslog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bonuslog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL DEFAULT 0,
@@ -55,18 +89,32 @@ CREATE TABLE `bonuslog` (
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`),
   KEY `userid_2` (`userid`,`veckobonus`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `bookmarks`
+--
 
 DROP TABLE IF EXISTS `bookmarks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bookmarks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL DEFAULT 0,
   `torrentid` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `cheatlog`
+--
 
 DROP TABLE IF EXISTS `cheatlog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cheatlog` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `torrentid` int(10) NOT NULL DEFAULT 0,
@@ -89,9 +137,16 @@ CREATE TABLE `cheatlog` (
   KEY `userid` (`userid`),
   KEY `uploaded` (`uploaded`),
   KEY `downloaded` (`downloaded`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=676 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `comments`
+--
 
 DROP TABLE IF EXISTS `comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `comments` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user` int(10) unsigned NOT NULL DEFAULT 0,
@@ -104,9 +159,16 @@ CREATE TABLE `comments` (
   PRIMARY KEY (`id`),
   KEY `user` (`user`),
   KEY `torrent` (`torrent`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `customindex`
+--
 
 DROP TABLE IF EXISTS `customindex`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `customindex` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tid` int(11) NOT NULL,
@@ -116,9 +178,16 @@ CREATE TABLE `customindex` (
   `sort` int(11) NOT NULL,
   `genre` varchar(14) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `donated`
+--
 
 DROP TABLE IF EXISTS `donated`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `donated` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL DEFAULT '',
@@ -133,8 +202,15 @@ CREATE TABLE `donated` (
   `vem` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `emaillog`
+--
 
 DROP TABLE IF EXISTS `emaillog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `emaillog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
@@ -143,8 +219,15 @@ CREATE TABLE `emaillog` (
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `faq`
+--
 
 DROP TABLE IF EXISTS `faq`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `faq` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `type` set('categ','item') NOT NULL DEFAULT 'item',
@@ -155,8 +238,15 @@ CREATE TABLE `faq` (
   `order` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `files`
+--
 
 DROP TABLE IF EXISTS `files`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `files` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `torrent` int(10) unsigned NOT NULL DEFAULT 0,
@@ -164,18 +254,32 @@ CREATE TABLE `files` (
   `size` bigint(20) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `torrent` (`torrent`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=940358 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `forumheads`
+--
 
 DROP TABLE IF EXISTS `forumheads`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `forumheads` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sort` int(11) NOT NULL,
   `name` varchar(60) NOT NULL,
   `minclassread` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `forums`
+--
 
 DROP TABLE IF EXISTS `forums`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `forums` (
   `sort` tinyint(3) unsigned NOT NULL DEFAULT 0,
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -188,9 +292,16 @@ CREATE TABLE `forums` (
   `topiccount` int(10) unsigned NOT NULL DEFAULT 0,
   `minclasscreate` tinyint(3) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `friends`
+--
 
 DROP TABLE IF EXISTS `friends`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `friends` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userid` int(10) unsigned NOT NULL DEFAULT 0,
@@ -199,8 +310,15 @@ CREATE TABLE `friends` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `userfriend` (`userid`,`friendid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `imdbinfo`
+--
 
 DROP TABLE IF EXISTS `imdbinfo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `imdbinfo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `imdbid` varchar(10) NOT NULL,
@@ -225,16 +343,30 @@ CREATE TABLE `imdbinfo` (
   KEY `releaseNameStart` (`releaseNameStart`),
   KEY `year` (`year`),
   FULLTEXT KEY `title` (`title`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3914 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `imdbtop20`
+--
 
 DROP TABLE IF EXISTS `imdbtop20`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `imdbtop20` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `imdbid` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `inlogg`
+--
 
 DROP TABLE IF EXISTS `inlogg`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `inlogg` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tid` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -244,9 +376,16 @@ CREATE TABLE `inlogg` (
   `password` varchar(25) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `ip` (`ip`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `invites`
+--
 
 DROP TABLE IF EXISTS `invites`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `invites` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL DEFAULT 0,
@@ -256,9 +395,16 @@ CREATE TABLE `invites` (
   `time` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ipchanges`
+--
 
 DROP TABLE IF EXISTS `ipchanges`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ipchanges` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL DEFAULT 0,
@@ -268,8 +414,15 @@ CREATE TABLE `ipchanges` (
   `level` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `iplog`
+--
 
 DROP TABLE IF EXISTS `iplog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `iplog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip` varchar(15) NOT NULL,
@@ -281,9 +434,16 @@ CREATE TABLE `iplog` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `ip` (`ip`,`userid`),
   KEY `userid` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `leechbonus`
+--
 
 DROP TABLE IF EXISTS `leechbonus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `leechbonus` (
   `userid` int(11) NOT NULL,
   `datum` int(11) NOT NULL,
@@ -291,8 +451,15 @@ CREATE TABLE `leechbonus` (
   KEY `userid` (`userid`),
   KEY `datum` (`datum`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `messages`
+--
 
 DROP TABLE IF EXISTS `messages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `messages` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `sender` int(10) unsigned NOT NULL DEFAULT 0,
@@ -308,9 +475,16 @@ CREATE TABLE `messages` (
   PRIMARY KEY (`id`),
   KEY `receiver` (`receiver`),
   KEY `unread` (`unread`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `news`
+--
 
 DROP TABLE IF EXISTS `news`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `news` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL DEFAULT 0,
@@ -322,9 +496,16 @@ CREATE TABLE `news` (
   `forum` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `added` (`added`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `nonscene`
+--
 
 DROP TABLE IF EXISTS `nonscene`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `nonscene` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `groupname` varchar(20) NOT NULL,
@@ -334,8 +515,15 @@ CREATE TABLE `nonscene` (
   UNIQUE KEY `grupp_2` (`groupname`),
   KEY `grupp` (`groupname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `nyregg`
+--
 
 DROP TABLE IF EXISTS `nyregg`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `nyregg` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL DEFAULT 0,
@@ -348,9 +536,16 @@ CREATE TABLE `nyregg` (
   `level` tinyint(4) NOT NULL DEFAULT 0,
   `country` varchar(5) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `packfiles`
+--
 
 DROP TABLE IF EXISTS `packfiles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `packfiles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `torrent` int(11) NOT NULL,
@@ -358,9 +553,16 @@ CREATE TABLE `packfiles` (
   PRIMARY KEY (`id`),
   KEY `torrent` (`torrent`),
   KEY `filename` (`filename`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `peers`
+--
 
 DROP TABLE IF EXISTS `peers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `peers` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `torrent` int(10) unsigned NOT NULL DEFAULT 0,
@@ -385,7 +587,7 @@ CREATE TABLE `peers` (
   `user` tinyint(1) NOT NULL DEFAULT 0,
   `mbitupp` double NOT NULL DEFAULT 0,
   `mbitner` double NOT NULL DEFAULT 0,
-  `section` enum('new','archive') CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
+  `section` enum('new','archive') NOT NULL,
   `leechbonus` int(11) NOT NULL DEFAULT 0,
   `torrentsize` bigint(20) unsigned NOT NULL,
   `added` datetime NOT NULL,
@@ -396,9 +598,16 @@ CREATE TABLE `peers` (
   KEY `userid` (`userid`),
   KEY `info_hash` (`info_hash`(5)),
   KEY `torrent_2` (`info_hash`,`peer_id`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8;
+) ENGINE=MEMORY AUTO_INCREMENT=3123 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `pollanswers`
+--
 
 DROP TABLE IF EXISTS `pollanswers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `pollanswers` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `pollid` int(10) unsigned NOT NULL DEFAULT 0,
@@ -410,9 +619,16 @@ CREATE TABLE `pollanswers` (
   KEY `pollid` (`pollid`),
   KEY `selection` (`selection`),
   KEY `userid` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `polls`
+--
 
 DROP TABLE IF EXISTS `polls`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `polls` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -440,25 +656,39 @@ CREATE TABLE `polls` (
   `topicid` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `added` (`added`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `posts`
+--
 
 DROP TABLE IF EXISTS `posts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `posts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `topicid` int(10) unsigned NOT NULL DEFAULT 0,
   `userid` int(10) unsigned NOT NULL DEFAULT 0,
   `added` datetime DEFAULT NULL,
   `body` text DEFAULT NULL,
-  `body_ori` text NOT NULL,
+  `body_ori` text NOT NULL DEFAULT '',
   `editedby` int(10) unsigned NOT NULL DEFAULT 0,
   `editedat` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   KEY `topicid` (`topicid`),
   KEY `userid` (`userid`),
   FULLTEXT KEY `body` (`body`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `readposts`
+--
 
 DROP TABLE IF EXISTS `readposts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `readposts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userid` int(10) unsigned NOT NULL DEFAULT 0,
@@ -468,10 +698,16 @@ CREATE TABLE `readposts` (
   UNIQUE KEY `userid_2` (`userid`,`topicid`),
   KEY `topicid` (`topicid`),
   KEY `userid` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `recoverlog`
+--
 
 DROP TABLE IF EXISTS `recoverlog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `recoverlog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
@@ -482,9 +718,16 @@ CREATE TABLE `recoverlog` (
   PRIMARY KEY (`id`),
   KEY `ip` (`ip`),
   KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `reports`
+--
 
 DROP TABLE IF EXISTS `reports`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `reports` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userid` int(10) NOT NULL DEFAULT 0,
@@ -495,8 +738,15 @@ CREATE TABLE `reports` (
   `handledBy` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `request_comments`
+--
 
 DROP TABLE IF EXISTS `request_comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `request_comments` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user` int(10) unsigned NOT NULL DEFAULT 0,
@@ -510,8 +760,15 @@ CREATE TABLE `request_comments` (
   KEY `user` (`user`),
   KEY `torrent` (`request`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 PACK_KEYS=0;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `requests`
+--
 
 DROP TABLE IF EXISTS `requests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `requests` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userid` int(10) unsigned NOT NULL DEFAULT 0,
@@ -531,9 +788,16 @@ CREATE TABLE `requests` (
   KEY `userid` (`userid`),
   KEY `filled` (`filled`),
   FULLTEXT KEY `fulltext` (`search_text`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `reqvotes`
+--
 
 DROP TABLE IF EXISTS `reqvotes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `reqvotes` (
   `id` int(100) NOT NULL AUTO_INCREMENT,
   `reqid` int(11) NOT NULL DEFAULT 0,
@@ -542,9 +806,16 @@ CREATE TABLE `reqvotes` (
   PRIMARY KEY (`id`),
   KEY `reqid` (`reqid`),
   KEY `userid` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `reseed_requests`
+--
 
 DROP TABLE IF EXISTS `reseed_requests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `reseed_requests` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `torrentid` int(11) NOT NULL,
@@ -552,37 +823,63 @@ CREATE TABLE `reseed_requests` (
   `added` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `torrentid` (`torrentid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `rules`
+--
 
 DROP TABLE IF EXISTS `rules`;
-
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
   `text` text NOT NULL,
   `class` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `settings`
+--
 
 DROP TABLE IF EXISTS `settings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `settings` (
   `arg` varchar(20) NOT NULL DEFAULT '',
   `value_s` text NOT NULL,
   `value_i` int(11) NOT NULL,
   PRIMARY KEY (`arg`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `shop`
+--
 
 DROP TABLE IF EXISTS `shop`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `shop` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL DEFAULT '',
   `description` text NOT NULL,
   `price` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `sitelog`
+--
 
 DROP TABLE IF EXISTS `sitelog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sitelog` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `typ` int(11) NOT NULL DEFAULT 0,
@@ -593,9 +890,16 @@ CREATE TABLE `sitelog` (
   `anonymous` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   FULLTEXT KEY `search_text` (`search_text`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=43232 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `snatch`
+--
 
 DROP TABLE IF EXISTS `snatch`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `snatch` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
@@ -619,18 +923,32 @@ CREATE TABLE `snatch` (
   KEY `userid` (`userid`),
   KEY `timesCompleted` (`timesCompleted`),
   KEY `timesStarted` (`timesStarted`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=469 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `sqlerror`
+--
 
 DROP TABLE IF EXISTS `sqlerror`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sqlerror` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `datum` datetime NOT NULL,
   `uid` int(11) NOT NULL,
   `msg` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=791 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `staffmessages`
+--
 
 DROP TABLE IF EXISTS `staffmessages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `staffmessages` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `sender` int(10) unsigned NOT NULL DEFAULT 0,
@@ -644,9 +962,16 @@ CREATE TABLE `staffmessages` (
   `fromprivate` enum('yes','no') NOT NULL DEFAULT 'no',
   PRIMARY KEY (`id`),
   KEY `answered` (`answered`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `statistics`
+--
 
 DROP TABLE IF EXISTS `statistics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `statistics` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `datum` date NOT NULL,
@@ -710,9 +1035,16 @@ CREATE TABLE `statistics` (
   `userdesign6` int(11) NOT NULL,
   `userdesign7` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=488 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `suggestions`
+--
 
 DROP TABLE IF EXISTS `suggestions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `suggestions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `comments` int(11) NOT NULL,
@@ -725,9 +1057,16 @@ CREATE TABLE `suggestions` (
   `topicid` int(11) NOT NULL,
   `hotpoints` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `suggestions_votes`
+--
 
 DROP TABLE IF EXISTS `suggestions_votes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `suggestions_votes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
@@ -736,9 +1075,16 @@ CREATE TABLE `suggestions_votes` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `userid` (`userid`,`suggestionId`),
   KEY `suggestionId` (`suggestionId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `topics`
+--
 
 DROP TABLE IF EXISTS `topics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `topics` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userid` int(10) unsigned NOT NULL DEFAULT 0,
@@ -750,33 +1096,54 @@ CREATE TABLE `topics` (
   `views` int(10) unsigned NOT NULL DEFAULT 0,
   `sub` varchar(60) NOT NULL,
   `slug` varchar(225) DEFAULT NULL,
-  `suggestid` int(11) NOT NULL,
+  `suggestid` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`),
   KEY `lastpost` (`lastpost`),
   KEY `forumid` (`forumid`),
   FULLTEXT KEY `subject` (`subject`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `torrent_list_bookmarks`
+--
 
 DROP TABLE IF EXISTS `torrent_list_bookmarks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `torrent_list_bookmarks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
   `torrent_list` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `torrent_list_votes`
+--
 
 DROP TABLE IF EXISTS `torrent_list_votes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `torrent_list_votes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
   `torrent_list` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `userid` (`userid`,`torrent_list`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `torrent_lists`
+--
 
 DROP TABLE IF EXISTS `torrent_lists`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `torrent_lists` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
@@ -791,9 +1158,16 @@ CREATE TABLE `torrent_lists` (
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`),
   KEY `type` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `torrents`
+--
 
 DROP TABLE IF EXISTS `torrents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `torrents` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `info_hash` varchar(40) NOT NULL,
@@ -819,7 +1193,7 @@ CREATE TABLE `torrents` (
   `numratings` int(10) unsigned NOT NULL DEFAULT 0,
   `ratingsum` int(10) unsigned NOT NULL DEFAULT 0,
   `ano_owner` tinyint(1) NOT NULL DEFAULT 0,
-  `nfo` text NOT NULL,
+  `nfo` text DEFAULT NULL,
   `reqid` int(11) NOT NULL DEFAULT 0,
   `frileech` tinyint(1) NOT NULL DEFAULT 0,
   `imdbid` int(11) NOT NULL,
@@ -840,11 +1214,48 @@ CREATE TABLE `torrents` (
   KEY `seeders` (`seeders`),
   KEY `frileech` (`frileech`),
   KEY `section` (`section`),
-  FULLTEXT KEY `ft_search` (`search_text`),
+  FULLTEXT KEY `search_text` (`search_text`),
   FULLTEXT KEY `search_text2` (`search_text2`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 DELAY_KEY_WRITE=1;
+) ENGINE=InnoDB AUTO_INCREMENT=22956 DEFAULT CHARSET=utf8 DELAY_KEY_WRITE=1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tvdbinfo`
+--
+
+DROP TABLE IF EXISTS `tvdbinfo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tvdbinfo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tvdbid` varchar(10) NOT NULL,
+  `imdbid` varchar(10) NOT NULL,
+  `seriesName` text NOT NULL,
+  `firstAired` int(11) NOT NULL,
+  `network` varchar(250) NOT NULL,
+  `runtime` int(11) NOT NULL,
+  `genres` varchar(250) NOT NULL,
+  `photo` tinyint(4) NOT NULL,
+  `tagline` tinytext NOT NULL,
+  `seasoncount` int(11) NOT NULL,
+  `releaseNameStart` varchar(100) NOT NULL,
+  `year` int(4) NOT NULL,
+  `added` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tvdbid` (`tvdbid`),
+  KEY `releaseNameStart` (`releaseNameStart`),
+  KEY `year` (`year`),
+  FULLTEXT KEY `seriesName` (`seriesName`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `users`
+--
 
 DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(40) NOT NULL DEFAULT '',
@@ -918,7 +1329,8 @@ CREATE TABLE `users` (
   `browser` varchar(200) NOT NULL,
   `operativ` varchar(200) NOT NULL,
   `indexlist` varchar(100) NOT NULL DEFAULT '1, 2',
-  `uploadban` enum('yes','no') NOT NULL DEFAULT 'no',
+  `uploadban` int(1) NOT NULL,
+  `downloadban` int(1) NOT NULL,
   `css` varchar(250) NOT NULL,
   `design` tinyint(4) NOT NULL DEFAULT 0,
   `tvvy` tinyint(4) NOT NULL,
@@ -940,7 +1352,18 @@ CREATE TABLE `users` (
   KEY `enabled` (`enabled`),
   KEY `invited_by` (`invited_by`),
   KEY `arkiv_seed` (`arkiv_seed`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 PACK_KEYS=0;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 PACK_KEYS=0;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
 
 INSERT INTO `settings` (`arg`, `value_s`, `value_i`) VALUES
 ('peers_rekord', '', 0);
