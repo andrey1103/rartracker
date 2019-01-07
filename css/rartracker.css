@@ -233,7 +233,7 @@ div.container-search {
 	}
 	li.menu.active > a, li.menuSmall.active > a {
 		border-bottom: 0px !important;
-		background-color: #009688 !important;
+		background-color: #9b9b9b !important;
 		color: #FFF !important;
 	}
 	#headbanner {
@@ -363,8 +363,8 @@ a.whiteLink {
 }
 
 .navbar-default .navbar-toggle {
-	background-color: #009688;
-	border-color: #009688;
+	background-color: #9b9b9b;
+	border-color: #9b9b9b;
 }
 
 .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
@@ -670,6 +670,7 @@ img.forum-icon.locked {
 	border-color: #9b9b9b;
 }
 
+
 .btn-primary.disabled,
 .btn-primary.disabled.active,
 .btn-primary.disabled.focus,
@@ -688,12 +689,13 @@ fieldset[disabled] .btn-primary.focus,
 fieldset[disabled] .btn-primary:active,
 fieldset[disabled] .btn-primary:focus,
 fieldset[disabled] .btn-primary:hover {
-	background-color: #009688;
-	border-color: #009688;
+    background-color: #9b9b9b;
+    border-color: #9b9b9b;
 }
 
+
 .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {
-	background-color: #009688;
+	background-color: #9b9b9b;
 }
 
 div.text-small {
@@ -702,7 +704,7 @@ div.text-small {
 }
 
 span.fa-styled {
-	color: #009688;
+	color: #9b9b9b;
 	font-size: 18px;
 }
 
