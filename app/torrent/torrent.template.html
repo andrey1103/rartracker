@@ -1,3 +1,4 @@
+<div ng-show="vm.currentUser.downloadban == 1" class="alert alert-warning" role="alert">{{ 'TORRENTS.DOWNLOAD_BANNED' | translate }}</div>
 <div ng-show="vm.notFoundMessage" class="alert alert-warning" role="alert">{{ vm.notFoundMessage }}</div>
 <div ng-show="vm.uploaded" class="alert alert-success" role="alert" style="margin-bottom: 0px;"><strong>{{ 'TORRENTS.UPLOAD_SUCCESS_TITLE' | translate }}</strong><br />{{ 'TORRENTS.UPLOAD_SUCCESS_BODY' | translate }}</div>
 
@@ -27,6 +28,7 @@
 							<td class="text-left vert-align">
 								<torrent torrent="vm.torrent" viewing-torrent="{{ ::vm.torrent.id }}"></torrent>
 							</td>
+
 							<td style="width: 168px; vertical-align: middle;">
 				    			<a class="noBorder" target="_self" href="/api/v1/torrents/download/{{ ::vm.torrent.id }}/{{ ::vm.currentUser.passkey }}" style="float: right;">
 				    				<button class="btn btn-default btn-xs"><i class="fa fa-link"></i></button>

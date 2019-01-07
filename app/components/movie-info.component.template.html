@@ -7,6 +7,11 @@
 <div data-goldstars="" stars="vm.movieData.rating"></div>
 <br />
 
+<div ng-if="vm.movieData.rating">   
+<b translate="MOVIE.RATING"></b><br /> {{::vm.movieData.rating}}/10
+</div>
+
+<br />
 <div ng-if="vm.movieData.tagline">   
 <b translate="MOVIE.TAGLINE"></b><br /> <span ng-show="vm.movieData.tagline" ng-repeat-start="tagline in vm.movieData.tagline | split">{{tagline}}</span> <span ng-repeat-end=""></span> 
 </div>

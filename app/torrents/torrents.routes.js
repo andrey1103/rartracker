@@ -142,7 +142,6 @@
 										categories.PC_APPS,
 									],
 									pageName: 'last_ovrigtbrowse',
-									sweaudio: null,
 									stereoscopic: null,
 								};
 							}

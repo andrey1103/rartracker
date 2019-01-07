@@ -11,7 +11,7 @@ class Torrent {
 	private $adminlogs;
 	private $torrentDir = "../torrents/";
 	
-	public static $torrentFieldsUser = array('torrents.id', 'name', 'category', 'size', 'torrents.added', 'type', 'numfiles', 'comments', 'times_completed', 'leechers', 'seeders', 'reqid', 'torrents.section', 'torrents.frileech', 'torrents.imdbid', 'p2p', 'pack', '3d');
+	public static $torrentFieldsUser = array('torrents.id', 'name', 'category', 'size', 'torrents.added', 'type', 'numfiles', 'comments', 'times_completed', 'leechers', 'seeders', 'reqid', 'torrents.section', 'torrents.frileech', 'torrents.imdbid', 'p2p', 'pack', '3d','preDate');
 
 	public function __construct($db, $user = null, $log = null, $movieData = null, $requests = null, $mailbox = null, $adminlogs = null) {
 		$this->db = $db;
@@ -106,12 +106,9 @@ class Torrent {
 
 			//$sth = $this->db->query("SELECT COUNT(*) FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(4,5,6,7)) AND torrents.pack = 0) OR ((torrents.category IN(4,5,6,7))) OR (torrents.category NOT IN (4,5,6,7))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $this->user->getId() . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : ''));
 		
-
 			$sth = $this->db->query("SELECT COUNT(*) FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11)) AND torrents.pack = 0) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = " . $this->user->getId() . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : ''));
 			$arr = $sth->fetch();
 			$totalCount = $arr[0];
-
-
 
 			$sth = $this->db->prepare("SELECT imdbinfo.cast, imdbinfo.tagline, imdbinfo.year, imdbinfo.title, imdbinfo.genres, imdbinfo.photo, imdbinfo.rating, imdbinfo.imdbid AS imdbid2, torrents.* FROM bevaka JOIN torrents on bevaka.imdbid = torrents.imdbid LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id WHERE (((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR ((torrents.category IN(1,2,3,4,5,6,8,9,10,11))) OR (torrents.category NOT IN (1,2,3,4,5,6,8,9,10,11))) AND FIND_IN_SET(torrents.category, bevaka.format) AND (category = 2 AND torrents.p2p = 1 OR category <> 2 AND torrents.p2p = 0) AND torrents.pack = 0 AND torrents.3d = 0 AND bevaka.userid = ? " . (count($where) > 0 ? ' AND '.implode($where, ' AND ' ) : '') ." ORDER BY ".$sortColumn." ".$order." LIMIT ?, ?");
 			$sth->bindValue(1, $this->user->getId(), PDO::PARAM_INT);
@@ -120,7 +117,7 @@ class Torrent {
 			$sth->execute();
 
 		} else {
-
+                 
 			$sth = $this->db->query('SELECT COUNT(*) FROM torrents LEFT JOIN imdbinfo ON torrents.imdbid = imdbinfo.id ' . (count($where) > 0 ? ' WHERE '.implode($where, ' AND ' ) : ''));
 			$arr = $sth->fetch();
 			$totalCount = $arr[0];
@@ -322,7 +319,7 @@ class Torrent {
 
 		$where = implode(" AND ", $wherea);
 
-		$sth = $this->db->prepare('SELECT i.imdbid, i.genres, t.name, t.id, t.frileech, t.added, t.reqid FROM torrents AS t LEFT JOIN imdbinfo i ON t.imdbid = i.id WHERE '.$where.' AND i.photo = 1 AND t.imdbid > 0 '.$year.' GROUP BY i.imdbid '.$sort.', seeders ASC LIMIT 6');
+		$sth = $this->db->prepare('SELECT i.imdbid, i.genres, t.name, t.id, t.frileech, t.added, t.reqid, i.rating, t.preDate, t.search_text, i.title, i.year FROM torrents AS t LEFT JOIN imdbinfo i ON t.imdbid = i.id WHERE '.$where.' AND i.photo = 1 AND t.imdbid > 0 '.$year.' GROUP BY i.imdbid '.$sort.', seeders ASC LIMIT 6');
 		$sth->execute();
 
 		return Array($headline, $sth->fetchAll(PDO::FETCH_ASSOC));
@@ -1002,10 +999,8 @@ class Torrent {
 	public function download($id, $passkey = null) {
 
 		if ($this->user->isDownloadBanned()) {
-			throw new Exception(L::get("TORRENT_DOWNLOAD_BANNED"));
+			throw new Exception(L::get("TORRENT_DOWNLOAD_BANNED"), 401);
 	       }
-
-
 
 		$useHttps = null;
 

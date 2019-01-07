@@ -26,7 +26,7 @@
 			for (; i < 10; i++) {
 				starsHtml += '<i class="fa fa-star-o"></i> ';
 			}
-			starsHtml += '</span> <b style="top: 3px; position: relative; font-size: 14px;">'+numstars+'/10</b>';
+			starsHtml += '</span> <b style="top: 3px; position: relative; font-size: 8px;"></b>';
 			element.html(starsHtml);
 		}
 

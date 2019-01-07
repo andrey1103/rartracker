@@ -272,7 +272,7 @@
 		"P2P_RELEASES":					"P2P releases",
 		"IMDB_URL_MISSING":				"IMDB url missing! Try to add one manually before you upload the torrent, if possible.",
 		"UPLOAD_BANNED":				"You are banned from uploading torrents.",
-              "UPLOAD_BANNED":				"You are banned from downloading torrents.",
+              "DOWNLOAD_BANNED":				"You are banned from downloading torrents.",
 		"ENTER_TV_MANUALLY":			" -- Enter program manually --",
 		"SEARCH_AND_PICK":				"Search and select torrents",
 		"ADD_SELECTED":					"Add ({{ x }}) selected",
@@ -811,6 +811,11 @@
 		"SHOW_TRAILER":					"Show trailer",
 		"HIDE_TRAILER":					"Hide trailer",
 		"ADD_TRAILER":					"Add IMDB Trailer",
-              "IMDBTRAILER_URL":					"IMDB Video url"
+              "IMDBTRAILER_URL":					"IMDB Video url",
+              "RATING":  						"IMDB Rating"
+	},
+	"TOPICS": {
+		"LATEST":						"Latest Forum Topics"
 	}
+
 }
