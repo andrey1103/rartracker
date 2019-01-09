@@ -8,6 +8,13 @@
 				peers: '<',
 			},
 			templateUrl: '../app/user/user-peers.component.template.html'
+
+
+
+
 		});
 
 })();
+
+
+

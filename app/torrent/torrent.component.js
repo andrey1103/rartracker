@@ -10,11 +10,19 @@
 				viewingTorrent: '@'
 			},
 			templateUrl: '../app/torrent/torrent.component.template.html',
-			controller: TorrentController,
+			controller: TorrentController, location,
 			controllerAs: 'vm'
 		});
 
-	function TorrentController($scope) {
+	function TorrentController($scope, $location) {
+        
+          
+              if ($location.path().indexOf('/torrent-comments') > -1 || $location.path().indexOf('/user/') > -1) {
+              	this.showPre = 0;
+              }  else {                
+                     this.showPre = 1;
+              }
+
 
 		this.calcSpecialLeech = function () {
 			var date1 = new Date(this.torrent.added.replace(/-/g, '/'));

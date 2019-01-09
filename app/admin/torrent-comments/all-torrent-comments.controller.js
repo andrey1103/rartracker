@@ -6,6 +6,7 @@
 		.controller('AllTorrentCommentsController', AllTorrentCommentsController);
 
 	function AllTorrentCommentsController($state, $stateParams, CommentsResource) {
+
 		this.itemsPerPage = 10;
 		this.currentPage = $stateParams.page;
 
@@ -27,6 +28,8 @@
 		};
 
 		this.loadComments();
+
+
 	}
 
 })();

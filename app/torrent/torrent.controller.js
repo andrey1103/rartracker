@@ -7,6 +7,7 @@
 
 	function TorrentController($scope, $state, $timeout, $translate, $stateParams, user, DeleteDialog, ConfirmDialog, uploadService, ErrorDialog, TorrentsResource, ReseedRequestsResource, $anchorScroll, $location) {
 
+		
 		this.torrentId = $stateParams.id;
 		this.currentUser = user;
 		this.itemsPerPage = 10;

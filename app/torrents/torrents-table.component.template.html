@@ -5,7 +5,7 @@
 			<th style="width: 57px;" translate="TORRENTS.TYPE"></th>
 			<th class="text-left"><a class="whiteLink" href="" ng-click="vm.onSort({sort:'n'})" translate="TORRENTS.NAME"></a> &nbsp;<a class="whiteLink" href="" ng-click="vm.onSort({sort:'i'})">IMDb</a></th>
 			<th style="width: 45px;">&nbsp;</th>
-			<th style="width: 50px;" ng-if="vm.colDownload == 'true'" class="hidden-xs"><i class="fa fa-download"></i></th>
+                    	<th style="width: 50px;" ng-if="vm.colDownload == 'true'" class="hidden-xs"><i class="fa fa-download"></i></th>
 			<th style="width: 50px;" ng-if="vm.colBookmark == 'true'" class="hidden-xs"><i class="fa fa-bookmark"></i></th>
 			<th style="width: 50px;" ng-if="vm.colComments == 'true'" class="hidden-sm hidden-xs"><a class="whiteLink" href="" ng-click="vm.onSort({sort:'c'})"><i class="fa fa-comment"></i></a></th>
 			<th style="width: 90px;" ng-if="vm.colDate == 'true'" class="hidden-md hidden-sm hidden-xs"><a class="whiteLink" href="" ng-click="vm.onSort({sort:'d'})" translate="TORRENTS.DATE"></a></th>
@@ -30,9 +30,6 @@
 			<td class="text-left vert-align" colspan="2" ng-if="old">
 				<torrent torrent="::torrent" search-text="{{ vm.searchText }}"></torrent>
 			</td>
-
-
-
 
 			<td class="newCol" ng-if="!old">
 				<span class="badge" style="font-size: 10px;" translate="MAILBOX.NEW"></span>
