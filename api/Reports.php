@@ -3,7 +3,6 @@
 class Reports implements IResource {
 	private $db;
 	private $user;
-	private $subtitles;
 	private $requests;
 	private $mailbox;
 	private $comments;
@@ -11,10 +10,9 @@ class Reports implements IResource {
 	private $forum;
 	private $log;
 
-	public function __construct($db, $user = null, $torrent = null, $subtitles = null, $requests = null, $forum = null, $mailbox = null, $comments = null, $log = null) {
+	public function __construct($db, $user = null, $torrent = null, $requests = null, $forum = null, $mailbox = null, $comments = null, $log = null) {
 		$this->db = $db;
 		$this->user = $user;
-		$this->subtitles = $subtitles;
 		$this->torrent = $torrent;
 		$this->requests = $requests;
 		$this->mailbox = $mailbox;
@@ -24,7 +22,7 @@ class Reports implements IResource {
 	}
 
 	public function create($postdata) {
-		if (!preg_match("/^(torrent|post|pm|request|comment|subtitle|user)$/", $postdata["type"])) {
+		if (!preg_match("/^(torrent|post|pm|request|comment|user)$/", $postdata["type"])) {
 			throw new Exception(L::get("REPORT_WRONG_TYPE"), 400);
 		}
 
@@ -36,7 +34,7 @@ class Reports implements IResource {
 		$sth->bindValue(1, $this->user->getId(),	PDO::PARAM_INT);
 		$sth->bindParam(2, $postdata["reason"],		PDO::PARAM_STR);
 		$sth->bindParam(3, $postdata["targetid"],	PDO::PARAM_STR);
-		$sth->bindParam(4, $postdata["type"],		PDO::PARAM_INT);
+		$sth->bindParam(4, $postdata["type"],		PDO::PARAM_STR);
 		$sth->execute();
 	}
 
@@ -178,19 +176,6 @@ class Reports implements IResource {
 						}
 					} catch (Exception $e){
 						$r["comment"] = null;
-						$r["deleted"] = true;
-					}
-					break;
-				case 'subtitle':
-					try {
-						$r["subtitle"] = $this->subtitles->get($row["targetid"]);
-						try {
-							$r["subtitle"]["user"] = $this->user->get($r["subtitle"]["userid"]);
-						} catch (Exception $e){
-							$r["subtitle"]["user"] = null;
-						}
-					} catch (Exception $e){
-						$r["subtitle"] = null;
 						$r["deleted"] = true;
 					}
 					break;
