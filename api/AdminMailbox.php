@@ -115,7 +115,7 @@ class AdminMailbox implements IResource {
 
 		$sth = $this->db->prepare("INSERT INTO staffmessages (sender, added, msg, subject, fromprivate) VALUES(?, NOW(), ?, ?, ?)");
 		$sth->bindParam(1, $postData["sender"],			PDO::PARAM_INT);
-		$sth->bindParam(2, $postData["body"],			PDO::PARAM_INT);
+		$sth->bindParam(2, $postData["body"],			PDO::PARAM_STR);
 		$sth->bindParam(3, $postData["subject"],		PDO::PARAM_STR);
 		$sth->bindParam(4, $postData["fromprivate"],	PDO::PARAM_STR);
 		$sth->execute();
