@@ -4,20 +4,19 @@
 
 <div class="col-md-10 col-centered nopadding" ng-show="vm.posts">
 	<posts posts="vm.posts" edit-obj="vm.editObj" on-quote="vm.quotePost(post)" goto-anchor="vm.gotoAnchor(postId)" delete-post="vm.deletePost(post)" edit-post="vm.editPost(post)" abort-edit="vm.abortEdit()" save-edit="vm.saveEdit(post)"></posts>
-	<div ng-show="$parent.vm.topic.locked == 'no' && vm.numberOfPages == vm.currentPage" id="newPost" class="col-sm-10 col-sm-push-1">
+	<div ng-show="$parent.vm.topic.locked == 'no' && (vm.numberOfPages == vm.currentPage || vm.showText == 1)" id="newPost" class="col-sm-10 col-sm-push-1">
 		<div class="text-center">
 			<h3 translate="FORUM.POST_REPLY"></h3>
 			<div class="form-group">
 				<textarea class="form-control" rows="8" id="postText" ng-model="vm.post.body" placeholder="{{ 'COMMENTS.POST' | translate }}..."></textarea>
 			</div>
+			<button class="btn btn-default btn-xs" ng-click="vm.showBBtags = !vm.showBBtags">{{ 'FORUM.SHOW_BBTAGS' | translate }}</button>
 			<button ng-show="vm.postStatus == 0" class="btn btn-primary" ng-click="vm.savePost()" translate="FORUM.SUBMIT"></button>
 			<button ng-show="vm.postStatus == 1" class="btn btn-primary disabled"><i class="fa fa-spinner fa-spin"></i></button>
-			<!--
-			<br />
-			<br />
-			<button class="btn btn-default btn-xs" ng-click="ShowSmilies()">Smilies</button>
-			<button class="btn btn-default btn-xs" ng-click="ShowSmilies()">BB-taggar</button>
-			-->
+			<button class="btn btn-default btn-xs" ng-click="vm.SmilieList = !vm.SmilieList">{{ 'FORUM.SHOW_SMILIES' | translate }}</button>
+			
+			<div ng-if="vm.showBBtags"><button class="btn btn-default btn-xs" ng-repeat="(key, value) in vm.bbtags" ng-click="vm.AddBBtag(key)"><b>{{value}}</b></button></div>
+			<div ng-if="vm.SmilieList" style="width: 700px;"><a href ng-repeat="(key, value) in vm.smilies" ng-click="vm.AddSmiley(key)"><img ng-src="/img/smilies/{{value}}"></a></div>
 		</div>
 		<br />
 		<uib-alert type="{{ vm.alert.type }}" close="vm.closeAlert()" ng-show="vm.alert != null">
