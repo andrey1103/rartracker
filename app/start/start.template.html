@@ -1,46 +1,42 @@
 <loading-indicator hide="vm.highligtedTorrents"></loading-indicator>
 <div ng-show="vm.highligtedTorrents">
-<div ng-repeat="highlightedRow in ::vm.highligtedTorrents" style="clear: left;">
-<div class="panel panel-green">
-   <div class="panel-heading">{{ ::highlightedRow.headline }}</div>
-   <div ng-repeat="torrent in ::highlightedRow.torrents" class="col-md-2 col-sm-4 col-xs-6 highlightedRow">
-      <div class="containerhover">
+    <div ng-repeat="highlightedRow in ::vm.highligtedTorrents" style="clear: left;">
+        <div class="panel panel-green">
+            <div class="panel-heading">{{ ::highlightedRow.headline }}</div>
+            <div ng-repeat="torrent in ::highlightedRow.torrents" class="col-md-2 col-sm-4 col-xs-6 highlightedRow">
+                <div class="containerhover">
+                    <div class="cover">
+                        <center>
+                            <a href="" ui-sref="torrent({id: torrent.id, name: torrent.name})"><img class="poster" ng-src="/img/imdb/{{ ::torrent.imdbid }}.jpg" alt="Poster" /></a>
+                        </center>
+                        <div class="middlehover">
+                            <div class="texthover">
+                                <center>
 
+                                    <b><a href="" ui-sref="torrent({id: torrent.id, name: torrent.name})">MORE INFO</a></b>
 
-         <div class="cover">
-		<center>
-            <a href="" ui-sref="torrent({id: torrent.id, name: torrent.name})">
-            <img class="poster" ng-src="/img/imdb/{{ ::torrent.imdbid }}.jpg" alt="Poster" />
-            </a>
-            </center>
-            <div class="middlehover">
-               <div class="texthover">
-                  <center>
-
- 			<b><a href="" ui-sref="torrent({id: torrent.id, name: torrent.name})">MORE INFO</a></b>
-
-                  </center>
-               </div>
+                                </center>
+                            </div>
+                        </div>
+                        <center>
+                            <div class="titleimdb"><b>{{ torrent.title}}</b></div>
+                            <div class="yearimdb"><b>{{ torrent.year }}</b></div>
+                            <div data-goldstars stars="torrent.rating"></div>
+                        </center>
+                        <center><span ng-if="torrent.preDate != '0000-00-00 00:00:00'" class="label label-success" translate="TORRENTS.AFTER_PRE" translate-value-time="{{::torrent.added | dateDifference:torrent.preDate }}"></span></center>
+                        <br /><br />
+                    </div>
+                </div>
             </div>
-            <center>
-		 <div class="titleimdb"><b>{{ torrent.title}}</b></div>
-               <div class="yearimdb"><b>{{ torrent.year }}</b></div>
-               <div data-goldstars stars="torrent.rating" ></div>
-            </center>
-            <center><span ng-if="torrent.preDate != '0000-00-00 00:00:00'" class="label label-success" translate="TORRENTS.AFTER_PRE" translate-value-time="{{::torrent.added | dateDifference:torrent.preDate }}"></span></center>
-            <br /><br />
-         </div>
-      </div>
-   </div>
+
+
+
+
+
+
+            <br style="clear: both;" />
+        </div>
 </div>
-
-
-
-
-
-			<br style="clear: both;" />
-		</div>
-	</div>
 	<button ui-sref="start-edit" class="btn btn-default btn-xs center-block"><i class="fa fa-cog"></i> {{ 'START.CUSTOMIZE' | translate }}</button>
 
 	<br />

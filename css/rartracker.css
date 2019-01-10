@@ -1,7 +1,7 @@
 body {
     font-family: tahoma, arial, helvetica, sans-serif;
     font-size: 8pt;
-    /* background: url(/img/bakff.png); */
+    background: url(/img/bakff.png);
     background-color: #3b3939;
 }
 
@@ -406,6 +406,7 @@ nav.navbar-top {
 	background-color: #FFF;
 }
 
+
 .panel, .table:not(.noshadow) {
 	box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
 	border-collapse: separate;
@@ -420,6 +421,7 @@ nav.navbar-top {
     font-weight: bold;
     background-color: #9b9b9b;
     padding: 5px 15px;
+    border: 1px;
 }
 
 #statusBox {
