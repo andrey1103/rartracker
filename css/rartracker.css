@@ -6,8 +6,6 @@ body {
 }
 
 
-
-
 .titleimdb {
   white-space: nowrap; 
   overflow: hidden;
@@ -120,6 +118,7 @@ html {
 }
 
 .ellipsis {
+       width: 444px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;

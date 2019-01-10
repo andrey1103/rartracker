@@ -15,6 +15,8 @@
 			Search:				resourceExtension('forums/search'),
 			AllPosts:			resourceExtension('forums/posts'),
 			MarkTopicsAsRead:	resourceExtension('forums/mark-all-topics-as-read'),
+                     LatestTopics:			resourceExtension('forums/latest-topics'),
+
 		};
 	}
 

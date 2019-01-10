@@ -81,7 +81,7 @@
 				<div class="panel-heading">{{ 'TOPICS.LATEST' | translate }}</div>
 				<div>
 				
-                           <latest></latest>
+                           <span ng-repeat="newtopic in vm.newtopics track by newtopic.id"></span>
 	
 				</div>
 				<br style="clear: both;" />
