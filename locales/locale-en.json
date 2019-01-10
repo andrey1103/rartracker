@@ -49,7 +49,8 @@
 		"WEEKS":						"weeks",
 		"HOUR":							"hour",
 		"HOURS":						"hours",
-		"MINUTES_SHORT":				"min"
+		"MINUTES_SHORT":				"min",
+		"SECONDS_SHORT":				"sec"
 	},
 	"MENU": {
 		"START":						"Start",

@@ -130,6 +130,7 @@
 					var years = Math.floor(weeks/52);
 					weeks -= years * 52;
 
+ 
 					if (years > 0) {
 						return years + ' ' + (years > 1 ? $translate.instant('DATE.YEARS') : $translate.instant('DATE.YEAR'));
 					}
@@ -149,10 +150,12 @@
 					}
 
 					if (minutes > 0) {
-						return minutes + ' ' + $translate.instant('DATE.MINUTES_SHORT');
+						var restsec = timeDiff - (minutes*60);
+						return minutes + ' ' + $translate.instant('DATE.MINUTES_SHORT') + ' ' + Math.floor(restsec) + ' ' + $translate.instant('DATE.SECONDS_SHORT');
 					}
 
-					return '<' + ' 1 ' + $translate.instant('DATE.MINUTES_SHORT');
+					//return '<' + ' 1 ' + $translate.instant('DATE.SECONDS_SHORT');
+                                    return Math.floor(timeDiff) + ' ' + $translate.instant('DATE.SECONDS_SHORT');
 				}
 			};
 		})
