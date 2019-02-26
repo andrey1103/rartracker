@@ -29,6 +29,16 @@ the swedish torrent king / ERR1R
 ```sh
 $ sudo apt-get install -y nodejs
 $ sudo apt-get install -y git-core
+
+Working with versions:
+root@server01:~# nodejs -v
+v4.2.6
+
+root@server01:~# node -v
+v7.10.1
+
+root@server01:~# npm --v
+3.5.2
 ```
 
 ## 2. Install dependencies
@@ -68,13 +78,15 @@ The "System" account **must remain** as a parked account and have Staff rights b
 ## Server settings
 ### Recommended packages
 Apache:
-``php7.2 apache2 mariadb-server libapache2-mod-php7.2 php7.2-mysql memcached php7.2-curl php7.2-memcached php-msgpack php-igbinary``
+``php7.2 apache2 mariadb-server libapache2-mod-php7.2 php7.2-mysql memcached php7.2-curl php7.2-memcached php-msgpack php-igbinary
+php7.2-imagick
+``
 ## Only for apache2
 ### Enable rewrite module and change AllowOverride from "None" to "All" in httpd.conf in order for .htaccess to work
 ``a2enmod rewrite``
 
 Nginx:
-``php7.2 nginx mariadb-server libapache2-mod-php7.2 php7.2-mysql memcached php7.2-curl php7.2-memcached php-msgpack php-igbinary php7.2-fpm``
+``php7.2 nginx mariadb-server libapache2-mod-php7.2 php7.2-mysql memcached php7.2-curl php7.2-memcached php-msgpack php-igbinary php7.2-fpm php7.2-imagick``
 
 Mysql/MariaDB:
 
