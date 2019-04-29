@@ -86,7 +86,7 @@ php7.2-imagick
 ``a2enmod rewrite``
 
 Nginx:
-``php7.2 nginx mariadb-server libapache2-mod-php7.2 php7.2-mysql memcached php7.2-curl php7.2-memcached php-msgpack php-igbinary php7.2-fpm php7.2-imagick``
+``php7.2 nginx mariadb-server php7.2-mysql memcached php7.2-curl php7.2-memcached php-msgpack php-igbinary php7.2-fpm php7.2-imagick``
 
 Mysql/MariaDB:
 
